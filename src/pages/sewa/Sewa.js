@@ -82,7 +82,6 @@ class Sewa extends Component {
                 const sewa = this.state.data[props.index]
                 this.store.showModal = true
                 this.store.setGlobal({'ctr': this.store.getGlobal('ctr') + 1})
-                this.store.setGlobal({ds: `Detil Sewa, bukaan ke: ${this.store.getGlobal('ctr')}`})
                 this.setState({'sewaId': sewa.id})
             }}>Detail</button>
         );
@@ -99,7 +98,6 @@ class Sewa extends Component {
                 <Button onClick={this.addEntry} style={{marginBottom: '10px'}}>Add</Button>
 
                 <SewaDetail showModal={this.store.showModal} sewaId={this.state.sewaId}
-                            store={this.store}
                             onHide={() => this.store.showModal = false}/>
 
                 <ReactTable manual data={this.state.data}

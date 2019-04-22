@@ -3,7 +3,7 @@ import Axios from 'axios'
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {Button, Modal} from 'react-bootstrap';
-import {observer} from 'mobx-react'
+import {inject, observer} from 'mobx-react'
 
 class SewaDetail extends Component {
     static defaultProps = {
@@ -74,4 +74,4 @@ class SewaDetail extends Component {
 
 }
 
-export default observer(SewaDetail)
+export default inject('store')(observer(SewaDetail))
