@@ -25,7 +25,6 @@ class Anggota extends Component {
                 {label: 'Alamat', accessor: 'alamat', placeholder: 'alamat anda'},
             ]
         }
-        console.log(this.props.settings)
     }
 
     fetchData = (state, instance) => {

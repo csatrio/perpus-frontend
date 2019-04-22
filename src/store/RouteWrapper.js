@@ -5,11 +5,14 @@ import RouterStore from './RouterStore'
 import setting from '../configurations'
 
 const RouteWrapper = (props) => {
-    const Wrapped = inject('store')(observer(props.component))
-    const _store = new RouterStore()
+    const hasCustomStore = typeof(props.store) !== 'undefined'
+    const storeName = hasCustomStore ? props.store.constructor.name.toLowerCase() : 'store'
+    const Page = inject(storeName, 'settings')(observer(props.component))
+    const providerProps = {'settings': setting}
+    providerProps[storeName] = hasCustomStore ? props.store : RouterStore.store
 
     const renderFunction = () => {
-        return <Provider store={_store.store}><Wrapped settings={setting}/></Provider>
+        return <Provider {...providerProps}><Page/></Provider>
     }
 
     return typeof(props.exact !== 'undefined') ?

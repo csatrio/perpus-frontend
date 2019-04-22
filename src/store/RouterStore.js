@@ -1,6 +1,14 @@
 import {observable, action, computed, decorate} from 'mobx';
 import GlobalStore from './GlobalStore'
 
+const keyMap = {
+    'getGlobal': true,
+    'setGlobal': true,
+    'removeGlobal': true,
+    'getComputed': true,
+    'setComputed': true
+}
+
 class RouterStore {
     getGlobal = (key) => {
         return GlobalStore.globals[key]
@@ -44,4 +52,16 @@ decorate(RouterStore, {
     setComputed: action
 })
 
-export default RouterStore;
+let instance = null;
+
+const getInstance = () => {
+    if (instance === null) {
+        instance = new RouterStore()
+    }
+    Object.keys(instance.store).forEach(key => {
+        if (keyMap[key] !== true ) delete instance.store[key]
+    })
+    return instance
+}
+
+export default getInstance();

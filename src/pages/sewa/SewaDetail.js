@@ -50,7 +50,7 @@ class SewaDetail extends Component {
                     <ReactTable manual data={this.state.detail}
                                 className='row'
                                 loading={this.state.loading}
-                                defaultPageSize={5}
+                                defaultPageSize={this.props.settings.itemPerPage}
                                 columns={[
                                     {Header: 'Peminjam', accessor: 'anggota'},
                                     {Header: 'Buku', accessor: 'buku'},
@@ -74,4 +74,4 @@ class SewaDetail extends Component {
 
 }
 
-export default inject('store')(observer(SewaDetail))
+export default inject('store', 'settings')(observer(SewaDetail))
