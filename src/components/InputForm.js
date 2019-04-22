@@ -29,8 +29,6 @@ class InputForm extends Component {
     }
 
     render() {
-        window.dismissAlert = this.dismissAlert
-        window.showAlert = this.showAlert
         return (
             <Form>
                 {this.props.fields.map((item, index) => {

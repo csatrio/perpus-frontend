@@ -4,6 +4,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {Button} from 'react-bootstrap';
 import InputForm from '../../components/InputForm'
+import InputModal from '../../components/InputModal'
 import SewaDetail from './SewaDetail'
 
 class Sewa extends Component {
@@ -18,6 +19,7 @@ class Sewa extends Component {
             pages: 1,
             loading: true,
             showModal: false,
+            showInputModal: false,
             model: {
                 nama: '',
                 penerbit: '',
@@ -36,7 +38,7 @@ class Sewa extends Component {
             this.store.setGlobal({'ctr': 0})
         }
         if (typeof(this.store.getComputed('dsTitle')) === 'undefined') {
-            this.store.setComputed('dsTitle', ()=>{
+            this.store.setComputed('dsTitle', () => {
                 return 'Detil Sewa-' + this.store.getGlobal('ctr')
             })
         }
@@ -95,7 +97,16 @@ class Sewa extends Component {
                 <InputForm model={this.state.model} ref='input'
                            fields={this.state.inputFields}
                 />
+
+                <InputModal showModal={this.state.showInputModal}
+                            onHide={() => this.setState({'showInputModal': false})}
+                            fields={this.state.inputFields}
+                            model={this.state.model}
+                />
+
                 <Button onClick={this.addEntry} style={{marginBottom: '10px'}}>Add</Button>
+                <Button onClick={() => this.setState({showInputModal: true})}
+                        style={{marginBottom: '10px'}}>Modal</Button>
 
                 <SewaDetail showModal={this.store.showModal} sewaId={this.state.sewaId}
                             onHide={() => this.store.showModal = false}/>
