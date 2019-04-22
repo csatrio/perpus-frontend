@@ -1,4 +1,4 @@
-import {observable, action, decorate} from 'mobx';
+import {observable, action, computed, decorate} from 'mobx';
 import GlobalStore from './GlobalStore'
 
 class RouterStore {
@@ -16,14 +16,32 @@ class RouterStore {
         });
     }
 
-    store = {getGlobal: this.getGlobal, setGlobal: this.setGlobal, removeGlobal: this.removeGlobal};
+    getComputed = (key) => {
+        const computedValue = this.store[key]
+        return typeof (computedValue) !== 'undefined' && typeof (computedValue.get) !== 'undefined' ?
+            computedValue.get() : computedValue
+    }
+
+    setComputed = (key, _function) => {
+        this.store[key] = computed(_function)
+    }
+
+    store = {
+        getGlobal: this.getGlobal,
+        setGlobal: this.setGlobal,
+        removeGlobal: this.removeGlobal,
+        getComputed: this.getComputed,
+        setComputed: this.setComputed,
+    };
 }
 
 decorate(RouterStore, {
     store: observable,
     setGlobal: action,
     getGlobal: action,
-    removeGlobal: action
+    removeGlobal: action,
+    getComputed: action,
+    setComputed: action
 })
 
 export default RouterStore;

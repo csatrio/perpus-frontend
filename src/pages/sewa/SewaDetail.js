@@ -44,7 +44,7 @@ class SewaDetail extends Component {
         return (
             <Modal show={this.props.store.showModal} onHide={this.props.onHide}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{this.props.store.getGlobal('ds')}</Modal.Title>
+                    <Modal.Title>{this.props.store.getComputed('dsTitle')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <ReactTable manual data={this.state.detail}

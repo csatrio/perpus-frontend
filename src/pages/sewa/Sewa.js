@@ -35,6 +35,11 @@ class Sewa extends Component {
         if (typeof(this.store.getGlobal('ctr')) === 'undefined') {
             this.store.setGlobal({'ctr': 0})
         }
+        if (typeof(this.store.getComputed('dsTitle')) === 'undefined') {
+            this.store.setComputed('dsTitle', ()=>{
+                return 'Detil Sewa-' + this.store.getGlobal('ctr')
+            })
+        }
     }
 
     componentWillMount() {
