@@ -5,6 +5,7 @@ import "react-table/react-table.css";
 import {Button, Modal} from 'react-bootstrap';
 import {inject, observer} from 'mobx-react'
 
+@inject('store', 'settings') @observer
 class SewaDetail extends Component {
     static defaultProps = {
         sewaId: 0,
@@ -42,9 +43,9 @@ class SewaDetail extends Component {
 
     render() {
         return (
-            <Modal show={this.props.store.showModal} onHide={this.props.onHide}>
+            <Modal show={this.props.store.global.showModal} onHide={this.props.onHide}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{this.props.store.getComputed('dsTitle')}</Modal.Title>
+                    <Modal.Title>Detail Sewa</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <ReactTable manual data={this.state.detail}
@@ -74,4 +75,4 @@ class SewaDetail extends Component {
 
 }
 
-export default inject('store', 'settings')(observer(SewaDetail))
+export default SewaDetail

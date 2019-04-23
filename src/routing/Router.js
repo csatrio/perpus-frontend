@@ -1,11 +1,11 @@
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
-import Sample from './pages/sample/Sample';
-import Anggota from './pages/Anggota'
-import Buku from './pages/Buku'
-import Sewa from './pages/sewa/Sewa'
-import InputForm from './components/InputForm'
-import {RouteWrapper} from './store'
+import Sample from '../pages/sample/Sample';
+import Anggota from '../pages/Anggota'
+import Buku from '../pages/Buku'
+import Sewa from '../pages/sewa/Sewa'
+import InputForm from '../components/InputForm'
+import RouteWrapper from './RouteWrapper'
 
 const RoutePath =
     () => (

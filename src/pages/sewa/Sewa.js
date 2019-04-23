@@ -32,16 +32,7 @@ class Sewa extends Component {
             ]
         }
         this.store = this.props.store
-        this.store.showModal = false
-        this.store.setGlobal({'ds': 'Detail Sewa'})
-        if (typeof(this.store.getGlobal('ctr')) === 'undefined') {
-            this.store.setGlobal({'ctr': 0})
-        }
-        if (typeof(this.store.getComputed('dsTitle')) === 'undefined') {
-            this.store.setComputed('dsTitle', () => {
-                return 'Detil Sewa-' + this.store.getGlobal('ctr')
-            })
-        }
+        this.store.global.showModal = false
     }
 
     componentWillMount() {
@@ -82,8 +73,7 @@ class Sewa extends Component {
         return (
             <button className='btn btn-sm btn-success' onClick={() => {
                 const sewa = this.state.data[props.index]
-                this.store.showModal = true
-                this.store.setGlobal({'ctr': this.store.getGlobal('ctr') + 1})
+                this.store.global.showModal = true
                 this.setState({'sewaId': sewa.id})
             }}>Detail</button>
         );
@@ -108,8 +98,8 @@ class Sewa extends Component {
                 <Button onClick={() => this.setState({showInputModal: true})}
                         style={{marginBottom: '10px'}}>Modal</Button>
 
-                <SewaDetail showModal={this.store.showModal} sewaId={this.state.sewaId}
-                            onHide={() => this.store.showModal = false}/>
+                <SewaDetail showModal={this.store.global.showModal} sewaId={this.state.sewaId}
+                            onHide={() => this.store.global.showModal = false}/>
 
                 <ReactTable manual data={this.state.data}
                             className='col'
