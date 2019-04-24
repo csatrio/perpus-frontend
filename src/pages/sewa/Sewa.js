@@ -6,6 +6,7 @@ import {Button} from 'react-bootstrap';
 import InputForm from '../../components/InputForm'
 import InputModal from '../../components/InputModal'
 import SewaDetail from './SewaDetail'
+import {Link} from 'react-router-dom'
 
 class Sewa extends Component {
     constructor(props) {
@@ -88,13 +89,13 @@ class Sewa extends Component {
                            fields={this.state.inputFields}
                 />
 
-                <InputModal showModal={this.state.showInputModal}
+                <InputModal showModal={this.state.showInputModal} size='lg'
                             onHide={() => this.setState({'showInputModal': false})}
                             fields={this.state.inputFields}
                             model={this.state.model}
                 />
 
-                <Button onClick={this.addEntry} style={{marginBottom: '10px'}}>Add</Button>
+                <Link to='/sewa/add'><Button style={{marginBottom: '10px'}}>Add</Button></Link>
                 <Button onClick={() => this.setState({showInputModal: true})}
                         style={{marginBottom: '10px'}}>Modal</Button>
 

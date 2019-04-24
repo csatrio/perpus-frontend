@@ -41,6 +41,10 @@ class ServerDataTable extends Component {
             })
     }
 
+    getData = () => {
+        return this.state.data;
+    }
+
     render() {
         return (
             <ReactTable manual data={this.state.data}
