@@ -24,13 +24,13 @@ export default class SewaAdd extends Component {
     }
 
 
-    addBuku = (props) => {
+    selectBuku = (props) => {
         return (
             <center>
                 <button className='btn btn-sm btn-success'
                         onClick={() => {
                             const buku = this.refs.bukuList.getData()[props.index]
-                            this.store.sewaStore.addBuku(buku)
+                            this.store.sewaStore.selectBuku(buku)
                         }}>Get
                 </button>
             </center>
@@ -57,6 +57,7 @@ export default class SewaAdd extends Component {
                 <InputForm model={this.state.model} ref='input'
                            fields={this.state.inputFields}
                 />
+
                 <Form.Group className='row'>
                     <Form.Label className='col-sm-2'>Peminjam</Form.Label>
                     <Form.Control type='input' className='col-sm-6'
@@ -67,6 +68,26 @@ export default class SewaAdd extends Component {
                             className='col-sm-1'
                             style={{marginBottom: '20px'}}>Add</Button>
                 </Form.Group>
+
+                <Form.Group className='row'>
+                    <Form.Label className='col-sm-2'>Buku</Form.Label>
+                    <Form.Control type='input' className='col-sm-3'
+                                  style={{marginRight: '10px'}}
+                                  readOnly={true}
+                                  onClick={() => this.store.sewaStore.showAddBuku = true}
+                                  value={this.store.sewaStore.buku.judul}/>
+                    <Form.Label className='col-sm-1'>Jumlah Pinjam</Form.Label>
+                    <Form.Control type='input' className='col-sm-1'
+                                  style={{marginRight: '10px'}}
+                                  value={this.store.sewaStore.buku.jumlahPinjam}
+                                  onChange={(e) => this.store.sewaStore.buku.jumlahPinjam = e.target.value}
+                    />
+                    <Button variant="secondary" onClick={() => this.store.sewaStore.showAddAnggota = true}
+                            className='col-sm-1'
+                            onClick={() => this.store.sewaStore.addBuku()}
+                            style={{marginBottom: '20px'}}>Add</Button>
+                </Form.Group>
+
                 <Modal show={this.store.sewaStore.showAddBuku}
                        onHide={() => this.store.sewaStore.showAddBuku = false} size='lg'>
                     <Modal.Header closeButton>
@@ -79,7 +100,7 @@ export default class SewaAdd extends Component {
                                              {Header: 'Nama', accessor: 'nama'},
                                              {Header: 'Penerbit', accessor: 'penerbit'},
                                              {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
-                                             {Header: 'Action', Cell: this.addBuku},
+                                             {Header: 'Action', Cell: this.selectBuku},
                                          ]}
                                          ref='bukuList'
                         />
@@ -113,10 +134,6 @@ export default class SewaAdd extends Component {
                     </Modal.Footer>
                 </Modal>
 
-                <Button variant="secondary" onClick={() => this.store.sewaStore.showAddBuku = true}
-                        style={{marginBottom: '20px'}}>Add Buku</Button>
-
-
                 <ReactTable data={this.store.sewaStore.bukuList}
                             className='col'
                             loading={this.state.loading}
@@ -126,6 +143,7 @@ export default class SewaAdd extends Component {
                                 {Header: 'Nama', accessor: 'nama'},
                                 {Header: 'Penerbit', accessor: 'penerbit'},
                                 {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
+                                {Header: 'Jumlah Pinjam', accessor: 'jumlahPinjam'},
                             ]}
                 />
             </div>
