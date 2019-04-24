@@ -63,10 +63,8 @@ export default class SewaAdd extends Component {
                     <Form.Control type='input' className='col-sm-6'
                                   style={{marginRight: '10px'}}
                                   readOnly={true}
+                                  onClick={() => this.store.sewaStore.showAddAnggota = true}
                                   value={this.store.sewaStore.anggota.nama}/>
-                    <Button variant="secondary" onClick={() => this.store.sewaStore.showAddAnggota = true}
-                            className='col-sm-1'
-                            style={{marginBottom: '20px'}}>Add</Button>
                 </Form.Group>
 
                 <Form.Group className='row'>
