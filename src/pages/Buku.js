@@ -29,7 +29,11 @@ class Buku extends Component {
         Axios.post(this.state.apiUrl, this.state.model)
             .then(response => {
                 console.log(JSON.stringify(response.data))
-                this.fetchData(null, null)
+                Object.keys(this.state.model).forEach((key)=>{
+                    this.state.model[key] = ''
+                })
+                this.search()
+                this.setState({model: this.state.model})
             })
     }
 

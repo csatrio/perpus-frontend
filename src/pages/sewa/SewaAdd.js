@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {Button, Modal, Form, Alert} from 'react-bootstrap';
-import InputForm from '../../components/InputForm'
 import SelectorTable from '../../components/SelectorTable'
 import DatePicker from "react-datepicker/es";
 
