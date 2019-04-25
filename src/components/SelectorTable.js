@@ -7,11 +7,13 @@ export default class SelectorTable extends React.Component {
         columns: [],
         queryParam: {},
         btnClass: 'btn btn-sm btn-success',
-        itemCallback: () => null
+        itemCallback: (e) => {}
     }
 
     constructor(props) {
         super(props);
+        this.tableCols = this.props.columns.slice()
+        this.tableCols.push({Header: 'Action', Cell: this.addItemAction})
     }
 
     addItemAction = (props) => {
@@ -27,15 +29,9 @@ export default class SelectorTable extends React.Component {
         );
     }
 
-    addActionColumn = () => {
-        const tableCols = this.props.columns.slice()
-        tableCols.push({Header: 'Action', Cell: this.addItemAction})
-        return tableCols
-    }
-
     render() {
         return <ServerDataTable url={this.props.url}
-                                columns={this.addActionColumn()}
+                                columns={this.tableCols}
                                 queryParam={this.props.queryParam}
                                 ref='table'
         />
