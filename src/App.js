@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Link} from 'react-router-dom';
+import {BrowserRouter as Router, NavLink} from 'react-router-dom';
 import {Provider} from 'mobx-react'
 import DevTools from 'mobx-react-devtools';
 import {Navbar, Nav, NavDropdown} from 'react-bootstrap'
@@ -27,9 +27,9 @@ const Navigation = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
         <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-                <Link to='/anggota' className='nav-link'>Anggota</Link>
-                <Link to='/buku' className='nav-link'>Buku</Link>
-                <Link to='/sewa' className='nav-link'>Sewa</Link>
+                <NavLink to='/anggota' className='nav-link'>Anggota</NavLink>
+                <NavLink to='/buku' className='nav-link'>Buku</NavLink>
+                <NavLink to='/sewa' className='nav-link'>Sewa</NavLink>
                 <NavDropdown title="Reports" id="collapsible-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

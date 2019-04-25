@@ -4,22 +4,11 @@ import "react-table/react-table.css";
 import {Button, Modal, Form, Alert} from 'react-bootstrap';
 import InputForm from '../../components/InputForm'
 import SelectorTable from '../../components/SelectorTable'
+import DatePicker from "react-datepicker/es";
 
 export default class SewaAdd extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            loading: false,
-            model: {
-                anggota_id: '',
-                tanggal_pinjam: '',
-                tanggal_kembali: '',
-            },
-            inputFields: [
-                {label: 'Tanggal Pinjam', accessor: 'tanggal_pinjam', type: 'datepicker'},
-                {label: 'Tanggal Kembali', accessor: 'tanggal_kembali', type: 'datepicker'},
-            ]
-        }
         this.store = this.props.store.sewaStore
     }
 
@@ -38,9 +27,32 @@ export default class SewaAdd extends Component {
                     <p>{this.store.alertMsg}</p>
                 </Alert>
 
-                <InputForm model={this.state.model} ref='input'
-                           fields={this.state.inputFields}
-                />
+                <Form.Group className='row'>
+                    <Form.Label className='col-sm-2'>Tanggal Pinjam</Form.Label>
+                    <DatePicker className='col-sm-10'
+                                dateFormat="yyyy-MM-dd"
+                                selected={this.store.tanggalPinjam}
+                                isClearable={true}
+                                onChange={
+                                    (e) => {
+                                        this.store.tanggalPinjam = e
+                                    }
+                                }
+                                placeholderText='click to select date'
+                    />
+                    <Form.Label className='col-sm-2'>Tanggal Kembali</Form.Label>
+                    <DatePicker className='col-sm-10'
+                                dateFormat="yyyy-MM-dd"
+                                selected={this.store.tanggalKembali}
+                                isClearable={true}
+                                onChange={
+                                    (e) => {
+                                        this.store.tanggalKembali = e
+                                    }
+                                }
+                                placeholderText='click to select date'
+                    />
+                </Form.Group>
 
                 <Form.Group className='row'>
                     <Form.Label className='col-sm-2'>Peminjam</Form.Label>
@@ -120,7 +132,7 @@ export default class SewaAdd extends Component {
 
                 <ReactTable data={this.store.bukuList}
                             className='col'
-                            loading={this.state.loading}
+                            loading={false}
                             defaultPageSize={this.props.settings.itemPerPage}
                             columns={[
                                 {Header: 'ID', accessor: 'id'},
@@ -128,8 +140,16 @@ export default class SewaAdd extends Component {
                                 {Header: 'Penerbit', accessor: 'penerbit'},
                                 {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
                                 {Header: 'Jumlah Pinjam', accessor: 'jumlahPinjam'},
+                                {
+                                    Header: 'Action',
+                                    Cell: (row) => <Button onClick={() => this.store.deleteBuku(row)}>Delete</Button>
+                                },
                             ]}
                 />
+
+                <div className='buttonToolbar'>
+                    <Button onClick={() => this.store.saveSewa()}>Save</Button>
+                </div>
             </div>
         );
     }

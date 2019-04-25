@@ -7,6 +7,7 @@ export default class SelectorTable extends React.Component {
         columns: [],
         queryParam: {},
         btnClass: 'btn btn-sm btn-success',
+        btnLabel: 'Select',
         itemCallback: (e) => {}
     }
 
@@ -18,14 +19,12 @@ export default class SelectorTable extends React.Component {
 
     addItemAction = (props) => {
         return (
-            <center>
-                <button className={this.props.btnClass}
-                        onClick={() => {
-                            const item = this.refs.table.getData()[props.index]
-                            this.props.itemCallback(item)
-                        }}>Get
-                </button>
-            </center>
+            <button className={this.props.btnClass}
+                    onClick={() => {
+                        const item = this.refs.table.getData()[props.index]
+                        this.props.itemCallback(item)
+                    }}>{this.props.btnLabel}
+            </button>
         );
     }
 

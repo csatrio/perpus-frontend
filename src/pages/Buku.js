@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
 import Axios from 'axios'
-import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {Button} from 'react-bootstrap';
 import InputForm from '../components/InputForm'
+import ServerDataTable from "../components/ServerDataTable";
+import {BuildQueryParam} from "../helpers/network";
 
 class Buku extends Component {
     constructor(props) {
         super(props)
         this.state = {
             apiUrl: 'http://localhost:8008/api/test_perpus/buku/',
-            data: [],
-            page: 1,
-            pages: 1,
-            loading: true,
+            queryParam: {},
             model: {
                 nama: '',
                 penerbit: '',
@@ -23,26 +21,8 @@ class Buku extends Component {
                 {label: 'Nama', accessor: 'nama', placeholder: 'nama'},
                 {label: 'Penerbit', accessor: 'penerbit', placeholder: 'penerbit'},
                 {label: 'Tanggal Terbit', accessor: 'tanggal_terbit', placeholder: 'tanggal terbit'},
-                {label: 'Pilihan', accessor: 'x', type:'select', options:[1,2,3,4,5]},
             ]
         }
-    }
-
-    fetchData = (state, instance) => {
-        this.setState({loading: true})
-        Axios.get(this.state.apiUrl, {
-            params: {
-                page: state !== null ? Math.min(state.page + 1, this.state.pages) : 1,
-                per_page: state !== null ? state.pageSize : this.state.pageSize
-            }
-        })
-            .then(response => {
-                this.setState({
-                    data: response.data.rows,
-                    pages: response.data.last_page,
-                    loading: false
-                })
-            })
     }
 
     addEntry = () => {
@@ -53,27 +33,33 @@ class Buku extends Component {
             })
     }
 
+    search = () => {
+        this.setState({queryParam: BuildQueryParam(this.state.model)}, () => {
+            this.refs.table.fetchData()
+        })
+    }
+
     render() {
+
         return (
             <div className='container'>
                 <h3 style={{textAlign: 'center'}}>Buku List</h3>
                 <InputForm model={this.state.model} ref='input'
                            fields={this.state.inputFields}
                 />
-                <Button onClick={this.addEntry} style={{marginBottom:'10px'}}>Add</Button>
-                <ReactTable manual data={this.state.data}
-                            className='col'
-                            loading={this.state.loading}
-                            pages={this.state.pages}
-                            pageSizeOptions={[1, 2, 3, 5, 10, 20]}
-                            defaultPageSize={this.props.settings.itemPerPage}
-                            columns={[
-                                {Header: 'ID', accessor: 'id'},
-                                {Header: 'Nama', accessor: 'nama'},
-                                {Header: 'Penerbit', accessor: 'penerbit'},
-                                {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
-                            ]}
-                            onFetchData={this.fetchData}
+                <div className='buttonToolbar'>
+                    <Button onClick={this.addEntry} className='btn-grp'>Add</Button>
+                    <Button onClick={this.search} className='btn-grp'>Search</Button>
+                </div>
+                <ServerDataTable url={this.state.apiUrl}
+                                 queryParam={this.state.queryParam}
+                                 columns={[
+                                     {Header: 'ID', accessor: 'id'},
+                                     {Header: 'Nama', accessor: 'nama'},
+                                     {Header: 'Penerbit', accessor: 'penerbit'},
+                                     {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
+                                 ]}
+                                 ref='table'
                 />
             </div>
         );

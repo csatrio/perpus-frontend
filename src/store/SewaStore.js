@@ -1,4 +1,5 @@
 import {observable, action} from 'mobx';
+import Axios from 'axios'
 
 export default class SewaStore {
     @observable
@@ -19,6 +20,13 @@ export default class SewaStore {
     @observable isShowAlert = false
     @observable alertTitle = 'Notification'
     @observable alertMsg = ''
+    @observable tanggalPinjam = new Date()
+    @observable tanggalKembali = new Date()
+
+    formatDate(currentDT){
+        return `${currentDT.getFullYear()}-${currentDT.getMonth()+1}-${currentDT.getDate()}`
+    }
+
 
     @action
     showAlert = (msg) => {
@@ -51,7 +59,14 @@ export default class SewaStore {
     selectBuku = (buku) => {
         this.buku.data = buku
         this.buku.judul = buku.nama
+        this.buku.jumlahPinjam = 1
         this.showAddBuku = false
+    }
+
+    @action
+    deleteBuku(row) {
+        this.bukuList.splice(row.index, 1)
+        this.bukuList = this.bukuList.slice() // This is a workaround with table that won't update
     }
 
     @action
@@ -67,5 +82,19 @@ export default class SewaStore {
         } else {
             this.showAlert('Jumlah pinjam harus berupa bilangan bulat > 0')
         }
+    }
+
+    @action
+    saveSewa = () => {
+        const data = {
+            anggota: this.anggota,
+            tanggalPinjam: this.formatDate(this.tanggalPinjam),
+            tanggalKembali: this.formatDate(this.tanggalKembali),
+            buku: this.bukuList
+        }
+        Axios.post('http://localhost:8008/api/test_perpus/saveSewa/', data)
+            .then(response => {
+                console.log('Save Sewa Response : ' + JSON.stringify(response.data))
+            })
     }
 }

@@ -53,7 +53,6 @@ class SewaDetail extends Component {
                                 loading={this.state.loading}
                                 defaultPageSize={this.props.settings.itemPerPage}
                                 columns={[
-                                    {Header: 'Peminjam', accessor: 'anggota'},
                                     {Header: 'Buku', accessor: 'buku'},
                                     {Header: 'Penerbit', accessor: 'penerbit'},
                                     {Header: 'Jumlah Pinjam', accessor: 'jumlah'},
@@ -64,9 +63,6 @@ class SewaDetail extends Component {
                 <Modal.Footer>
                     <Button variant="secondary" onClick={this.props.onHide}>
                         Close
-                    </Button>
-                    <Button variant="primary" onClick={this.props.onHide}>
-                        Save Changes
                     </Button>
                 </Modal.Footer>
             </Modal>

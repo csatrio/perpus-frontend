@@ -4,7 +4,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import settings from '../configurations'
 
-class ServerDataTable extends Component {
+export default class ServerDataTable extends Component {
     static defaultProps = {
         className: 'col',
         queryParam: {},
@@ -22,7 +22,7 @@ class ServerDataTable extends Component {
         }
     }
 
-    fetchData = (state, instance) => {
+    fetchData = (state = null, instance = null) => {
         this.setState({loading: true})
         const _params = {
             page: state !== null ? Math.min(state.page + 1, this.state.pages) : 1,
@@ -59,5 +59,3 @@ class ServerDataTable extends Component {
         );
     }
 }
-
-export default ServerDataTable;

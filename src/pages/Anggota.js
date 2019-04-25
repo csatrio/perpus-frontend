@@ -3,6 +3,7 @@ import Axios from 'axios'
 import {Button} from 'react-bootstrap';
 import InputForm from '../components/InputForm'
 import ServerDataTable from '../components/ServerDataTable'
+import {BuildQueryParam} from '../helpers/network'
 
 class Anggota extends Component {
     constructor(props) {
@@ -31,6 +32,12 @@ class Anggota extends Component {
             })
     }
 
+    search = () => {
+        this.setState({queryParam: BuildQueryParam(this.state.model)}, () => {
+            this.refs.table.fetchData()
+        })
+    }
+
     render() {
         return (
             <div className='container'>
@@ -38,8 +45,10 @@ class Anggota extends Component {
                 <InputForm model={this.state.model} ref='input'
                            fields={this.state.inputFields}
                 />
-                <Button onClick={this.addEntry} style={{marginBottom: '10px'}}>Add</Button>
-
+                <div className='buttonToolbar'>
+                    <Button onClick={this.addEntry} className='btn-grp'>Add</Button>
+                    <Button onClick={this.search} className='btn-grp'>Search</Button>
+                </div>
                 <ServerDataTable url={this.apiUrl}
                                  queryParam={this.state.queryParam}
                                  columns={[
@@ -48,6 +57,7 @@ class Anggota extends Component {
                                      {Header: 'Alamat', accessor: 'alamat'},
                                      {Header: 'Umur', accessor: 'umur'},
                                  ]}
+                                 ref='table'
                 />
             </div>
         );
