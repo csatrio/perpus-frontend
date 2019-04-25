@@ -3,8 +3,6 @@ import Axios from 'axios'
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {Button} from 'react-bootstrap';
-import InputForm from '../../components/InputForm'
-import InputModal from '../../components/InputModal'
 import SewaDetail from './SewaDetail'
 import {Link} from 'react-router-dom'
 
@@ -19,34 +17,9 @@ class Sewa extends Component {
             page: 1,
             pages: 1,
             loading: true,
-            showModal: false,
-            showInputModal: false,
-            model: {
-                nama: '',
-                penerbit: '',
-                tanggal_terbit: '',
-            },
-            inputFields: [
-                {label: 'Peminjam', accessor: 'anggota_id', type: 'select', options: []},
-                {label: 'Tanggal Pinjam', accessor: 'tanggal_pinjam', type: 'datepicker'},
-                {label: 'Tanggal Kembali', accessor: 'tanggal_kembali', type: 'datepicker'},
-            ]
         }
         this.store = this.props.store
         this.store.global.showModal = false
-    }
-
-    componentWillMount() {
-        Axios.get('http://localhost:8008/api/test_perpus/anggota/')
-            .then(response => {
-                const inputFields = this.state.inputFields
-                inputFields[0].options = response.data.rows.map((anggota) => {
-                    const obj = {}
-                    obj[anggota.nama] = anggota.id
-                    return obj
-                })
-                this.setState(inputFields)
-            })
     }
 
     fetchData = (state, instance) => {
@@ -66,9 +39,6 @@ class Sewa extends Component {
             })
     }
 
-    addEntry = () => {
-        console.log(JSON.stringify(this.state.model))
-    }
 
     rowActions = (props) => {
         return (
@@ -85,19 +55,8 @@ class Sewa extends Component {
         return (
             <div className='container'>
                 <h3 style={{textAlign: 'center'}}>Sewa List</h3>
-                <InputForm model={this.state.model} ref='input'
-                           fields={this.state.inputFields}
-                />
-
-                <InputModal showModal={this.state.showInputModal} size='lg'
-                            onHide={() => this.setState({'showInputModal': false})}
-                            fields={this.state.inputFields}
-                            model={this.state.model}
-                />
 
                 <Link to='/sewa/add'><Button style={{marginBottom: '10px'}}>Add</Button></Link>
-                <Button onClick={() => this.setState({showInputModal: true})}
-                        style={{marginBottom: '10px'}}>Modal</Button>
 
                 <SewaDetail showModal={this.store.global.showModal} sewaId={this.state.sewaId}
                             onHide={() => this.store.global.showModal = false}/>
