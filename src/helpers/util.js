@@ -39,5 +39,24 @@ const sortDesc = (collection, comparators) => {
     })
 }
 
+const notUndefined = (obj) => {
+    return typeof(obj) !== 'undefined'
+}
 
-export {replaceAll, replaceDot, getNestedObject, sortAsc, sortDesc}
+const formatDate = (currentDT) => {
+    return `${currentDT.getFullYear()}-${currentDT.getMonth() + 1}-${currentDT.getDate()}`
+}
+
+const formatModelDates = (model) => {
+    console.log('format model dates : ' + JSON.stringify(model))
+    const modelCopy = {}
+    Object.keys(model).forEach((key) => {
+        if (notUndefined(model[key]) && notUndefined(model[key].getDate))
+            modelCopy[key] = formatDate(model[key])
+        else
+            modelCopy[key] = model[key]
+    })
+    return modelCopy
+}
+
+export {replaceAll, replaceDot, getNestedObject, sortAsc, sortDesc, formatDate, formatModelDates, notUndefined}

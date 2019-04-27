@@ -3,18 +3,18 @@ import Axios from 'axios'
 import {Button} from 'react-bootstrap';
 import InputForm from '../components/InputForm'
 import ServerDataTable from '../components/ServerDataTable'
+import ModalDialog from '../components/ModalDialog'
+
 import {BuildQueryParam} from '../helpers/network'
 
-class Anggota extends Component {
+export default class Anggota extends Component {
     constructor(props) {
         super(props)
         this.state = {
             queryParam: {},
-            model: {
-                nama: '',
-                umur: '',
-                alamat: '',
-            },
+            showEdit: false,
+            model: {},
+            editModel: {row: {}},
             inputFields: [
                 {label: 'Nama', accessor: 'nama', placeholder: 'input nama'},
                 {label: 'Umur', accessor: 'umur', placeholder: 'umur anda'},
@@ -25,14 +25,24 @@ class Anggota extends Component {
     }
 
     addEntry = () => {
+        this.refs.input.clearValues()
         Axios.post(this.apiUrl, this.state.model)
             .then(response => {
-                console.log(JSON.stringify(response.data))
-                Object.keys(this.state.model).forEach((key)=>{
-                    this.state.model[key] = ''
-                })
-                this.search()
-                this.setState({model: this.state.model})
+                console.log('Add entry response : ' + JSON.stringify(response.data))
+                this.refs.table.addRow(response.data)
+                this.refs.input.clearValues()
+            })
+    }
+
+    saveEdit = () => {
+        const editModel = this.state.editModel.row
+        this.refs.table.getData()[this.state.editModel.index] = editModel
+        const patchUrl = `${this.apiUrl}${editModel.id}/`
+        Axios.patch(patchUrl, editModel)
+            .then(response => {
+                console.log('save edit response : ' + JSON.stringify(response.data))
+                this.refs.table.refreshRow()
+                this.setState({showEdit: false})
             })
     }
 
@@ -40,6 +50,17 @@ class Anggota extends Component {
         this.setState({queryParam: BuildQueryParam(this.state.model)}, () => {
             this.refs.table.fetchData()
         })
+    }
+
+    rowActions = (row) => {
+        return (
+            <div className='buttonToolbar'>
+                <Button onClick={() => {
+                    this.setState({showEdit: true, editModel: row})
+                }} className='btn-grp'>Edit</Button>
+                <Button onClick={() => this.refs.table.deleteRow(row)} className='btn-grp'>Delete</Button>
+            </div>
+        )
     }
 
     render() {
@@ -53,6 +74,15 @@ class Anggota extends Component {
                     <Button onClick={this.addEntry} className='btn-grp'>Add</Button>
                     <Button onClick={this.search} className='btn-grp'>Search</Button>
                 </div>
+
+                <ModalDialog show={this.state.showEdit} title='Edit Anggota' size='lg'
+                             closeButton={true}
+                             onHide={() => this.setState({showEdit: false})}
+                             component={<InputForm model={this.state.editModel.row} ref='inputModal'
+                                                   fields={this.state.inputFields}
+                             />}
+                             footer={<Button onClick={this.saveEdit}>Save</Button>}
+                />
                 <ServerDataTable url={this.apiUrl}
                                  queryParam={this.state.queryParam}
                                  columns={[
@@ -60,6 +90,7 @@ class Anggota extends Component {
                                      {Header: 'Nama', accessor: 'nama'},
                                      {Header: 'Alamat', accessor: 'alamat'},
                                      {Header: 'Umur', accessor: 'umur'},
+                                     {Header: 'Actions', Cell: this.rowActions}
                                  ]}
                                  ref='table'
                 />
@@ -67,5 +98,3 @@ class Anggota extends Component {
         );
     }
 }
-
-export default Anggota;

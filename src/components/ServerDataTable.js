@@ -45,6 +45,20 @@ export default class ServerDataTable extends Component {
         return this.state.data;
     }
 
+    addRow = (row) => {
+        this.state.data.unshift(row)
+        this.setState({data: this.state.data.slice()})
+    }
+
+    deleteRow = (row) => {
+        this.state.data.splice(row.index, 1)
+        this.setState({data: this.state.data.slice()})
+    }
+
+    refreshRow = ()=>{
+        this.setState({data: this.state.data.slice()})
+    }
+
     render() {
         return (
             <ReactTable manual data={this.state.data}

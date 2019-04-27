@@ -3,6 +3,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {Button, Modal, Form, Alert} from 'react-bootstrap';
 import SelectorTable from '../../components/SelectorTable'
+import ModalDialog from '../../components/ModalDialog'
 import DatePicker from "react-datepicker/es";
 
 export default class SewaAdd extends Component {
@@ -81,53 +82,37 @@ export default class SewaAdd extends Component {
                             style={{marginBottom: '20px'}}>Add</Button>
                 </Form.Group>
 
-                <Modal show={this.store.showAddBuku}
-                       onHide={() => this.store.hideAddBuku()} size='lg'>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Add Buku</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <SelectorTable url='http://localhost:8008/api/test_perpus/buku/'
-                                       columns={[
-                                           {Header: 'ID', accessor: 'id'},
-                                           {Header: 'Nama', accessor: 'nama'},
-                                           {Header: 'Penerbit', accessor: 'penerbit'},
-                                           {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
-                                       ]}
-                                       itemCallback={(buku) => {
-                                           this.store.selectBuku(buku)
-                                       }}
-                        />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary"
-                                onClick={() => this.store.hideAddBuku()}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
+                <ModalDialog size='lg' title='Choose Buku'
+                             show={this.store.showAddBuku}
+                             onHide={() => this.store.hideAddBuku()}
+                             component={<SelectorTable url='http://localhost:8008/api/test_perpus/buku/'
+                                                       columns={[
+                                                           {Header: 'ID', accessor: 'id'},
+                                                           {Header: 'Nama', accessor: 'nama'},
+                                                           {Header: 'Penerbit', accessor: 'penerbit'},
+                                                           {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
+                                                       ]}
+                                                       itemCallback={(buku) => {
+                                                           this.store.selectBuku(buku)
+                                                       }}
+                             />}
+                />
 
-                <Modal show={this.store.showAddAnggota}
-                       onHide={() => this.store.hideAnggota()} size='lg'>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Add Anggota</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <SelectorTable url='http://localhost:8008/api/test_perpus/anggota/'
-                                       columns={[
-                                           {Header: 'ID', accessor: 'id'},
-                                           {Header: 'Nama', accessor: 'nama'},
-                                           {Header: 'Alamat', accessor: 'penerbit'},
-                                           {Header: 'Umur', accessor: 'umur'},
-                                       ]}
-                                       itemCallback={(anggota) => {
-                                           this.store.addAnggota(anggota)
-                                       }}
-                        />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary"
-                                onClick={() => this.store.hideAnggota()}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
+                <ModalDialog size='lg' title='Choose Anggota'
+                             show={this.store.showAddAnggota}
+                             onHide={() => this.store.hideAddAnggota()}
+                             component={<SelectorTable url='http://localhost:8008/api/test_perpus/anggota/'
+                                                       columns={[
+                                                           {Header: 'ID', accessor: 'id'},
+                                                           {Header: 'Nama', accessor: 'nama'},
+                                                           {Header: 'Alamat', accessor: 'penerbit'},
+                                                           {Header: 'Umur', accessor: 'umur'},
+                                                       ]}
+                                                       itemCallback={(anggota) => {
+                                                           this.store.addAnggota(anggota)
+                                                       }}
+                             />}
+                />
 
                 <ReactTable data={this.store.bukuList}
                             className='col'

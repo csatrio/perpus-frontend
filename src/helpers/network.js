@@ -1,7 +1,14 @@
-const BuildQueryParam = (model)=>{
+import {formatDate, notUndefined} from "./util";
+
+const BuildQueryParam = (model) => {
     const param = {}
-    Object.keys(model).forEach((field)=>{
-        if(model[field] !== '') param[field] = model[field]
+    Object.keys(model).forEach((field) => {
+        if (model[field] !== '') {
+            if (notUndefined(model[field].getDate))
+                param[field] = formatDate(model[field])
+            else
+                param[field] = model[field]
+        }
     })
     return param
 }

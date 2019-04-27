@@ -1,22 +1,18 @@
 import React, {Component} from 'react';
 import {Button, Modal} from 'react-bootstrap';
-import InputForm from './InputForm'
 
-
-export default class InputModal extends Component {
+export default class ModalDialog extends Component {
     static defaultProps = {
         fields: [],
         model: {},
-        title: 'Input Modal',
+        title: 'Modal Dialog',
         show: false,
         size: 'md',
+        component: null,
         footer: null,
+        closeButton: false,
         onHide: () => {
         }
-    }
-
-    getInput = () => {
-        return this.refs.input
     }
 
     render() {
@@ -26,13 +22,16 @@ export default class InputModal extends Component {
                     <Modal.Title>{this.props.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className='container'>
-                        <InputForm fields={this.props.fields} model={this.props.model} ref='input'/>
-                    </div>
+                    <div className='container'>{this.props.component}</div>
                 </Modal.Body>
                 <Modal.Footer>
                     {this.props.footer === null ?
                         <Button variant='secondary' onClick={this.props.onHide}>Close</Button>
+                        : this.props.closeButton ? (
+                            <React.Fragment>
+                                {this.props.footer}
+                                <Button variant='secondary' onClick={this.props.onHide}>Close</Button>
+                            </React.Fragment>)
                         : this.props.footer
                     }
                 </Modal.Footer>

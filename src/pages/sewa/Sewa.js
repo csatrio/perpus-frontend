@@ -6,7 +6,7 @@ import {Button} from 'react-bootstrap';
 import SewaDetail from './SewaDetail'
 import {Link} from 'react-router-dom'
 
-class Sewa extends Component {
+export default class Sewa extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -56,7 +56,7 @@ class Sewa extends Component {
             <div className='container'>
                 <h3 style={{textAlign: 'center'}}>Sewa List</h3>
 
-                <Link to='/sewa/add'><Button style={{marginBottom: '10px'}}>Add</Button></Link>
+                <Link to='/sewa/add' className='buttonToolbar'><Button>Add</Button></Link>
 
                 <SewaDetail showModal={this.store.global.showModal} sewaId={this.state.sewaId}
                             onHide={() => this.store.global.showModal = false}/>
@@ -80,5 +80,3 @@ class Sewa extends Component {
         );
     }
 }
-
-export default Sewa;

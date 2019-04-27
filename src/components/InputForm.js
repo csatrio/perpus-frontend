@@ -3,7 +3,7 @@ import {Form} from 'react-bootstrap';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 
-class InputForm extends Component {
+export default class InputForm extends Component {
     static defaultProps = {
         fields: [],
         model: {}
@@ -14,6 +14,7 @@ class InputForm extends Component {
         this.state = {
             dates: {}
         }
+        this.elements = {}
     }
 
     showAlert(_id, msg, valid) {
@@ -28,10 +29,22 @@ class InputForm extends Component {
         document.getElementById('invalid-' + id).setAttribute('style', 'display:none')
     }
 
+    getElements() {
+        return this.elements
+    }
+
+    clearValues() {
+        Object.keys(this.elements).forEach((e) => {
+            this.elements[e].current.value = ''
+        })
+    }
+
     render() {
         return (
             <Form>
                 {this.props.fields.map((item, index) => {
+                    this.elements[item.accessor] = React.createRef();
+                    const elementReference = this.elements[item.accessor]
                     const fieldType = typeof(item.type) !== 'undefined' ? item.type : 'input'
 
                     // render select box
@@ -45,6 +58,7 @@ class InputForm extends Component {
                                                   this.props.model[item.accessor] = e.target.value
                                               }
                                           }
+                                          ref={elementReference}
                             >
                                 {item.options.map((option, i) => {
                                     if (typeof(option) === 'object') {
@@ -61,7 +75,7 @@ class InputForm extends Component {
                     else if (fieldType === 'checkbox') {
                         return <React.Fragment key={index}>
                             <Form.Label>{item.label}</Form.Label>
-                            <Form.Group className='col'>
+                            <Form.Group className='col' ref={elementReference}>
                                 <div className='row'>{item.options.map((chk, i) => {
                                     return <Form.Check className='col-sm-4' type='checkbox' key={i + index}
                                                        name={item.label}
@@ -78,7 +92,7 @@ class InputForm extends Component {
                     else if (fieldType === 'radio') {
                         return <React.Fragment key={index}>
                             <Form.Label>{item.label}</Form.Label>
-                            <Form.Group className='col'>
+                            <Form.Group className='col' ref={elementReference}>
                                 <div className='row'>{item.options.map((chk, i) => {
                                     return <Form.Check className='col-sm-4' type='radio' key={i + index}
                                                        name={item.label}
@@ -111,6 +125,7 @@ class InputForm extends Component {
                                                 this.props.model[item.accessor] = e
                                             }
                                         }
+                                        ref={elementReference}
                                         placeholderText='click to select date'
                             />
                         </Form.Group>
@@ -118,6 +133,7 @@ class InputForm extends Component {
 
                     // render regular input
                     return <Form.Group className='row' key={index}>
+
                         <Form.Label className='col-sm-2'>{item.label}</Form.Label>
                         <Form.Control className='col-sm-10' type={fieldType}
                                       defaultValue={this.props.model[item.accessor]}
@@ -127,6 +143,7 @@ class InputForm extends Component {
                                           }
                                       }
                                       placeholder={typeof(item.placeholder) !== 'undefined' ? item.placeholder : ''}
+                                      ref={elementReference}
                         />
                         <div id={'valid-' + item.accessor}
                              className='col valid-feedback'>Validation OK
@@ -141,5 +158,3 @@ class InputForm extends Component {
     }
 
 }
-
-export default InputForm;

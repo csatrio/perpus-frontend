@@ -1,5 +1,6 @@
 import {observable, action} from 'mobx';
 import Axios from 'axios'
+import {formatDate} from "../helpers/util";
 
 export default class SewaStore {
     @observable
@@ -22,11 +23,6 @@ export default class SewaStore {
     @observable alertMsg = ''
     @observable tanggalPinjam = new Date()
     @observable tanggalKembali = new Date()
-
-    formatDate(currentDT){
-        return `${currentDT.getFullYear()}-${currentDT.getMonth()+1}-${currentDT.getDate()}`
-    }
-
 
     @action
     showAlert = (msg) => {
@@ -88,8 +84,8 @@ export default class SewaStore {
     saveSewa = () => {
         const data = {
             anggota: this.anggota,
-            tanggalPinjam: this.formatDate(this.tanggalPinjam),
-            tanggalKembali: this.formatDate(this.tanggalKembali),
+            tanggalPinjam: formatDate(this.tanggalPinjam),
+            tanggalKembali: formatDate(thisin.tanggalKembali),
             buku: this.bukuList
         }
         Axios.post('http://localhost:8008/api/test_perpus/saveSewa/', data)
