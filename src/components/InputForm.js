@@ -34,8 +34,9 @@ export default class InputForm extends Component {
     }
 
     clearValues() {
-        Object.keys(this.elements).forEach((e) => {
-            this.elements[e].current.value = ''
+        Object.keys(this.elements).forEach((key) => {
+            this.elements[key].current.value = ''
+            this.props.model[key] = ''
         })
     }
 

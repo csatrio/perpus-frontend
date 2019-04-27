@@ -1,13 +1,9 @@
 import {observable, action} from 'mobx';
 import Axios from 'axios'
 import {formatDate} from "../helpers/util";
+import {CreateSnapshot, RestoreSnapshot} from '../helpers/reflections'
 
 export default class SewaStore {
-    @observable
-    anggota = {
-        nama: '',
-    }
-
     @observable
     buku = {
         judul: '',
@@ -15,6 +11,7 @@ export default class SewaStore {
         jumlahPinjam: 0,
     }
 
+    @observable anggota = {nama: ''}
     @observable bukuList = []
     @observable showAddBuku = false
     @observable showAddAnggota = false
@@ -23,6 +20,10 @@ export default class SewaStore {
     @observable alertMsg = ''
     @observable tanggalPinjam = new Date()
     @observable tanggalKembali = new Date()
+
+    constructor() {
+        CreateSnapshot(this)
+    }
 
     @action
     showAlert = (msg) => {
@@ -36,7 +37,7 @@ export default class SewaStore {
     }
 
     @action
-    hideAnggota = () => {
+    hideAddAnggota = () => {
         this.showAddAnggota = false
     }
 
@@ -85,7 +86,7 @@ export default class SewaStore {
         const data = {
             anggota: this.anggota,
             tanggalPinjam: formatDate(this.tanggalPinjam),
-            tanggalKembali: formatDate(thisin.tanggalKembali),
+            tanggalKembali: formatDate(this.tanggalKembali),
             buku: this.bukuList
         }
         Axios.post('http://localhost:8008/api/test_perpus/saveSewa/', data)
@@ -93,4 +94,11 @@ export default class SewaStore {
                 console.log('Save Sewa Response : ' + JSON.stringify(response.data))
             })
     }
+
+    @action
+    reset = () => {
+        RestoreSnapshot(this)
+    }
 }
+
+

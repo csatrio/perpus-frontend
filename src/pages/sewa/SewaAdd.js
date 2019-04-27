@@ -7,6 +7,10 @@ import ModalDialog from '../../components/ModalDialog'
 import DatePicker from "react-datepicker/es";
 
 export default class SewaAdd extends Component {
+    static defaultProps = {
+        title: 'Add Sewa'
+    }
+
     constructor(props) {
         super(props)
         this.store = this.props.store.sewaStore
@@ -15,7 +19,7 @@ export default class SewaAdd extends Component {
     render() {
         return (
             <div className='container'>
-                <h3 style={{textAlign: 'center'}}>Add Sewa</h3>
+                <h3 style={{textAlign: 'center'}}>{this.props.title}</h3>
 
                 <Alert show={this.store.isShowAlert}
                        variant="danger"
@@ -133,6 +137,7 @@ export default class SewaAdd extends Component {
 
                 <div className='buttonToolbar'>
                     <Button onClick={() => this.store.saveSewa()}>Save</Button>
+                    <Button onClick={() => this.store.reset()}>Reset</Button>
                 </div>
             </div>
         );

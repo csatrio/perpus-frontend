@@ -18,11 +18,17 @@ export default class Anggota extends Component {
             inputFields: [
                 {label: 'Nama', accessor: 'nama', placeholder: 'nama'},
                 {label: 'Penerbit', accessor: 'penerbit', placeholder: 'penerbit'},
-                {label: 'Tanggal Terbit', accessor: 'tanggal_terbit', placeholder: 'tanggal terbit', type:'datepicker'},
+                {
+                    label: 'Tanggal Terbit',
+                    accessor: 'tanggal_terbit',
+                    placeholder: 'tanggal terbit',
+                    type: 'datepicker'
+                },
             ]
         }
         this.apiUrl = 'http://localhost:8008/api/test_perpus/buku/'
     }
+
 
     addEntry = () => {
         this.refs.input.clearValues()
@@ -34,8 +40,9 @@ export default class Anggota extends Component {
             })
     }
 
+
     saveEdit = () => {
-        const editModel = this.state.editModel.row
+        const editModel = this.state.editModel.row._original
         this.refs.table.getData()[this.state.editModel.index] = editModel
         console.log(JSON.stringify(editModel))
         const patchUrl = `${this.apiUrl}${editModel.id}/`
@@ -47,11 +54,13 @@ export default class Anggota extends Component {
             })
     }
 
+
     search = () => {
         this.setState({queryParam: BuildQueryParam(this.state.model)}, () => {
             this.refs.table.fetchData()
         })
     }
+
 
     rowActions = (row) => {
         return (
@@ -64,6 +73,7 @@ export default class Anggota extends Component {
         )
     }
 
+
     render() {
         return (
             <div className='container'>
@@ -74,12 +84,13 @@ export default class Anggota extends Component {
                 <div className='buttonToolbar'>
                     <Button onClick={this.addEntry} className='btn-grp'>Add</Button>
                     <Button onClick={this.search} className='btn-grp'>Search</Button>
+                    <Button onClick={()=> this.refs.input.clearValues()} className='btn-grp'>Clear</Button>
                 </div>
 
                 <ModalDialog show={this.state.showEdit} title='Edit Buku' size='lg'
                              closeButton={true}
                              onHide={() => this.setState({showEdit: false})}
-                             component={<InputForm model={this.state.editModel.row} ref='inputModal'
+                             component={<InputForm model={this.state.editModel.row._original} ref='inputModal'
                                                    fields={this.state.inputFields}
                              />}
                              footer={<Button onClick={this.saveEdit}>Save</Button>}

@@ -22,6 +22,7 @@ export default class Sewa extends Component {
         this.store.global.showModal = false
     }
 
+
     fetchData = (state, instance) => {
         this.setState({loading: true})
         Axios.get(this.state.apiUrl, {

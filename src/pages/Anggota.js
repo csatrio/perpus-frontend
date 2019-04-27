@@ -24,6 +24,7 @@ export default class Anggota extends Component {
         this.apiUrl = 'http://localhost:8008/api/test_perpus/anggota/'
     }
 
+
     addEntry = () => {
         this.refs.input.clearValues()
         Axios.post(this.apiUrl, this.state.model)
@@ -34,8 +35,9 @@ export default class Anggota extends Component {
             })
     }
 
+
     saveEdit = () => {
-        const editModel = this.state.editModel.row
+        const editModel = this.state.editModel.row._original
         this.refs.table.getData()[this.state.editModel.index] = editModel
         const patchUrl = `${this.apiUrl}${editModel.id}/`
         Axios.patch(patchUrl, editModel)
@@ -46,11 +48,13 @@ export default class Anggota extends Component {
             })
     }
 
+
     search = () => {
         this.setState({queryParam: BuildQueryParam(this.state.model)}, () => {
             this.refs.table.fetchData()
         })
     }
+
 
     rowActions = (row) => {
         return (
@@ -63,6 +67,7 @@ export default class Anggota extends Component {
         )
     }
 
+
     render() {
         return (
             <div className='container'>
@@ -73,12 +78,13 @@ export default class Anggota extends Component {
                 <div className='buttonToolbar'>
                     <Button onClick={this.addEntry} className='btn-grp'>Add</Button>
                     <Button onClick={this.search} className='btn-grp'>Search</Button>
+                    <Button onClick={()=> this.refs.input.clearValues()} className='btn-grp'>Clear</Button>
                 </div>
 
                 <ModalDialog show={this.state.showEdit} title='Edit Anggota' size='lg'
                              closeButton={true}
                              onHide={() => this.setState({showEdit: false})}
-                             component={<InputForm model={this.state.editModel.row} ref='inputModal'
+                             component={<InputForm model={this.state.editModel.row._original} ref='inputModal'
                                                    fields={this.state.inputFields}
                              />}
                              footer={<Button onClick={this.saveEdit}>Save</Button>}
@@ -86,7 +92,6 @@ export default class Anggota extends Component {
                 <ServerDataTable url={this.apiUrl}
                                  queryParam={this.state.queryParam}
                                  columns={[
-                                     {Header: 'ID', accessor: 'id'},
                                      {Header: 'Nama', accessor: 'nama'},
                                      {Header: 'Alamat', accessor: 'alamat'},
                                      {Header: 'Umur', accessor: 'umur'},
