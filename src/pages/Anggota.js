@@ -58,14 +58,14 @@ export default class Anggota extends Component {
 
     rowActions = (row) => {
         return (
-            <div className='buttonToolbar'>
+            <div className='buttonGroup'>
                 <Button onClick={() => {
                     this.setState({showEdit: true, editModel: row})
-                }} className='btn-grp'>Edit</Button>
+                }} className='btn-grp' size='sm'>Edit</Button>
                 <Button onClick={() => {
                     Axios.delete(`${this.apiUrl}${row.original.id}/`).catch(err=>console.log(err))
                     this.refs.table.deleteRow(row)
-                }} className='btn-grp'>Delete</Button>
+                }} className='btn-grp' size='sm'>Delete</Button>
             </div>
         )
     }

@@ -54,7 +54,7 @@ export default class Sewa extends Component {
                                                     className='row'
                                                     defaultPageSize={settings.itemPerPage}
                                                     columns={[
-                                                        {Header: 'Judul', accessor: 'buku'},
+                                                        {Header: 'Judul', accessor: 'judul'},
                                                         {Header: 'Penerbit', accessor: 'penerbit'},
                                                         {Header: 'Tanggal terbit', accessor: 'tanggal_terbit'},
                                                         {Header: 'Jumlah Pinjam', accessor: 'jumlahPinjam'},

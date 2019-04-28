@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, withRouter} from 'react-router-dom';
 import Sample from '../pages/sample/Sample';
 import Anggota from '../pages/Anggota'
 import Buku from '../pages/Buku'
@@ -7,7 +7,7 @@ import Sewa from '../pages/sewa/Sewa'
 import SewaAddEdit from '../pages/sewa/SewaAddEdit'
 import {observer, inject} from 'mobx-react'
 
-const doInject = (component) => inject('store', 'settings')(observer(component))
+const doInject = (component) => withRouter(inject('store', 'settings')(observer(component)))
 
 const RoutePath =
     () => (

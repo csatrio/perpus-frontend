@@ -1,6 +1,6 @@
 import {observable, action} from 'mobx';
 import Axios from 'axios'
-import {formatDate, notUndefined} from "../helpers/util";
+import {formatDate} from "../helpers/util";
 import {CreateSnapshot, RestoreSnapshot, CloneDeep} from '../helpers/reflections'
 
 export default class SewaStore {
@@ -45,7 +45,7 @@ export default class SewaStore {
 
     @action
     closeAlert = () => {
-        this.isShowAlert = false
+        this.isShow = false
     }
 
     @action
@@ -72,6 +72,7 @@ export default class SewaStore {
     @action
     selectBuku = (buku) => {
         this.buku.data = buku
+        this.buku.data.judul = buku.nama
         this.buku.judul = buku.nama
         this.buku.jumlahPinjam = 1
         this.showAddBuku = false
@@ -84,7 +85,6 @@ export default class SewaStore {
                 console.log('delete detilsewa : ' + JSON.stringify(response.data))
                 this.bukuList.splice(row.index, 1)
                 this.bukuList = this.bukuList.slice() // This is a workaround with table that won't update
-                window.alert('Detilsewa telah dihapus !')
             })
     }
 
@@ -93,7 +93,6 @@ export default class SewaStore {
         const buku = CloneDeep(this.buku.data)
         if (!isNaN(this.buku.jumlahPinjam) && this.buku.jumlahPinjam > 0) {
             buku.jumlahPinjam = this.buku.jumlahPinjam
-            if(notUndefined(buku.nama)) buku.buku = buku.nama
             this.bukuList.push(buku)
             this.buku.judul = ''
             this.buku.jumlahPinjam = 0
@@ -105,7 +104,7 @@ export default class SewaStore {
     }
 
     @action
-    saveEditBuku = () =>{
+    saveEditBuku = () => {
         this.showEditBuku = false
     }
 
@@ -117,18 +116,18 @@ export default class SewaStore {
             tanggalKembali: formatDate(this.tanggalKembali),
             buku: this.bukuList,
         }
-        if(this.idSewa !== null && this.isEdit){
+        if (this.idSewa !== null && this.isEdit) {
             data.idSewa = this.idSewa
         }
         Axios.post('http://localhost:8008/api/test_perpus/saveSewa/', data)
             .then(response => {
                 console.log('Save Sewa Response : ' + JSON.stringify(response.data))
-                window.alert('Save Sewa Berhasil')
+                this.reset()
             })
     }
 
     @action
-    deleteSewa = (row) =>{
+    deleteSewa = (row) => {
         this.idSewa = row.original.id
         Axios.delete(`http://localhost:8008/api/test_perpus/sewa/${this.idSewa}/`)
             .then(response => {
@@ -138,6 +137,7 @@ export default class SewaStore {
 
     @action
     fetchDetail = (row) => {
+        console.log('fetch detail : ' + JSON.stringify(row))
         this.idSewa = row.original.id
         Axios.get('http://localhost:8008/api/test_perpus/ds/', {
             params: {
@@ -146,6 +146,7 @@ export default class SewaStore {
         })
             .then(response => {
                 this.bukuList = response.data
+                console.log('fetch detail response: ' + JSON.stringify(response.data))
             })
     }
 

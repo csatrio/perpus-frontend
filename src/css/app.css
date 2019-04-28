@@ -14,6 +14,11 @@
     margin-top: 20px;
 }
 
+.buttonGroup {
+    display: flex;
+    justify-content: center !important;
+}
+
 .btn-grp {
     margin-right: 10px !important;
 }

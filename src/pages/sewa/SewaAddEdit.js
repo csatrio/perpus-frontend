@@ -107,7 +107,7 @@ export default class SewaAddEdit extends Component {
                              component={<SelectorTable url='http://localhost:8008/api/test_perpus/buku/'
                                                        columns={[
                                                            {Header: 'ID', accessor: 'id'},
-                                                           {Header: 'Nama', accessor: 'nama'},
+                                                           {Header: 'Judul', accessor: 'nama'},
                                                            {Header: 'Penerbit', accessor: 'penerbit'},
                                                            {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
                                                        ]}
@@ -137,7 +137,7 @@ export default class SewaAddEdit extends Component {
                              closeButton={true}
                              onHide={() => this.store.showEditBuku = false}
                              component={<InputForm model={this.store.editBuku} ref='inputModal'
-                                                   fields={[{label: 'Judul', accessor: 'buku', placeholder: 'judul'},
+                                                   fields={[{label: 'Judul', accessor: 'judul', placeholder: 'judul'},
                                                        {
                                                            label: 'Jumlah Pinjam',
                                                            accessor: 'jumlahPinjam',
@@ -152,7 +152,7 @@ export default class SewaAddEdit extends Component {
                             loading={false}
                             defaultPageSize={this.props.settings.itemPerPage}
                             columns={[
-                                {Header: 'Judul', accessor: 'buku'},
+                                {Header: 'Judul', accessor: 'judul'},
                                 {Header: 'Penerbit', accessor: 'penerbit'},
                                 {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
                                 {Header: 'Jumlah Pinjam', accessor: 'jumlahPinjam'},
@@ -164,7 +164,10 @@ export default class SewaAddEdit extends Component {
                 />
 
                 <div className='buttonToolbar'>
-                    <Button onClick={() => this.store.saveSewa()} className='btn-grp'>Save</Button>
+                    <Button onClick={() => {
+                        this.store.saveSewa()
+                        this.props.history.push('/sewa')
+                    }} className='btn-grp'>Save</Button>
                     <Button onClick={() => this.store.reset()} className='btn-grp'>Reset</Button>
                 </div>
             </div>
