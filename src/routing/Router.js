@@ -4,8 +4,7 @@ import Sample from '../pages/sample/Sample';
 import Anggota from '../pages/Anggota'
 import Buku from '../pages/Buku'
 import Sewa from '../pages/sewa/Sewa'
-import SewaAdd from '../pages/sewa/SewaAdd'
-import InputForm from '../components/InputForm'
+import SewaAddEdit from '../pages/sewa/SewaAddEdit'
 import {observer, inject} from 'mobx-react'
 
 const doInject = (component) => inject('store', 'settings')(observer(component))
@@ -16,9 +15,14 @@ const RoutePath =
             <Route path='/' exact component={doInject(Sample)}/>
             <Route path='/anggota' component={doInject(Anggota)}/>
             <Route path='/buku' component={doInject(Buku)}/>
+
             <Route exact path='/sewa' component={doInject(Sewa)}/>
-            <Route path='/sewa/add' component={doInject(SewaAdd)}/>
-            <Route path='/input' component={InputForm}/>
+            <Route path='/sewa/add' render={() =>
+                React.createElement(doInject(SewaAddEdit), {title: 'Add Sewa'}, null)
+            }/>
+            <Route path='/sewa/edit' render={() =>
+                React.createElement(doInject(SewaAddEdit), {title: 'Edit Sewa', isEdit: true}, null)
+            }/>
         </Switch>
     );
 

@@ -13,7 +13,9 @@ export default class Anggota extends Component {
         this.state = {
             queryParam: {},
             showEdit: false,
-            model: {},
+            model: {
+                tanggal_terbit: new Date()
+            },
             editModel: {row: {}},
             inputFields: [
                 {label: 'Nama', accessor: 'nama', placeholder: 'nama'},
@@ -31,8 +33,7 @@ export default class Anggota extends Component {
 
 
     addEntry = () => {
-        this.refs.input.clearValues()
-        Axios.post(this.apiUrl, this.state.model)
+        Axios.post(this.apiUrl, formatModelDates(this.state.model))
             .then(response => {
                 console.log('Add entry response : ' + JSON.stringify(response.data))
                 this.refs.table.addRow(response.data)
@@ -68,7 +69,10 @@ export default class Anggota extends Component {
                 <Button onClick={() => {
                     this.setState({editModel: row, showEdit: true})
                 }} className='btn-grp'>Edit</Button>
-                <Button onClick={() => this.refs.table.deleteRow(row)} className='btn-grp'>Delete</Button>
+                <Button onClick={() => {
+                    Axios.delete(`${this.apiUrl}${row.original.id}/`).catch(err=>console.log(err))
+                    this.refs.table.deleteRow(row)
+                }} className='btn-grp'>Delete</Button>
             </div>
         )
     }

@@ -62,7 +62,10 @@ export default class Anggota extends Component {
                 <Button onClick={() => {
                     this.setState({showEdit: true, editModel: row})
                 }} className='btn-grp'>Edit</Button>
-                <Button onClick={() => this.refs.table.deleteRow(row)} className='btn-grp'>Delete</Button>
+                <Button onClick={() => {
+                    Axios.delete(`${this.apiUrl}${row.original.id}/`).catch(err=>console.log(err))
+                    this.refs.table.deleteRow(row)
+                }} className='btn-grp'>Delete</Button>
             </div>
         )
     }
@@ -75,10 +78,11 @@ export default class Anggota extends Component {
                 <InputForm model={this.state.model} ref='input'
                            fields={this.state.inputFields}
                 />
+
                 <div className='buttonToolbar'>
                     <Button onClick={this.addEntry} className='btn-grp'>Add</Button>
                     <Button onClick={this.search} className='btn-grp'>Search</Button>
-                    <Button onClick={()=> this.refs.input.clearValues()} className='btn-grp'>Clear</Button>
+                    <Button onClick={() => this.refs.input.clearValues()} className='btn-grp'>Clear</Button>
                 </div>
 
                 <ModalDialog show={this.state.showEdit} title='Edit Anggota' size='lg'
@@ -89,6 +93,7 @@ export default class Anggota extends Component {
                              />}
                              footer={<Button onClick={this.saveEdit}>Save</Button>}
                 />
+
                 <ServerDataTable url={this.apiUrl}
                                  queryParam={this.state.queryParam}
                                  columns={[

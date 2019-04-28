@@ -1,53 +1,42 @@
 import React, {Component} from 'react';
-import Axios from 'axios'
-import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {Button} from 'react-bootstrap';
-import SewaDetail from './SewaDetail'
 import {Link} from 'react-router-dom'
+import ServerDataTable from '../../components/ServerDataTable'
+import ReactTable from "react-table";
+import settings from "../../configurations";
+import ModalDialog from "../../components/ModalDialog";
 
 export default class Sewa extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            apiUrl: 'http://localhost:8008/api/test_perpus/sewa/',
-            data: [],
-            detail: [],
-            sewaId: 0,
-            page: 1,
-            pages: 1,
-            loading: true,
-        }
-        this.store = this.props.store
-        this.store.global.showModal = false
+        this.store = this.props.store.sewaStore
+        this.apiUrl = 'http://localhost:8008/api/test_perpus/sewa/'
     }
 
 
-    fetchData = (state, instance) => {
-        this.setState({loading: true})
-        Axios.get(this.state.apiUrl, {
-            params: {
-                page: state !== null ? Math.min(state.page + 1, this.state.pages) : 1,
-                per_page: state !== null ? state.pageSize : this.state.pageSize
-            }
-        })
-            .then(response => {
-                this.setState({
-                    data: response.data.rows,
-                    pages: response.data.last_page,
-                    loading: false
-                })
-            })
-    }
-
-
-    rowActions = (props) => {
+    rowActions = (row) => {
         return (
-            <button className='btn btn-sm btn-success' onClick={() => {
-                const sewa = this.state.data[props.index]
-                this.store.global.showModal = true
-                this.setState({'sewaId': sewa.id})
-            }}>Detail</button>
+            <React.Fragment>
+                <Link to='sewa/edit' size='sm' onClick={() => {
+                    const store = this.store
+                    const original = row.original
+                    store.anggota = original.anggota
+                    store.tanggalPinjam = new Date(Date.parse(original.tanggal_pinjam, 'yyyy-mm-dd'))
+                    store.tanggalKembali = new Date(Date.parse(original.tanggal_kembali, 'yyyy-mm-dd'))
+                    this.store.fetchDetail(row)
+                }}><Button className='btn-grp' size='sm'>Edit</Button></Link>
+                <Button className='btn-grp' size='sm' onClick={() => {
+                    this.store.fetchDetail(row)
+                    this.store.showDetail = true
+                }}>Detail
+                </Button>
+                <Button className='btn-grp' size='sm' onClick={() => {
+                    this.store.deleteSewa(row)
+                    this.refs.table.deleteRow(row)
+                }}>Delete
+                </Button>
+            </React.Fragment>
         );
     }
 
@@ -59,23 +48,29 @@ export default class Sewa extends Component {
 
                 <Link to='/sewa/add' className='buttonToolbar'><Button>Add</Button></Link>
 
-                <SewaDetail showModal={this.store.global.showModal} sewaId={this.state.sewaId}
-                            onHide={() => this.store.global.showModal = false}/>
+                <ModalDialog show={this.store.showDetail} title='DetailSewa' size='lg'
+                             onHide={() => this.store.showDetail = false}
+                             component={<ReactTable data={this.store.bukuList}
+                                                    className='row'
+                                                    defaultPageSize={settings.itemPerPage}
+                                                    columns={[
+                                                        {Header: 'Judul', accessor: 'buku'},
+                                                        {Header: 'Penerbit', accessor: 'penerbit'},
+                                                        {Header: 'Tanggal terbit', accessor: 'tanggal_terbit'},
+                                                        {Header: 'Jumlah Pinjam', accessor: 'jumlahPinjam'},
+                                                    ]}
+                             />}
+                />
 
-                <ReactTable manual data={this.state.data}
-                            className='col'
-                            loading={this.state.loading}
-                            pages={this.state.pages}
-                            pageSizeOptions={[1, 2, 3, 5, 10, 20]}
-                            defaultPageSize={this.props.settings.itemPerPage}
-                            columns={[
-                                {Header: 'ID', accessor: 'anggota_id'},
-                                {Header: 'Nama', accessor: 'anggota.nama'},
-                                {Header: 'Tanggal Pinjam', accessor: 'tanggal_pinjam'},
-                                {Header: 'Tanggal Kembali', accessor: 'tanggal_kembali'},
-                                {Header: 'Action', Cell: this.rowActions}
-                            ]}
-                            onFetchData={this.fetchData}
+                <ServerDataTable url={this.apiUrl}
+                                 columns={[
+                                     {Header: 'ID', accessor: 'id'},
+                                     {Header: 'Nama', accessor: 'anggota.nama'},
+                                     {Header: 'Tanggal Pinjam', accessor: 'tanggal_pinjam'},
+                                     {Header: 'Tanggal Kembali', accessor: 'tanggal_kembali'},
+                                     {Header: 'Action', Cell: this.rowActions}
+                                 ]}
+                                 ref='table'
                 />
             </div>
         );

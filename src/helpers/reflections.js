@@ -3,7 +3,6 @@ const _ = require('lodash');
 function CreateSnapshot(instance) {
     instance.snapshot = {}
     Object.getOwnPropertyNames(instance.__proto__).forEach(key => {
-        console.log(instance[key])
         if (key !== 'constructor')
             instance.snapshot[key] = _.cloneDeep(instance[key])
     })
@@ -19,4 +18,8 @@ function RestoreSnapshot(instance) {
     }
 }
 
-export {CreateSnapshot, RestoreSnapshot}
+function CloneDeep(obj){
+    return _.cloneDeep(obj)
+}
+
+export {CreateSnapshot, RestoreSnapshot, CloneDeep}

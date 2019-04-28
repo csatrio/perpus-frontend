@@ -1,4 +1,5 @@
 import {formatDate, notUndefined} from "./util";
+import Axios from 'axios'
 
 const BuildQueryParam = (model) => {
     const param = {}
@@ -11,6 +12,14 @@ const BuildQueryParam = (model) => {
         }
     })
     return param
+}
+
+const DeleteEntity = (url, id) => {
+    Axios.delete(`${url}id/`).then(response=>{
+        console.log('Delete entity response : ' + response.data)
+    }).catch(err=>{
+        console.log('Delete entity error : ' + err)
+    })
 }
 
 export {BuildQueryParam}

@@ -5,15 +5,30 @@ import {Button, Modal, Form, Alert} from 'react-bootstrap';
 import SelectorTable from '../../components/SelectorTable'
 import ModalDialog from '../../components/ModalDialog'
 import DatePicker from "react-datepicker/es";
+import InputForm from "../../components/InputForm";
 
-export default class SewaAdd extends Component {
+export default class SewaAddEdit extends Component {
     static defaultProps = {
-        title: 'Add Sewa'
+        title: 'Add Sewa',
+        isEdit: false
     }
 
     constructor(props) {
         super(props)
         this.store = this.props.store.sewaStore
+        this.store.isEdit = this.props.isEdit
+    }
+
+    rowActions = (row) => {
+        return (
+            <React.Fragment>
+                <Button className='btn-grp' size='sm' onClick={() => this.store.deleteBuku(row)}>Delete</Button>
+                <Button className='btn-grp' size='sm' onClick={() => {
+                    this.store.editBuku = row.original
+                    this.store.showEditBuku = true
+                }}>Edit</Button>
+            </React.Fragment>
+        )
     }
 
     render() {
@@ -118,26 +133,39 @@ export default class SewaAdd extends Component {
                              />}
                 />
 
+                <ModalDialog show={this.store.showEditBuku} title='Edit Buku' size='lg'
+                             closeButton={true}
+                             onHide={() => this.store.showEditBuku = false}
+                             component={<InputForm model={this.store.editBuku} ref='inputModal'
+                                                   fields={[{label: 'Judul', accessor: 'buku', placeholder: 'judul'},
+                                                       {
+                                                           label: 'Jumlah Pinjam',
+                                                           accessor: 'jumlahPinjam',
+                                                           placeholder: 'jumlah pinjam'
+                                                       }]}
+                             />}
+                             footer={<Button onClick={() => this.store.saveEditBuku()}>Save</Button>}
+                />
+
                 <ReactTable data={this.store.bukuList}
                             className='col'
                             loading={false}
                             defaultPageSize={this.props.settings.itemPerPage}
                             columns={[
-                                {Header: 'ID', accessor: 'id'},
-                                {Header: 'Nama', accessor: 'nama'},
+                                {Header: 'Judul', accessor: 'buku'},
                                 {Header: 'Penerbit', accessor: 'penerbit'},
                                 {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
                                 {Header: 'Jumlah Pinjam', accessor: 'jumlahPinjam'},
                                 {
                                     Header: 'Action',
-                                    Cell: (row) => <Button onClick={() => this.store.deleteBuku(row)}>Delete</Button>
+                                    Cell: this.rowActions
                                 },
                             ]}
                 />
 
                 <div className='buttonToolbar'>
-                    <Button onClick={() => this.store.saveSewa()}>Save</Button>
-                    <Button onClick={() => this.store.reset()}>Reset</Button>
+                    <Button onClick={() => this.store.saveSewa()} className='btn-grp'>Save</Button>
+                    <Button onClick={() => this.store.reset()} className='btn-grp'>Reset</Button>
                 </div>
             </div>
         );
