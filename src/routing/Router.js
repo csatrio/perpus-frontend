@@ -5,6 +5,7 @@ import Anggota from '../pages/Anggota'
 import Buku from '../pages/Buku'
 import Sewa from '../pages/sewa/Sewa'
 import SewaAddEdit from '../pages/sewa/SewaAddEdit'
+import Login from '../pages/Login'
 import {observer, inject} from 'mobx-react'
 
 const doInject = (component) => withRouter(inject('store', 'settings')(observer(component)))
@@ -13,6 +14,11 @@ const RoutePath =
     () => (
         <Switch>
             <Route path='/' exact component={doInject(Sample)}/>
+            <Route path='/login' exact component={doInject(Login)}/>
+            <Route path='/logout' render={() => {
+                window.localStorage.removeItem('token')
+                return React.createElement(doInject(Login), null, null)
+            }}/>
             <Route path='/anggota' component={doInject(Anggota)}/>
             <Route path='/buku' component={doInject(Buku)}/>
 

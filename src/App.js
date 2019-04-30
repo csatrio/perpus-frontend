@@ -27,6 +27,7 @@ const Navigation = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
         <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
+                <NavLink to='/login' className='nav-link'>Login</NavLink>
                 <NavLink to='/anggota' className='nav-link'>Anggota</NavLink>
                 <NavLink to='/buku' className='nav-link'>Buku</NavLink>
                 <NavLink to='/sewa' className='nav-link'>Sewa</NavLink>
@@ -37,6 +38,9 @@ const Navigation = () => {
                     <NavDropdown.Divider/>
                     <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                 </NavDropdown>
+            </Nav>
+            <Nav pullRight>
+                <NavLink to='/logout' className='nav-link'>Logout</NavLink>
             </Nav>
         </Navbar.Collapse>
     </Navbar>
