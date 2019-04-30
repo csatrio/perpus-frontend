@@ -105,7 +105,7 @@ export default class Anggota extends Component {
                                      {Header: 'Nama', accessor: 'nama'},
                                      {Header: 'Penerbit', accessor: 'penerbit'},
                                      {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
-                                     {Header: 'Acions', Cell: this.rowActions}
+                                     {Header: 'Actions', Cell: this.rowActions}
                                  ]}
                                  ref='table'
                 />
