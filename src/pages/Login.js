@@ -26,6 +26,7 @@ export default class Login extends Component {
             .then(response => {
                 window.localStorage.setItem('token', response.data.access)
             })
+        this.props.history.push('/')
     }
 
     render() {

@@ -39,7 +39,7 @@ const Navigation = () => {
                     <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
-            <Nav pullRight>
+            <Nav pullright="true">
                 <NavLink to='/logout' className='nav-link'>Logout</NavLink>
             </Nav>
         </Navbar.Collapse>
