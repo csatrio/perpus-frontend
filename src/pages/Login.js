@@ -21,11 +21,11 @@ export default class Login extends Component {
     }
 
     doLogin = () => {
-        console.log('login location : ' + window.location)
         Axios.post('http://localhost:8008/api/token/', this.state.model)
             .then(response => {
                 window.localStorage.setItem('token', response.data.access)
                 try {
+                    this.props.store.isLogin = true
                     if (!window.location.href.includes('login'))
                         this.props.history.go(-1)
                     else

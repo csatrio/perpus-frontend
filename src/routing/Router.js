@@ -19,6 +19,7 @@ const RoutePath =
                 <Route path='/login' exact component={doInject(Login)}/>
                 <Route path='/logout' render={() => {
                     window.localStorage.removeItem('token')
+                    props.store.isLogin = false
                     return React.createElement(doInject(Login), null, null)
                 }}/>
                 <Route path='/anggota' component={doInject(Anggota)}/>

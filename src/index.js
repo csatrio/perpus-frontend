@@ -22,11 +22,13 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use((response) => {
     // Do something with response data
     RouterStore.status = response.status
+    RouterStore.isLogin = true
     return response;
 }, function (error) {
     // Do something with response error
     try {
         RouterStore.status = error.response.status
+        RouterStore.isLogin = false
         // if (error.response.status === 401)
         //     window.location.assign('/login')
     }
