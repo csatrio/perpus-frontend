@@ -1,7 +1,7 @@
 import ServerDataTable from "./ServerDataTable";
 import React from "react";
 
-export default class SelectorTable extends React.Component {
+export default class SelectorTable extends React.PureComponent {
     static defaultProps = {
         url: '',
         columns: [],

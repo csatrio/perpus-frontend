@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {Button, Modal} from 'react-bootstrap';
 
-export default class ModalDialog extends Component {
+export default class ModalDialog extends PureComponent {
     static defaultProps = {
         fields: [],
         model: {},

@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import Axios from 'axios'
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import settings from '../configurations'
 
-export default class ServerDataTable extends Component {
+export default class ServerDataTable extends PureComponent {
     static defaultProps = {
         className: 'col',
         queryParam: {},

@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {Form} from 'react-bootstrap';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 
-export default class InputForm extends Component {
+export default class InputForm extends PureComponent {
     static defaultProps = {
         fields: [],
         model: {}
