@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import App from './App'
 import axios from 'axios'
-
+import RouterStore from './store'
+import {createBrowserHistory} from 'history'
 
 // Add a request interceptor
 axios.interceptors.request.use((config) => {
-    console.log('request interceptor')
     // Do something before request is sent
     config.headers.authorization = `Bearer ${window.localStorage.getItem('token')}`
     return config;
 }, (error) => {
     // Do something with request error
-    this.props.history.push('/login')
+    alert('NETWORK ERROR !!')
     return Promise.reject(error);
 });
 
@@ -21,18 +21,25 @@ axios.interceptors.request.use((config) => {
 // Add a response interceptor
 axios.interceptors.response.use((response) => {
     // Do something with response data
+    RouterStore.status = response.status
     return response;
 }, function (error) {
     // Do something with response error
-    console.log('response error interceptor: ' + JSON.stringify(error))
-    if (error.response.status === 401) window.location.assign('/login')
+    try {
+        RouterStore.status = error.response.status
+        // if (error.response.status === 401)
+        //     window.location.assign('/login')
+    }
+    catch (e) {
+        alert('API BACKEND SEEMS DOWN !!')
+    }
     return Promise.reject(error);
 });
 
 
 // Application render function
 ReactDOM.render(
-    <App/>,
+    <App store={RouterStore} history={createBrowserHistory()}/>,
     document.getElementById('root')
 );
 

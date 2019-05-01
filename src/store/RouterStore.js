@@ -1,4 +1,4 @@
-import {observable} from 'mobx';
+import {observable, computed} from 'mobx';
 import SewaStore from './SewaStore'
 import settings from '../configurations'
 
@@ -8,7 +8,13 @@ class RouterStore {
         if (settings.DEBUG) window.store = this
     }
 
+    @observable status = 200
     @observable global = {}
+
+    @computed
+    get isLoggedIn(){
+        return window.localStorage.getItem('token') !== null
+    }
 }
 
 

@@ -11,25 +11,28 @@ import {observer, inject} from 'mobx-react'
 const doInject = (component) => withRouter(inject('store', 'settings')(observer(component)))
 
 const RoutePath =
-    () => (
-        <Switch>
-            <Route path='/' exact component={doInject(Sample)}/>
-            <Route path='/login' exact component={doInject(Login)}/>
-            <Route path='/logout' render={() => {
-                window.localStorage.removeItem('token')
-                return React.createElement(doInject(Login), null, null)
-            }}/>
-            <Route path='/anggota' component={doInject(Anggota)}/>
-            <Route path='/buku' component={doInject(Buku)}/>
+    (props) => {
+        if (props.store.status === 401) props.history.push('/login')
+        return (
+            <Switch>
+                <Route path='/' exact component={doInject(Sample)}/>
+                <Route path='/login' exact component={doInject(Login)}/>
+                <Route path='/logout' render={() => {
+                    window.localStorage.removeItem('token')
+                    return React.createElement(doInject(Login), null, null)
+                }}/>
+                <Route path='/anggota' component={doInject(Anggota)}/>
+                <Route path='/buku' component={doInject(Buku)}/>
 
-            <Route exact path='/sewa' component={doInject(Sewa)}/>
-            <Route path='/sewa/add' render={() =>
-                React.createElement(doInject(SewaAddEdit), {title: 'Add Sewa'}, null)
-            }/>
-            <Route path='/sewa/edit' render={() =>
-                React.createElement(doInject(SewaAddEdit), {title: 'Edit Sewa', isEdit: true}, null)
-            }/>
-        </Switch>
-    );
+                <Route exact path='/sewa' component={doInject(Sewa)}/>
+                <Route path='/sewa/add' render={() =>
+                    React.createElement(doInject(SewaAddEdit), {title: 'Add Sewa'}, null)
+                }/>
+                <Route path='/sewa/edit' render={() =>
+                    React.createElement(doInject(SewaAddEdit), {title: 'Edit Sewa', isEdit: true}, null)
+                }/>
+            </Switch>
+        )
+    };
 
 export default RoutePath

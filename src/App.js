@@ -4,15 +4,15 @@ import {Provider} from 'mobx-react'
 import DevTools from 'mobx-react-devtools';
 import {Navbar, Nav, NavDropdown} from 'react-bootstrap'
 import logo from './logo.svg';
-
+import {observer} from 'mobx-react'
 import RoutePath from './routing/Router'
-import RouterStore from './store'
 import settings from './configurations'
+import Login from './pages/Login'
 
 require('./css/app.css')
 require('bootstrap/dist/css/bootstrap.min.css')
 
-const Navigation = () => {
+const Navigation = (props) => {
     return <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Navbar.Brand>
             <img
@@ -27,7 +27,10 @@ const Navigation = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
         <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-                <NavLink to='/login' className='nav-link'>Login</NavLink>
+                {!props.store.isLoggedIn?
+                    <React.Fragment><NavLink to={'/login'} className='nav-link'>Login</NavLink></React.Fragment>
+                    : null
+                }
                 <NavLink to='/anggota' className='nav-link'>Anggota</NavLink>
                 <NavLink to='/buku' className='nav-link'>Buku</NavLink>
                 <NavLink to='/sewa' className='nav-link'>Sewa</NavLink>
@@ -39,21 +42,26 @@ const Navigation = () => {
                     <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
-            <Nav pullright="true">
-                <NavLink to='/logout' className='nav-link'>Logout</NavLink>
-            </Nav>
+            {props.store.isLoggedIn ?
+                <Nav pullright="true">
+                    <NavLink to='/logout' className='nav-link'>Logout</NavLink>
+                </Nav>
+                : null
+            }
         </Navbar.Collapse>
     </Navbar>
 }
 
-export default class App extends Component {
+@observer
+class App extends Component {
     render() {
         return (
             <Router>
-                <Provider store={RouterStore} settings={settings}>
+                <Provider store={this.props.store} settings={settings}>
                     <React.Fragment>
-                        <Navigation/>
-                        <RoutePath/>
+                        <Navigation {...this.props}/>
+                        {this.props.store.status === 401 ? <Login history={this.props.history}/> :
+                            <RoutePath {...this.props}/>}
                         {settings.DEBUG ? <DevTools/> : null}
                     </React.Fragment>
                 </Provider>
@@ -61,3 +69,5 @@ export default class App extends Component {
         );
     }
 }
+
+export default App

@@ -15,18 +15,28 @@ export default class Login extends Component {
             model: {username: '', password: ''},
             inputFields: [
                 {label: 'Username', accessor: 'username', placeholder: 'username'},
-                {label: 'Password', accessor: 'password', placeholder: 'password', type:'password'}
+                {label: 'Password', accessor: 'password', placeholder: 'password', type: 'password'}
             ]
         }
-        this.store = this.props.store.global
     }
 
     doLogin = () => {
+        console.log('login location : ' + window.location)
         Axios.post('http://localhost:8008/api/token/', this.state.model)
             .then(response => {
                 window.localStorage.setItem('token', response.data.access)
+                try {
+                    if (!window.location.href.includes('login'))
+                        this.props.history.go(-1)
+                    else
+                        this.props.history.push('/')
+                } catch (e1) {
+
+                }
             })
-        this.props.history.push('/')
+            .catch(error => {
+                alert(JSON.stringify(error))
+            })
     }
 
     render() {
