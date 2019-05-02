@@ -9,7 +9,7 @@ import {BuildQueryParam} from '../helpers/network'
 
 export default class Anggota extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             queryParam: {},
             showEdit: false,
@@ -20,40 +20,40 @@ export default class Anggota extends Component {
                 {label: 'Umur', accessor: 'umur', placeholder: 'umur anda'},
                 {label: 'Alamat', accessor: 'alamat', placeholder: 'alamat anda'},
             ]
-        }
+        };
         this.apiUrl = 'http://localhost:8008/api/test_perpus/anggota/'
     }
 
 
     addEntry = () => {
-        this.refs.input.clearValues()
+        this.refs.input.clearValues();
         Axios.post(this.apiUrl, this.state.model)
             .then(response => {
-                console.log('Add entry response : ' + JSON.stringify(response.data))
-                this.refs.table.addRow(response.data)
+                console.log('Add entry response : ' + JSON.stringify(response.data));
+                this.refs.table.addRow(response.data);
                 this.refs.input.clearValues()
             })
-    }
+    };
 
 
     saveEdit = () => {
-        const editModel = this.state.editModel.row._original
-        this.refs.table.getData()[this.state.editModel.index] = editModel
-        const patchUrl = `${this.apiUrl}${editModel.id}/`
+        const editModel = this.state.editModel.row._original;
+        this.refs.table.getData()[this.state.editModel.index] = editModel;
+        const patchUrl = `${this.apiUrl}${editModel.id}/`;
         Axios.patch(patchUrl, editModel)
             .then(response => {
-                console.log('save edit response : ' + JSON.stringify(response.data))
-                this.refs.table.refreshRow()
+                console.log('save edit response : ' + JSON.stringify(response.data));
+                this.refs.table.refreshRow();
                 this.setState({showEdit: false})
             })
-    }
+    };
 
 
     search = () => {
         this.setState({queryParam: BuildQueryParam(this.state.model)}, () => {
             this.refs.table.fetchData()
         })
-    }
+    };
 
 
     rowActions = (row) => {
@@ -63,12 +63,12 @@ export default class Anggota extends Component {
                     this.setState({showEdit: true, editModel: row})
                 }} className='btn-grp' size='sm'>Edit</Button>
                 <Button onClick={() => {
-                    Axios.delete(`${this.apiUrl}${row.original.id}/`).catch(err=>console.log(err))
+                    Axios.delete(`${this.apiUrl}${row.original.id}/`).catch(err=>console.log(err));
                     this.refs.table.deleteRow(row)
                 }} className='btn-grp' size='sm'>Delete</Button>
             </div>
         )
-    }
+    };
 
 
     render() {

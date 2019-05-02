@@ -4,18 +4,18 @@ import "react-table/react-table.css";
 import {Alert, Button, Form} from 'react-bootstrap';
 import SelectorTable from '../../components/SelectorTable'
 import ModalDialog from '../../components/ModalDialog'
-import DatePicker from "react-datepicker/es";
+import DatePicker from "react-datepicker";
 import InputForm from "../../components/InputForm";
 
 export default class SewaAddEdit extends Component {
     static defaultProps = {
         title: 'Add Sewa',
         isEdit: false
-    }
+    };
 
     constructor(props) {
-        super(props)
-        this.store = this.props.store.sewaStore
+        super(props);
+        this.store = this.props.store.sewaStore;
         this.store.isEdit = this.props.isEdit
     }
 
@@ -24,12 +24,12 @@ export default class SewaAddEdit extends Component {
             <React.Fragment>
                 <Button className='btn-grp' size='sm' onClick={() => this.store.deleteBuku(row)}>Delete</Button>
                 <Button className='btn-grp' size='sm' onClick={() => {
-                    this.store.editBuku = row.original
+                    this.store.editBuku = row.original;
                     this.store.showEditBuku = true
                 }}>Edit</Button>
             </React.Fragment>
         )
-    }
+    };
 
     render() {
         return (
@@ -165,7 +165,7 @@ export default class SewaAddEdit extends Component {
 
                 <div className='buttonToolbar'>
                     <Button onClick={() => {
-                        this.store.saveSewa()
+                        this.store.saveSewa();
                         this.props.history.push('/sewa')
                     }} className='btn-grp'>Save</Button>
                     <Button onClick={() => this.store.reset()} className='btn-grp'>Reset</Button>

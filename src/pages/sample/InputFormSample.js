@@ -4,7 +4,7 @@ import {Button} from 'react-bootstrap';
 
 class InputFormSample extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             data: [],
             page: 1,
@@ -52,9 +52,9 @@ class InputFormSample extends Component {
 
 
     btnClick = () => {
-        console.log(JSON.stringify(this.state.model))
+        console.log(JSON.stringify(this.state.model));
         this.refs.input.isShowAlert('nama', 'tidak pas', true)
-    }
+    };
 
 
     render() {

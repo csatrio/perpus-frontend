@@ -9,8 +9,8 @@ import ModalDialog from "../../components/ModalDialog";
 
 export default class Sewa extends Component {
     constructor(props) {
-        super(props)
-        this.store = this.props.store.sewaStore
+        super(props);
+        this.store = this.props.store.sewaStore;
         this.apiUrl = 'http://localhost:8008/api/test_perpus/sewa/'
     }
 
@@ -19,26 +19,26 @@ export default class Sewa extends Component {
         return (
             <React.Fragment>
                 <Link to='sewa/edit' size='sm' onClick={() => {
-                    const store = this.store
-                    const original = row.original
-                    store.anggota = original.anggota
-                    store.tanggalPinjam = new Date(Date.parse(original.tanggal_pinjam, 'yyyy-mm-dd'))
-                    store.tanggalKembali = new Date(Date.parse(original.tanggal_kembali, 'yyyy-mm-dd'))
+                    const store = this.store;
+                    const original = row.original;
+                    store.anggota = original.anggota;
+                    store.tanggalPinjam = new Date(Date.parse(original.tanggal_pinjam, 'yyyy-mm-dd'));
+                    store.tanggalKembali = new Date(Date.parse(original.tanggal_kembali, 'yyyy-mm-dd'));
                     this.store.fetchDetail(row)
                 }}><Button className='btn-grp' size='sm'>Edit</Button></Link>
                 <Button className='btn-grp' size='sm' onClick={() => {
-                    this.store.fetchDetail(row)
+                    this.store.fetchDetail(row);
                     this.store.showDetail = true
                 }}>Detail
                 </Button>
                 <Button className='btn-grp' size='sm' onClick={() => {
-                    this.store.deleteSewa(row)
+                    this.store.deleteSewa(row);
                     this.refs.table.deleteRow(row)
                 }}>Delete
                 </Button>
             </React.Fragment>
         );
-    }
+    };
 
 
     render() {

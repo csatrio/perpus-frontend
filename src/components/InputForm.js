@@ -7,25 +7,25 @@ export default class InputForm extends PureComponent {
     static defaultProps = {
         fields: [],
         model: {}
-    }
+    };
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             dates: {}
-        }
+        };
         this.elements = {}
     }
 
     showAlert(_id, msg, valid) {
-        const id = valid ? 'valid-' + _id : 'invalid-' + _id
-        const element = document.getElementById(id)
-        element.innerHTML = msg
+        const id = valid ? 'valid-' + _id : 'invalid-' + _id;
+        const element = document.getElementById(id);
+        element.innerHTML = msg;
         element.setAttribute('style', 'display:block')
     }
 
     dismissAlert(id) {
-        document.getElementById('valid-' + id).setAttribute('style', 'display:none')
+        document.getElementById('valid-' + id).setAttribute('style', 'display:none');
         document.getElementById('invalid-' + id).setAttribute('style', 'display:none')
     }
 
@@ -35,7 +35,7 @@ export default class InputForm extends PureComponent {
 
     clearValues() {
         Object.keys(this.elements).forEach((key) => {
-            this.elements[key].current.value = ''
+            this.elements[key].current.value = '';
             this.props.model[key] = ''
         })
     }
@@ -45,8 +45,8 @@ export default class InputForm extends PureComponent {
             <Form>
                 {this.props.fields.map((item, index) => {
                     this.elements[item.accessor] = React.createRef();
-                    const elementReference = this.elements[item.accessor]
-                    const fieldType = typeof(item.type) !== 'undefined' ? item.type : 'input'
+                    const elementReference = this.elements[item.accessor];
+                    const fieldType = typeof(item.type) !== 'undefined' ? item.type : 'input';
 
                     // render select box
                     if (fieldType === 'select') {
@@ -63,7 +63,7 @@ export default class InputForm extends PureComponent {
                             >
                                 {item.options.map((option, i) => {
                                     if (typeof(option) === 'object') {
-                                        const property = Object.keys(option)[0]
+                                        const property = Object.keys(option)[0];
                                         return <option key={i + index} label={property}>{option[property]}</option>
                                     }
                                     return <option key={i + index}>{option}</option>
@@ -108,8 +108,8 @@ export default class InputForm extends PureComponent {
 
                     // render datepicker
                     else if (fieldType === 'datepicker') {
-                        const datePickerId = item.label.replace(/ /g, '-').toLowerCase()
-                        const dates = this.state.dates
+                        const datePickerId = item.label.replace(/ /g, '-').toLowerCase();
+                        const dates = this.state.dates;
                         if (typeof(dates[datePickerId]) === 'undefined') {
                             dates[datePickerId] = new Date()
                         }
@@ -121,8 +121,8 @@ export default class InputForm extends PureComponent {
                                         isClearable={true}
                                         onChange={
                                             (e) => {
-                                                dates[datePickerId] = e
-                                                this.setState({'dates': dates})
+                                                dates[datePickerId] = e;
+                                                this.setState({'dates': dates});
                                                 this.props.model[item.accessor] = e
                                             }
                                         }

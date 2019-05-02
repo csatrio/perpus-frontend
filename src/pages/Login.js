@@ -7,10 +7,10 @@ export default class Login extends Component {
 
     static defaultProps = {
         title: 'Login'
-    }
+    };
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             model: {username: '', password: ''},
             inputFields: [
@@ -23,13 +23,13 @@ export default class Login extends Component {
     doLogin = () => {
         Axios.post('http://localhost:8008/api/token/', this.state.model)
             .then(response => {
-                window.localStorage.setItem('token', response.data.access)
-                window.localStorage.setItem('refreshToken', response.data.refresh)
+                window.localStorage.setItem('token', response.data.access);
+                window.localStorage.setItem('refreshToken', response.data.refresh);
                 try {
-                    this.props.store.isLogin = true
-                    this.props.store.showAlert('Login Successful', 'You have logged in successfully!!')
+                    this.props.store.isLogin = true;
+                    this.props.store.showAlert('Login Successful', 'You have logged in successfully!!');
                     if (!window.location.href.includes('login'))
-                        this.props.history.go(-1)
+                        this.props.history.go(-1);
                     else
                         this.props.history.push('/')
                 } catch (e1) {
@@ -38,11 +38,11 @@ export default class Login extends Component {
             })
             .catch((e) => {
                 try {
-                    this.props.store.isLogin = false
+                    this.props.store.isLogin = false;
                     this.props.store.showAlert('Login Failure', 'Wrong username / password combination', true)
                 } catch(e2){}
             })
-    }
+    };
 
     render() {
         return (

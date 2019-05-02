@@ -14,7 +14,7 @@ class SewaDetail extends Component {
         onHide: () => {
             alert('onHide not set !')
         }
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -26,7 +26,7 @@ class SewaDetail extends Component {
     }
 
     fetchDetail = (state, instance) => {
-        this.setState({loading: true})
+        this.setState({loading: true});
         Axios.get('http://localhost:8008/api/test_perpus/ds/', {
             params: {
                 sewa_id: this.props.sewaId,
@@ -39,7 +39,7 @@ class SewaDetail extends Component {
                     loading: false
                 })
             })
-    }
+    };
 
     render() {
         return (

@@ -1,10 +1,10 @@
-const _ = require('lodash');
+import CloneDeep from 'lodash/cloneDeep';
 
 function CreateSnapshot(instance) {
-    instance.snapshot = {}
+    instance.snapshot = {};
     Object.getOwnPropertyNames(instance.__proto__).forEach(key => {
         if (key !== 'constructor')
-            instance.snapshot[key] = _.cloneDeep(instance[key])
+            instance.snapshot[key] = CloneDeep(instance[key])
     })
 }
 
@@ -16,10 +16,6 @@ function RestoreSnapshot(instance) {
     } else {
         throw new Error('Snapshot did not exist, cannot restore !!')
     }
-}
-
-function CloneDeep(obj){
-    return _.cloneDeep(obj)
 }
 
 export {CreateSnapshot, RestoreSnapshot, CloneDeep}

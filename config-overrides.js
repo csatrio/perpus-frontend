@@ -1,13 +1,14 @@
-const {disableEsLint, addDecoratorsLegacy, override, overrideDevServer, watchAll} = require('customize-cra')
+const {disableEsLint, addDecoratorsLegacy, override, overrideDevServer, watchAll, addBundleVisualizer}
+= require('customize-cra');
 
 module.exports = {
     webpack: override(
         disableEsLint(),
-        addDecoratorsLegacy()
+        addDecoratorsLegacy(),
+        addBundleVisualizer()
     ),
     devServer: overrideDevServer(
         // dev server plugin
         watchAll()
     )
-}
-
+};

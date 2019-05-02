@@ -6,13 +6,13 @@ import axios from 'axios'
 import RouterStore from './store'
 import {createBrowserHistory} from 'history'
 
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
 // Add a request interceptor
 axios.interceptors.request.use((config) => {
     // Do something before request is sent
-    const token = window.localStorage.getItem('token')
-    if (token !== null) config.headers.authorization = `Bearer ${token}`
+    const token = window.localStorage.getItem('token');
+    if (token !== null) config.headers.authorization = `Bearer ${token}`;
     return config;
 }, (error) => {
     // Do something with request error
@@ -23,13 +23,13 @@ axios.interceptors.request.use((config) => {
 // Add a response interceptor
 axios.interceptors.response.use((response) => {
     // Do something with response data
-    RouterStore.status = response.status
-    RouterStore.isLogin = true
+    RouterStore.status = response.status;
+    RouterStore.isLogin = true;
     return response;
 }, function (error) {
     // Do something with response error
     try {
-        RouterStore.status = error.response.status
+        RouterStore.status = error.response.status;
         RouterStore.isLogin = false
         // if (error.response.status === 401)
         //     window.location.assign('/login')

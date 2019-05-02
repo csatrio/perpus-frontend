@@ -13,7 +13,7 @@ export default class ModalDialog extends PureComponent {
         closeButton: false,
         onHide: () => {
         }
-    }
+    };
 
     render() {
         return (

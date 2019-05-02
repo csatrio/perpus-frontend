@@ -1,5 +1,7 @@
 import React from 'react';
-import {Route, Switch, withRouter} from 'react-router-dom';
+import Switch from 'react-router-dom/Switch';
+import Route from 'react-router-dom/Route'
+import withRouter from 'react-router-dom/withRouter'
 import Sample from '../pages/sample/Sample';
 import Anggota from '../pages/Anggota'
 import Buku from '../pages/Buku'
@@ -8,20 +10,20 @@ import SewaAddEdit from '../pages/sewa/SewaAddEdit'
 import Login from '../pages/Login'
 import {inject, observer} from 'mobx-react'
 
-const doInject = (component) => withRouter(inject('store', 'settings')(observer(component)))
-const ProtectedRoute = (props) => <Route exact={props.exact} path={props.path} component={doInject(props.component)}/>
+const doInject = (component) => withRouter(inject('store', 'settings')(observer(component)));
+const ProtectedRoute = (props) => <Route exact={props.exact} path={props.path} component={doInject(props.component)}/>;
 
 const RoutePath =
     (props) => {
-        if (!props.store.hasValidToken) props.history.push('/login')
+        if (!props.store.hasValidToken) props.history.push('/login');
         return (
             <Switch>
                 <ProtectedRoute path='/' exact component={Sample}/>
                 <ProtectedRoute path='/login' exact component={Login}/>
                 <Route path='/logout' render={() => {
-                    window.localStorage.removeItem('token')
-                    props.store.isLogin = false
-                    props.store.showAlert('Logout Successful', 'You have logged out successfully!!')
+                    window.localStorage.removeItem('token');
+                    props.store.isLogin = false;
+                    props.store.showAlert('Logout Successful', 'You have logged out successfully!!');
                     return React.createElement(doInject(Login), null, null)
                 }}/>
                 <ProtectedRoute path='/anggota' component={Anggota}/>

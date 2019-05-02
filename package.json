@@ -33,10 +33,11 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "react-app-rewired": "^2.1.2",
-    "customize-cra": "^0.2.12",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-proposal-decorators": "^7.4.0",
-    "mobx-react-devtools": "^6.1.1"
+    "customize-cra": "^0.2.12",
+    "mobx-react-devtools": "^6.1.1",
+    "react-app-rewired": "^2.1.2",
+    "webpack-bundle-analyzer": "^3.3.2"
   }
 }

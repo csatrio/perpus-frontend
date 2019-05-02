@@ -10,10 +10,10 @@ export default class ServerDataTable extends PureComponent {
         queryParam: {},
         columns: [],
         url: ''
-    }
+    };
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             data: [],
             page: 1,
@@ -23,12 +23,12 @@ export default class ServerDataTable extends PureComponent {
     }
 
     fetchData = (state = null, instance = null) => {
-        this.setState({loading: true})
+        this.setState({loading: true});
         const _params = {
             page: state !== null ? Math.min(state.page + 1, this.state.pages) : 1,
             per_page: state !== null ? state.pageSize : settings.itemPerPage
-        }
-        Object.keys(this.props.queryParam).forEach(key => _params[key] = this.props.queryParam[key])
+        };
+        Object.keys(this.props.queryParam).forEach(key => _params[key] = this.props.queryParam[key]);
         Axios.get(this.props.url, {
             params: _params
         })
@@ -39,25 +39,25 @@ export default class ServerDataTable extends PureComponent {
                     loading: false
                 })
             })
-    }
+    };
 
     getData = () => {
         return this.state.data;
-    }
+    };
 
     addRow = (row) => {
-        this.state.data.unshift(row)
+        this.state.data.unshift(row);
         this.setState({data: this.state.data.slice()})
-    }
+    };
 
     deleteRow = (row) => {
-        this.state.data.splice(row.index, 1)
+        this.state.data.splice(row.index, 1);
         this.setState({data: this.state.data.slice()})
-    }
+    };
 
     refreshRow = ()=>{
         this.setState({data: this.state.data.slice()})
-    }
+    };
 
     render() {
         return (

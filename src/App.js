@@ -8,8 +8,8 @@ import RoutePath from './routing/Router'
 import settings from './configurations'
 import Login from './pages/Login'
 
-require('./css/app.css')
-require('bootstrap/dist/css/bootstrap.min.css')
+require('./css/app.css');
+require('bootstrap/dist/css/bootstrap.min.css');
 
 
 @observer
