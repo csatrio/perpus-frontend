@@ -1,4 +1,4 @@
-import {observable, computed, action} from 'mobx';
+import {action, computed, observable} from 'mobx';
 import SewaStore from './SewaStore'
 import settings from '../configurations'
 

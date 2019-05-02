@@ -1,12 +1,12 @@
 import React from 'react';
-import {Switch, Route, withRouter} from 'react-router-dom';
+import {Route, Switch, withRouter} from 'react-router-dom';
 import Sample from '../pages/sample/Sample';
 import Anggota from '../pages/Anggota'
 import Buku from '../pages/Buku'
 import Sewa from '../pages/sewa/Sewa'
 import SewaAddEdit from '../pages/sewa/SewaAddEdit'
 import Login from '../pages/Login'
-import {observer, inject} from 'mobx-react'
+import {inject, observer} from 'mobx-react'
 
 const doInject = (component) => withRouter(inject('store', 'settings')(observer(component)))
 const ProtectedRoute = (props) => <Route exact={props.exact} path={props.path} component={doInject(props.component)}/>

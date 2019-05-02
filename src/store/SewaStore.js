@@ -1,7 +1,7 @@
-import {observable, action} from 'mobx';
+import {action, observable} from 'mobx';
 import Axios from 'axios'
 import {formatDate} from "../helpers/util";
-import {CreateSnapshot, RestoreSnapshot, CloneDeep} from '../helpers/reflections'
+import {CloneDeep, CreateSnapshot, RestoreSnapshot} from '../helpers/reflections'
 
 export default class SewaStore {
     @observable

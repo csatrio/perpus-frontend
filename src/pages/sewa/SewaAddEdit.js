@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import {Button, Modal, Form, Alert} from 'react-bootstrap';
+import {Alert, Button, Form} from 'react-bootstrap';
 import SelectorTable from '../../components/SelectorTable'
 import ModalDialog from '../../components/ModalDialog'
 import DatePicker from "react-datepicker/es";

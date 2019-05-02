@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, NavLink} from 'react-router-dom';
-import {Provider} from 'mobx-react'
+import {observer, Provider} from 'mobx-react'
 import DevTools from 'mobx-react-devtools';
-import {Navbar, Nav, NavDropdown, Alert} from 'react-bootstrap'
+import {Alert, Nav, Navbar, NavDropdown} from 'react-bootstrap'
 import logo from './logo.svg';
-import {observer} from 'mobx-react'
 import RoutePath from './routing/Router'
 import settings from './configurations'
 import Login from './pages/Login'
@@ -82,7 +81,7 @@ class App extends Component {
                     <React.Fragment>
                         <Navigation {...this.props}/>
                         <MessageDialog {...this.props}/>
-                        {this.props.store.status === 401 ? <Login history={this.props.history}/> :
+                        {!this.props.store.isLogin ? <Login history={this.props.history}/> :
                             <RoutePath {...this.props}/>}
                         {settings.DEBUG ? <DevTools/> : null}
                     </React.Fragment>
