@@ -9,23 +9,24 @@ import Login from '../pages/Login'
 import {observer, inject} from 'mobx-react'
 
 const doInject = (component) => withRouter(inject('store', 'settings')(observer(component)))
+const ProtectedRoute = (props) => <Route exact={props.exact} path={props.path} component={doInject(props.component)}/>
 
 const RoutePath =
     (props) => {
-        if (props.store.status === 401) props.history.push('/login')
+        if (!props.store.hasValidToken) props.history.push('/login')
         return (
             <Switch>
-                <Route path='/' exact component={doInject(Sample)}/>
-                <Route path='/login' exact component={doInject(Login)}/>
+                <ProtectedRoute path='/' exact component={Sample}/>
+                <ProtectedRoute path='/login' exact component={Login}/>
                 <Route path='/logout' render={() => {
                     window.localStorage.removeItem('token')
                     props.store.isLogin = false
+                    props.store.showAlert('Logout Successful', 'You have logged out successfully!!')
                     return React.createElement(doInject(Login), null, null)
                 }}/>
-                <Route path='/anggota' component={doInject(Anggota)}/>
-                <Route path='/buku' component={doInject(Buku)}/>
-
-                <Route exact path='/sewa' component={doInject(Sewa)}/>
+                <ProtectedRoute path='/anggota' component={Anggota}/>
+                <ProtectedRoute path='/buku' component={Buku}/>
+                <ProtectedRoute exact path='/sewa' component={Sewa}/>
                 <Route path='/sewa/add' render={() =>
                     React.createElement(doInject(SewaAddEdit), {title: 'Add Sewa'}, null)
                 }/>

@@ -1,10 +1,12 @@
-import {observable, computed} from 'mobx';
+import {observable, computed, action} from 'mobx';
 import SewaStore from './SewaStore'
 import settings from '../configurations'
 
+const jwt = require('jsonwebtoken')
+
 class RouterStore {
     constructor() {
-        this.isLogin = !!this.hasToken
+        this.isLogin = !!this.hasValidToken
         this.sewaStore = this.sewaStore || new SewaStore()
         if (settings.DEBUG) window.store = this
     }
@@ -13,9 +15,33 @@ class RouterStore {
     @observable isLogin = false
     @observable global = {}
 
+    // Global Alert System
+    @observable isShowAlert = false
+    @observable alertMessage = ''
+    @observable alertTitle = ''
+    @observable isAlertError = false
+
+    @action
+    hideAlert = () => {
+        this.isShowAlert = false
+        this.alertMessage = ''
+        this.alertTitle = ''
+        this.isAlertError = false
+    }
+
+    @action
+    showAlert = (title = 'Message', message, isAlertError = false) => {
+        this.isShowAlert = true
+        this.alertTitle = title
+        this.alertMessage = message
+        this.isAlertError = isAlertError
+    }
+
     @computed
-    get hasToken() {
-        return window.localStorage.getItem('token') !== null
+    get hasValidToken() {
+        const token = window.localStorage.getItem('token')
+        if (token === null) return false
+        return Date.now() < (jwt.decode(token).exp * 1000)
     }
 }
 

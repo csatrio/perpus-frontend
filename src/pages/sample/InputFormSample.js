@@ -53,7 +53,7 @@ class InputFormSample extends Component {
 
     btnClick = () => {
         console.log(JSON.stringify(this.state.model))
-        this.refs.input.showAlert('nama', 'tidak pas', true)
+        this.refs.input.isShowAlert('nama', 'tidak pas', true)
     }
 
 

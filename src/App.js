@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {BrowserRouter as Router, NavLink} from 'react-router-dom';
 import {Provider} from 'mobx-react'
 import DevTools from 'mobx-react-devtools';
-import {Navbar, Nav, NavDropdown} from 'react-bootstrap'
+import {Navbar, Nav, NavDropdown, Alert} from 'react-bootstrap'
 import logo from './logo.svg';
 import {observer} from 'mobx-react'
 import RoutePath from './routing/Router'
@@ -30,7 +30,7 @@ class Navigation extends Component {
             <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
-                    {this.props.store.isLogin === false ?
+                    {!this.props.store.isLogin ?
                         <React.Fragment><NavLink to={'/login'} className='nav-link'>Login</NavLink></React.Fragment>
                         : null
                     }
@@ -45,7 +45,7 @@ class Navigation extends Component {
                         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
-                {this.props.store.isLogin === true ?
+                {this.props.store.isLogin ?
                     <Nav pullright="true">
                         <NavLink to='/logout' className='nav-link'>Logout</NavLink>
                     </Nav>
@@ -58,6 +58,22 @@ class Navigation extends Component {
 
 
 @observer
+class MessageDialog extends Component {
+    render() {
+        return (
+            <Alert dismissible
+                   style={{marginBottom: '0px'}}
+                   show={this.props.store.isShowAlert} onClose={this.props.store.hideAlert}
+                   variant={this.props.store.isAlertError ? 'danger' : 'success'}>
+                <Alert.Heading className='d-flex justify-content-center'>{this.props.store.alertTitle}</Alert.Heading>
+                <p className='d-flex justify-content-center'>{this.props.store.alertMessage}</p>
+            </Alert>
+        )
+    }
+}
+
+
+@observer
 class App extends Component {
     render() {
         return (
@@ -65,6 +81,7 @@ class App extends Component {
                 <Provider store={this.props.store} settings={settings}>
                     <React.Fragment>
                         <Navigation {...this.props}/>
+                        <MessageDialog {...this.props}/>
                         {this.props.store.status === 401 ? <Login history={this.props.history}/> :
                             <RoutePath {...this.props}/>}
                         {settings.DEBUG ? <DevTools/> : null}
@@ -74,5 +91,6 @@ class App extends Component {
         );
     }
 }
+
 
 export default App

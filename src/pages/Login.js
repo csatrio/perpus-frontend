@@ -24,8 +24,10 @@ export default class Login extends Component {
         Axios.post('http://localhost:8008/api/token/', this.state.model)
             .then(response => {
                 window.localStorage.setItem('token', response.data.access)
+                window.localStorage.setItem('refreshToken', response.data.refresh)
                 try {
                     this.props.store.isLogin = true
+                    this.props.store.showAlert('Login Successful', 'You have logged in successfully!!')
                     if (!window.location.href.includes('login'))
                         this.props.history.go(-1)
                     else
@@ -34,8 +36,11 @@ export default class Login extends Component {
 
                 }
             })
-            .catch(error => {
-                alert(JSON.stringify(error))
+            .catch((e) => {
+                try {
+                    this.props.store.isLogin = false
+                    this.props.store.showAlert('Login Failure', 'Wrong username / password combination', true)
+                } catch(e2){}
             })
     }
 

@@ -6,14 +6,16 @@ import axios from 'axios'
 import RouterStore from './store'
 import {createBrowserHistory} from 'history'
 
+const jwt = require('jsonwebtoken')
+
 // Add a request interceptor
 axios.interceptors.request.use((config) => {
     // Do something before request is sent
-    config.headers.authorization = `Bearer ${window.localStorage.getItem('token')}`
+    const token = window.localStorage.getItem('token')
+    if (token !== null) config.headers.authorization = `Bearer ${token}`
     return config;
 }, (error) => {
     // Do something with request error
-    alert('NETWORK ERROR !!')
     return Promise.reject(error);
 });
 
