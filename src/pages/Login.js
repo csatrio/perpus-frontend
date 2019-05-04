@@ -21,26 +21,32 @@ export default class Login extends Component {
     }
 
     doLogin = () => {
+        const currentPath = window.location.href.replace(window.location.origin, '')
         Axios.post('http://localhost:8008/api/token/', this.state.model)
             .then(response => {
                 window.localStorage.setItem('token', response.data.access);
                 window.localStorage.setItem('refreshToken', response.data.refresh);
                 try {
                     this.props.store.isLogin = true;
-                    this.props.store.showAlert('Login Successful', 'You have logged in successfully!!');
-                    if (!window.location.href.includes('login'))
-                        this.props.history.go(-1);
-                    else
+                    this.props.store.showAlert('Login Successful', 'You have logged in successfully!!',
+                        false, this.props.settings.AlertDismissTimeout);
+                    if (!currentPath.includes('login')) {
+                        this.props.history.push(currentPath)
+                    }
+                    else {
                         this.props.history.push('/')
-                } catch (e1) {
+                    }
 
+                } catch (e1) {
+                    console.log(e1)
                 }
             })
             .catch((e) => {
                 try {
                     this.props.store.isLogin = false;
                     this.props.store.showAlert('Login Failure', 'Wrong username / password combination', true)
-                } catch(e2){}
+                } catch (e2) {
+                }
             })
     };
 

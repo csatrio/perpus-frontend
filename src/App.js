@@ -44,12 +44,16 @@ class Navigation extends Component {
                         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
-                {this.props.store.isLogin ?
-                    <Nav pullright="true">
+
+                <Nav pullright="true">
+                    <Navbar.Text>{this.props.store.username}</Navbar.Text>
+                    {this.props.store.isLogin ?
                         <NavLink to='/logout' className='nav-link'>Logout</NavLink>
-                    </Nav>
-                    : null
-                }
+                        : null
+                    }
+                </Nav>
+
+
             </Navbar.Collapse>
         </Navbar>
     }
@@ -81,8 +85,7 @@ class App extends Component {
                     <React.Fragment>
                         <Navigation {...this.props}/>
                         <MessageDialog {...this.props}/>
-                        {!this.props.store.isLogin ? <Login history={this.props.history}/> :
-                            <RoutePath {...this.props}/>}
+                        <RoutePath {...this.props} settings={settings}/>
                         {settings.DEBUG ? <DevTools/> : null}
                     </React.Fragment>
                 </Provider>
