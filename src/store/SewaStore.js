@@ -29,8 +29,8 @@ export default class SewaStore {
     @observable showDetail = false;
     @observable alertTitle = 'Notification';
     @observable alertMsg = '';
-    @observable tanggalPinjam = new Date();
-    @observable tanggalKembali = new Date();
+    @observable tanggalPinjam = formatDate(new Date());
+    @observable tanggalKembali = formatDate(new Date());
     @observable idSewa = null;
 
     constructor() {
@@ -112,8 +112,8 @@ export default class SewaStore {
     saveSewa = () => {
         const data = {
             anggota: this.anggota,
-            tanggalPinjam: formatDate(this.tanggalPinjam),
-            tanggalKembali: formatDate(this.tanggalKembali),
+            tanggalPinjam: this.tanggalPinjam,
+            tanggalKembali: this.tanggalKembali,
             buku: this.bukuList,
         };
         if (this.idSewa !== null && this.isEdit) {

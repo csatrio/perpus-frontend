@@ -49,7 +49,7 @@ export default class SewaAddEdit extends Component {
                 <Form.Group className='row'>
                     <Form.Label className='col-sm-2'>Tanggal Pinjam</Form.Label>
                     <DatePicker className='col-sm-10'
-                                onChange={
+                                onChangeFormatted={
                                     (e) => {
                                         this.store.tanggalPinjam = e
                                     }
@@ -57,7 +57,7 @@ export default class SewaAddEdit extends Component {
                     />
                     <Form.Label className='col-sm-2'>Tanggal Kembali</Form.Label>
                     <DatePicker className='col-sm-10'
-                                onChange={
+                                onChangeFormatted={
                                     (e) => {
                                         this.store.tanggalKembali = e
                                     }

@@ -4,7 +4,6 @@ import * as serviceWorker from './serviceWorker';
 import App from './App'
 import axios from 'axios'
 import RouterStore from './store'
-import {createBrowserHistory} from 'history'
 
 const jwt = require('jsonwebtoken');
 
@@ -43,7 +42,7 @@ axios.interceptors.response.use((response) => {
 
 // Application render function
 ReactDOM.render(
-    <App store={RouterStore} history={createBrowserHistory()}/>,
+    <App store={RouterStore}/>,
     document.getElementById('root')
 );
 
