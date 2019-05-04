@@ -1,4 +1,4 @@
-import {action, computed, observable} from 'mobx'
+import {action, observable} from 'mobx'
 import SewaStore from './SewaStore'
 import settings from '../configurations'
 import jwt_decode from 'jsonwebtoken/decode'

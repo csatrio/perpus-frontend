@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, withRouter, Redirect} from 'react-router-dom'
+import {Redirect, Route, Switch, withRouter} from 'react-router-dom'
 import Sample from '../pages/sample/Sample';
 import Anggota from '../pages/Anggota'
 import Buku from '../pages/Buku'

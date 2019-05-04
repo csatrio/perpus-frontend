@@ -4,7 +4,7 @@ import "react-table/react-table.css";
 import {Alert, Button, Form} from 'react-bootstrap';
 import SelectorTable from '../../components/SelectorTable'
 import ModalDialog from '../../components/ModalDialog'
-import DatePicker from "react-datepicker";
+import DatePicker from "../../components/DatePicker";
 import InputForm from "../../components/InputForm";
 
 export default class SewaAddEdit extends Component {
@@ -49,27 +49,19 @@ export default class SewaAddEdit extends Component {
                 <Form.Group className='row'>
                     <Form.Label className='col-sm-2'>Tanggal Pinjam</Form.Label>
                     <DatePicker className='col-sm-10'
-                                dateFormat="yyyy-MM-dd"
-                                selected={this.store.tanggalPinjam}
-                                isClearable={true}
                                 onChange={
                                     (e) => {
                                         this.store.tanggalPinjam = e
                                     }
                                 }
-                                placeholderText='click to select date'
                     />
                     <Form.Label className='col-sm-2'>Tanggal Kembali</Form.Label>
                     <DatePicker className='col-sm-10'
-                                dateFormat="yyyy-MM-dd"
-                                selected={this.store.tanggalKembali}
-                                isClearable={true}
                                 onChange={
                                     (e) => {
                                         this.store.tanggalKembali = e
                                     }
                                 }
-                                placeholderText='click to select date'
                     />
                 </Form.Group>
 

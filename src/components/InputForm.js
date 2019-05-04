@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react';
 import {Form} from 'react-bootstrap';
-import DatePicker from 'react-datepicker'
-import "react-datepicker/dist/react-datepicker.css"
+import DatePicker from '../components/DatePicker'
 
 export default class InputForm extends PureComponent {
     static defaultProps = {
@@ -11,9 +10,6 @@ export default class InputForm extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {
-            dates: {}
-        };
         this.elements = {}
     }
 
@@ -108,24 +104,12 @@ export default class InputForm extends PureComponent {
 
                     // render datepicker
                     else if (fieldType === 'datepicker') {
-                        const datePickerId = item.label.replace(/ /g, '-').toLowerCase();
-                        const dates = this.state.dates;
-                        if (typeof(dates[datePickerId]) === 'undefined') {
-                            dates[datePickerId] = new Date()
-                        }
                         return <Form.Group className='row' key={index}>
                             <Form.Label className='col-sm-2'>{item.label}</Form.Label>
                             <DatePicker className='col-sm-10'
-                                        dateFormat="yyyy-MM-dd"
-                                        selected={dates[datePickerId]}
-                                        isClearable={true}
-                                        onChange={
-                                            (e) => {
-                                                dates[datePickerId] = e;
-                                                this.setState({'dates': dates});
-                                                this.props.model[item.accessor] = e
-                                            }
-                                        }
+                                        onChangeFormatted={(e)=>{
+                                            this.props.model[item.accessor] = e
+                                        }}
                                         ref={elementReference}
                                         placeholderText='click to select date'
                             />
