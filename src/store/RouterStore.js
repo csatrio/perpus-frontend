@@ -39,12 +39,35 @@ class RouterStore {
             setTimeout(() => this.hideAlert(), hideAfter)
     }
 
+    @action
+    loginAction = (token) => {
+        const decoded = jwt_decode(token.access)
+        this.username = decoded.user
+        this.isLogin = true
+        this.showAlert('Login Successful', 'You have logged in successfully!!',
+            false, settings.AlertDismissTimeout);
+    }
+
+    @action
+    logoutAction = () => {
+        window.localStorage.removeItem('token');
+        this.username = ''
+        this.isLogin = false;
+        this.showAlert('Logout Successful', 'You have logged out successfully!!',
+            false, settings.AlertDismissTimeout)
+    }
+
     get hasValidToken() {
         const token = window.localStorage.getItem('token')
-        if (token === null) return false
+        if (token === null) {
+            this.username = ''
+            return false
+        }
         const decoded = jwt_decode(token)
         this.username = decoded.user
-        return Date.now() < (decoded.exp * 1000)
+        const isValid = Date.now() < (decoded.exp * 1000)
+        if (!isValid) this.username = ''
+        return isValid
     }
 }
 

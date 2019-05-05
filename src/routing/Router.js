@@ -27,10 +27,7 @@ const RoutePath =
                 <Route path='/' exact component={Sample}/>
                 <Route path='/login' exact component={doInject(Login)}/>
                 <Route path='/logout' render={() => {
-                    window.localStorage.removeItem('token');
-                    props.store.isLogin = false;
-                    props.store.showAlert('Logout Successful', 'You have logged out successfully!!',
-                        false, props.settings.AlertDismissTimeout);
+                    props.store.logoutAction()
                     return <Redirect to='/login'/>
                 }}/>
                 <ProtectedRoute path='/anggota' component={Anggota}/>

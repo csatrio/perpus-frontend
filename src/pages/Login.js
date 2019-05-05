@@ -27,9 +27,7 @@ export default class Login extends Component {
                 window.localStorage.setItem('token', response.data.access);
                 window.localStorage.setItem('refreshToken', response.data.refresh);
                 try {
-                    this.props.store.isLogin = true;
-                    this.props.store.showAlert('Login Successful', 'You have logged in successfully!!',
-                        false, this.props.settings.AlertDismissTimeout);
+                    this.props.store.loginAction(response.data)
                     if (!currentPath.includes('login')) {
                         this.props.history.push(currentPath)
                     }
