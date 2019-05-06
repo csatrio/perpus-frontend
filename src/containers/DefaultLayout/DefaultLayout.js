@@ -22,11 +22,12 @@ import {inject, observer} from "mobx-react";
 import RouterStore from "../../store/RouterStore";
 import Login from "../../pages/Login";
 
-const DefaultAside = React.lazy(() => import('./DefaultAside'));
-const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
-const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 const doInject = (component) => withRouter(inject('store', 'settings')(observer(component)));
+
+const DefaultAside = doInject(React.lazy(() => import('./DefaultAside')));
+const DefaultFooter = doInject(React.lazy(() => import('./DefaultFooter')));
+const DefaultHeader = doInject(React.lazy(() => import('./DefaultHeader')));
 
 class DefaultLayout extends Component {
 
@@ -78,7 +79,7 @@ class DefaultLayout extends Component {
                                                 }}/>
                                         ) : (null);
                                     })}
-                                    <Redirect from="/" to="/dashboard"/>
+                                    <Redirect from="/dashboard" to="/"/>
                                 </Switch>
                             </Suspense>
                         </Container>
@@ -99,4 +100,4 @@ class DefaultLayout extends Component {
     }
 }
 
-export default DefaultLayout;
+export default doInject(DefaultLayout);
