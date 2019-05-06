@@ -33,7 +33,7 @@ export default class SewaAddEdit extends Component {
 
     render() {
         return (
-            <div className='container'>
+            <React.Fragment>
                 <h3 style={{textAlign: 'center'}}>{this.props.title}</h3>
 
                 <FormGroup className='row'>
@@ -152,7 +152,7 @@ export default class SewaAddEdit extends Component {
                     }} className='btn-grp'>Save</Button>
                     <Button onClick={() => this.store.reset()} className='btn-grp'>Reset</Button>
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

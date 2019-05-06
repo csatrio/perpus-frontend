@@ -43,7 +43,7 @@ export default class Sewa extends Component {
 
     render() {
         return (
-            <div className='container'>
+            <React.Fragment>
                 <h3 style={{textAlign: 'center'}}>Sewa List</h3>
 
                 <Link to='/sewa/add' className='buttonToolbar'><Button>Add</Button></Link>
@@ -72,7 +72,7 @@ export default class Sewa extends Component {
                                  ]}
                                  ref='table'
                 />
-            </div>
+            </React.Fragment>
         );
     }
 }

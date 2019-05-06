@@ -73,7 +73,7 @@ export default class Anggota extends Component {
 
     render() {
         return (
-            <div className='container'>
+            <React.Fragment>
                 <h3 style={{textAlign: 'center'}}>Anggota List</h3>
                 <InputForm model={this.state.model} ref='input'
                            fields={this.state.inputFields}
@@ -104,7 +104,7 @@ export default class Anggota extends Component {
                                  ]}
                                  ref='table'
                 />
-            </div>
+            </React.Fragment>
         );
     }
 }

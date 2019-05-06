@@ -50,7 +50,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className='container'>
+            <React.Fragment>
                 <div className='container-fluid'>
                     <h3 style={{textAlign: 'center'}}>{this.props.title}</h3>
                     <InputForm model={this.state.model} ref='input'
@@ -61,7 +61,7 @@ export default class Login extends Component {
                 <div className='buttonToolbar'>
                     <Button className='btn-grp' onClick={this.doLogin}>Submit</Button>
                 </div>
-            </div>
+            </React.Fragment>
         )
     }
 }
