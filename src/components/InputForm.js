@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Form} from 'react-bootstrap';
+import {Form, FormGroup, Input, Label} from 'reactstrap';
 import DatePicker from '../components/DatePicker'
 
 export default class InputForm extends PureComponent {
@@ -46,9 +46,9 @@ export default class InputForm extends PureComponent {
 
                     // render select box
                     if (fieldType === 'select') {
-                        return <Form.Group className='row' key={index}>
-                            <Form.Label className='col-sm-2'>{item.label}</Form.Label>
-                            <Form.Control className='col-sm-10' as='select' type={fieldType}
+                        return <FormGroup className='row' key={index}>
+                            <Label className='col-sm-2'>{item.label}</Label>
+                            <Input className='col-sm-10' type={fieldType}
                                           defaultValue={this.props.model[item.accessor]}
                                           onChange={
                                               (e) => {
@@ -64,48 +64,48 @@ export default class InputForm extends PureComponent {
                                     }
                                     return <option key={i + index}>{option}</option>
                                 })}
-                            </Form.Control>
-                        </Form.Group>
+                            </Input>
+                        </FormGroup>
                     }
 
                     // render checkbox
                     else if (fieldType === 'checkbox') {
                         return <React.Fragment key={index}>
-                            <Form.Label>{item.label}</Form.Label>
-                            <Form.Group className='col' ref={elementReference}>
+                            <Label>{item.label}</Label>
+                            <FormGroup className='col' ref={elementReference}>
                                 <div className='row'>{item.options.map((chk, i) => {
-                                    return <Form.Check className='col-sm-4' type='checkbox' key={i + index}
+                                    return <Input className='col-sm-4' type='checkbox' key={i + index}
                                                        name={item.label}
                                                        defaultValue={chk.value}
                                                        onChange={() => this.props.model[chk.accessor] = chk.value}
                                                        label={chk.label}
                                     />
                                 })}</div>
-                            </Form.Group>
+                            </FormGroup>
                         </React.Fragment>
                     }
 
                     // render radio
                     else if (fieldType === 'radio') {
                         return <React.Fragment key={index}>
-                            <Form.Label>{item.label}</Form.Label>
-                            <Form.Group className='col' ref={elementReference}>
+                            <Label>{item.label}</Label>
+                            <FormGroup className='col' ref={elementReference}>
                                 <div className='row'>{item.options.map((chk, i) => {
-                                    return <Form.Check className='col-sm-4' type='radio' key={i + index}
+                                    return <Input className='col-sm-4' type='radio' key={i + index}
                                                        name={item.label}
                                                        defaultValue={chk.value}
                                                        onChange={() => this.props.model[item.accessor] = chk.value}
                                                        label={chk.label}
                                     />
                                 })}</div>
-                            </Form.Group>
+                            </FormGroup>
                         </React.Fragment>
                     }
 
                     // render datepicker
                     else if (fieldType === 'datepicker') {
-                        return <Form.Group className='row' key={index}>
-                            <Form.Label className='col-sm-2'>{item.label}</Form.Label>
+                        return <FormGroup className='row' key={index}>
+                            <Label className='col-sm-2'>{item.label}</Label>
                             <DatePicker className='col-sm-10'
                                         onChangeFormatted={(e)=>{
                                             this.props.model[item.accessor] = e
@@ -113,14 +113,14 @@ export default class InputForm extends PureComponent {
                                         ref={elementReference}
                                         placeholderText='click to select date'
                             />
-                        </Form.Group>
+                        </FormGroup>
                     }
 
                     // render regular input
-                    return <Form.Group className='row' key={index}>
+                    return <FormGroup className='row' key={index}>
 
-                        <Form.Label className='col-sm-2'>{item.label}</Form.Label>
-                        <Form.Control className='col-sm-10' type={fieldType}
+                        <Label className='col-sm-2'>{item.label}</Label>
+                        <Input className='col-sm-10' type={fieldType}
                                       defaultValue={this.props.model[item.accessor]}
                                       onChange={
                                           (e) => {
@@ -136,7 +136,7 @@ export default class InputForm extends PureComponent {
                         <div id={'invalid-' + item.accessor}
                              className='col invalid-feedback'>Validation Error
                         </div>
-                    </Form.Group>
+                    </FormGroup>
                 })}
             </Form>
         );

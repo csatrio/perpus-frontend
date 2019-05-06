@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Axios from 'axios'
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import {Button, Modal} from 'react-bootstrap';
+import {Button, Modal} from 'reactstrap';
 import {inject, observer} from 'mobx-react'
 
 @inject('store', 'settings') @observer

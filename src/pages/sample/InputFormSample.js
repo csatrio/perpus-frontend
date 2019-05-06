@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import InputForm from '../../components/InputForm'
-import {Button} from 'react-bootstrap';
+import {Button} from 'reactstrap';
 
 class InputFormSample extends Component {
     constructor(props) {

@@ -22,7 +22,7 @@ class RouterStore {
     @observable isAlertError = false
 
     @action
-    hideAlert = () => {
+    closeAlert = () => {
         this.isShowAlert = false
         this.alertMessage = ''
         this.alertTitle = ''
@@ -30,13 +30,23 @@ class RouterStore {
     }
 
     @action
-    showAlert = (title = 'Message', message, isAlertError = false, hideAfter = 0) => {
-        this.isShowAlert = true
+    showError = (title = 'Message', message, hideAfter = 0) => {
         this.alertTitle = title
         this.alertMessage = message
-        this.isAlertError = isAlertError
+        this.isAlertError = true
+        this.isShowAlert = true
         if (hideAfter > 0)
-            setTimeout(() => this.hideAlert(), hideAfter)
+            setTimeout(() => this.closeAlert(), hideAfter)
+    }
+
+    @action
+    showSuccess = (title = 'Message', message, hideAfter = 0) => {
+        this.alertTitle = title
+        this.alertMessage = message
+        this.isAlertError = false
+        this.isShowAlert = true
+        if (hideAfter > 0)
+            setTimeout(() => this.closeAlert(), hideAfter)
     }
 
     @action
@@ -44,8 +54,7 @@ class RouterStore {
         const decoded = jwt_decode(token.access)
         this.username = decoded.user
         this.isLogin = true
-        this.showAlert('Login Successful', 'You have logged in successfully!!',
-            false, settings.AlertDismissTimeout);
+        this.showSuccess('Login Successful', 'You have logged in successfully!!', settings.AlertDismissTimeout);
     }
 
     @action
@@ -53,8 +62,7 @@ class RouterStore {
         window.localStorage.removeItem('token');
         this.username = ''
         this.isLogin = false;
-        this.showAlert('Logout Successful', 'You have logged out successfully!!',
-            false, settings.AlertDismissTimeout)
+        this.showSuccess('Logout Successful', 'You have logged out successfully!!', settings.AlertDismissTimeout)
     }
 
     get hasValidToken() {

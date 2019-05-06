@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import InputForm from '../components/InputForm'
-import {Button} from 'react-bootstrap'
+import {Button} from 'reactstrap'
 import Axios from 'axios'
 
 export default class Login extends Component {
@@ -42,7 +42,7 @@ export default class Login extends Component {
             .catch((e) => {
                 try {
                     this.props.store.isLogin = false;
-                    this.props.store.showAlert('Login Failure', 'Wrong username / password combination', true)
+                    this.props.store.showError('Login Failure', 'Wrong username / password combination')
                 } catch (e2) {
                 }
             })

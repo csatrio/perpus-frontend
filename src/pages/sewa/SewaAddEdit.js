@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import {Alert, Button, Form} from 'react-bootstrap';
+import {Button, FormGroup, Input, Label} from 'reactstrap';
 import SelectorTable from '../../components/SelectorTable'
 import ModalDialog from '../../components/ModalDialog'
 import DatePicker from "../../components/DatePicker";
@@ -36,18 +36,8 @@ export default class SewaAddEdit extends Component {
             <div className='container'>
                 <h3 style={{textAlign: 'center'}}>{this.props.title}</h3>
 
-                <Alert show={this.store.isShowAlert}
-                       variant="danger"
-                       style={{textAlign: 'center'}}
-                       dismissible={true}
-                       onClose={this.store.closeAlert}
-                >
-                    <Alert.Heading>{this.store.alertTitle}</Alert.Heading>
-                    <p>{this.store.alertMsg}</p>
-                </Alert>
-
-                <Form.Group className='row'>
-                    <Form.Label className='col-sm-2'>Tanggal Pinjam</Form.Label>
+                <FormGroup className='row'>
+                    <Label className='col-sm-2'>Tanggal Pinjam</Label>
                     <DatePicker className='col-sm-10'
                                 onChangeFormatted={
                                     (e) => {
@@ -55,7 +45,7 @@ export default class SewaAddEdit extends Component {
                                     }
                                 }
                     />
-                    <Form.Label className='col-sm-2'>Tanggal Kembali</Form.Label>
+                    <Label className='col-sm-2'>Tanggal Kembali</Label>
                     <DatePicker className='col-sm-10'
                                 onChangeFormatted={
                                     (e) => {
@@ -63,26 +53,26 @@ export default class SewaAddEdit extends Component {
                                     }
                                 }
                     />
-                </Form.Group>
+                </FormGroup>
 
-                <Form.Group className='row'>
-                    <Form.Label className='col-sm-2'>Peminjam</Form.Label>
-                    <Form.Control type='input' className='col-sm-6'
+                <FormGroup className='row'>
+                    <Label className='col-sm-2'>Peminjam</Label>
+                    <Input type='text' className='col-sm-6'
                                   style={{marginRight: '10px'}}
                                   readOnly={true}
                                   onClick={() => this.store.showAddAnggota = true}
                                   value={this.store.anggota.nama}/>
-                </Form.Group>
+                </FormGroup>
 
-                <Form.Group className='row'>
-                    <Form.Label className='col-sm-2'>Buku</Form.Label>
-                    <Form.Control type='input' className='col-sm-3'
+                <FormGroup className='row'>
+                    <Label className='col-sm-2'>Buku</Label>
+                    <Input type='text' className='col-sm-3'
                                   style={{marginRight: '10px'}}
                                   readOnly={true}
                                   onClick={() => this.store.showAddBuku = true}
                                   value={this.store.buku.judul}/>
-                    <Form.Label className='col-sm-1'>Jumlah Pinjam</Form.Label>
-                    <Form.Control type='input' className='col-sm-1'
+                    <Label className='col-sm-1'>Jumlah Pinjam</Label>
+                    <Input type='text' className='col-sm-1'
                                   style={{marginRight: '10px'}}
                                   value={this.store.buku.jumlahPinjam}
                                   onChange={(e) => this.store.buku.jumlahPinjam = e.target.value}
@@ -91,7 +81,7 @@ export default class SewaAddEdit extends Component {
                             className='col-sm-1'
                             onClick={() => this.store.addBuku()}
                             style={{marginBottom: '20px'}}>Add</Button>
-                </Form.Group>
+                </FormGroup>
 
                 <ModalDialog size='lg' title='Choose Buku'
                              show={this.store.showAddBuku}

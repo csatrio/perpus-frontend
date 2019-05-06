@@ -1,9 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import App from './App'
-import axios from 'axios'
-import RouterStore from './store'
+import App from './App';
+import axios from 'axios';
+import RouterStore from './store';
+import './css/app.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@coreui/coreui/dist/css/coreui.min.css';
+
 
 const jwt = require('jsonwebtoken');
 

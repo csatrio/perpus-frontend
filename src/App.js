@@ -1,60 +1,63 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, NavLink} from 'react-router-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 import {observer, Provider} from 'mobx-react'
 import DevTools from 'mobx-react-devtools';
-import {Alert, Nav, Navbar, NavDropdown} from 'react-bootstrap'
-import logo from './logo.svg';
-import RoutePath from './routing/Router'
+import {Alert} from 'reactstrap';
 import settings from './configurations'
-
-require('./css/app.css');
-require('bootstrap/dist/css/bootstrap.min.css');
+import DefaultLayout from './containers/DefaultLayout'
+import './App.scss'
 
 
 @observer
 class Navigation extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            collapsed: true
+        }
+    }
+
+    toggleNavbar = () => {
+        this.setState({collapsed: false})
+    }
+
     render() {
-        return <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-            <Navbar.Brand>
-                <img
-                    src={logo}
-                    width="30"
-                    height="30"
-                    className="d-inline-block align-top spin"
-                    alt="React Bootstrap logo"
-                />
-                Perpus React
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
-            <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="mr-auto">
-                    {!this.props.store.isLogin ?
-                        <React.Fragment><NavLink to={'/login'} className='nav-link'>Login</NavLink></React.Fragment>
-                        : null
-                    }
-                    <NavLink to='/anggota' className='nav-link'>Anggota</NavLink>
-                    <NavLink to='/buku' className='nav-link'>Buku</NavLink>
-                    <NavLink to='/sewa' className='nav-link'>Sewa</NavLink>
-                    <NavDropdown title="Reports" id="collapsible-nav-dropdown">
-                        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                        <NavDropdown.Divider/>
-                        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                    </NavDropdown>
-                </Nav>
+        return <DefaultLayout/>
 
-                <Nav pullright="true">
-                    <Navbar.Text>{this.props.store.username}</Navbar.Text>
-                    {this.props.store.isLogin ?
-                        <NavLink to='/logout' className='nav-link'>Logout</NavLink>
-                        : null
-                    }
-                </Nav>
-
-
-            </Navbar.Collapse>
-        </Navbar>
+        // return <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        //     <NavbarBrand>
+        //         <img
+        //             src={logo}
+        //             width="30"
+        //             height="30"
+        //             className="d-inline-block align-top spin"
+        //             alt="React Bootstrap logo"
+        //         />
+        //         Perpus React
+        //     </NavbarBrand>
+        //     <NavbarToggler aria-controls="responsive-navbar-nav"/>
+        //     <Collapse Collapse isOpen={!this.state.collapsed} navbar>
+        //         <Nav className="mr-auto">
+        //             {!this.props.store.isLogin ?
+        //                 <React.Fragment><NavLink to={'/login'} className='nav-link'>Login</NavLink></React.Fragment>
+        //                 : null
+        //             }
+        //             <NavLink to='/anggota' className='nav-link'>Anggota</NavLink>
+        //             <NavLink to='/buku' className='nav-link'>Buku</NavLink>
+        //             <NavLink to='/sewa' className='nav-link'>Sewa</NavLink>
+        //         </Nav>
+        //
+        //         <Nav pullright="true">
+        //             <NavItem>{this.props.store.username}</NavItem>
+        //             {this.props.store.isLogin ?
+        //                 <NavLink to='/logout' className='nav-link'>Logout</NavLink>
+        //                 : null
+        //             }
+        //         </Nav>
+        //
+        //
+        //     </Collapse>
+        // </Navbar>
     }
 }
 
@@ -65,9 +68,9 @@ class MessageDialog extends Component {
         return (
             <Alert dismissible
                    style={{marginBottom: '0px'}}
-                   show={this.props.store.isShowAlert} onClose={this.props.store.hideAlert}
-                   variant={this.props.store.isAlertError ? 'danger' : 'success'}>
-                <Alert.Heading className='d-flex justify-content-center'>{this.props.store.alertTitle}</Alert.Heading>
+                   isOpen={this.props.store.isShowAlert} toggle={this.props.store.closeAlert}
+                   color={this.props.store.isAlertError ? 'danger' : 'success'}>
+                <h4 className='d-flex justify-content-center'>{this.props.store.alertTitle}</h4>
                 <p className='d-flex justify-content-center'>{this.props.store.alertMessage}</p>
             </Alert>
         )
@@ -82,9 +85,11 @@ class App extends Component {
             <Router>
                 <Provider store={this.props.store} settings={settings}>
                     <React.Fragment>
-                        <Navigation {...this.props}/>
-                        <MessageDialog {...this.props}/>
-                        <RoutePath {...this.props} settings={settings}/>
+                        <DefaultLayout {...this.props}/>
+                        {/*{React.createElement(withRouter(DefaultLayout), this.props, null)}*/}
+                        {/*<Navigation {...this.props}/>*/}
+                        {/*<MessageDialog {...this.props}/>*/}
+                        {/*<RoutePath {...this.props} settings={settings}/>*/}
                         {settings.DEBUG ? <DevTools/> : null}
                     </React.Fragment>
                 </Provider>

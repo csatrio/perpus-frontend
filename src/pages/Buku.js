@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Axios from 'axios'
-import {Button} from 'react-bootstrap';
+import {Button} from 'reactstrap';
 import InputForm from '../components/InputForm'
 import ServerDataTable from '../components/ServerDataTable'
 import ModalDialog from '../components/ModalDialog'

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import "react-table/react-table.css";
-import {Button} from 'react-bootstrap';
+import {Button} from 'reactstrap';
 import {Link} from 'react-router-dom'
 import ServerDataTable from '../../components/ServerDataTable'
 import ReactTable from "react-table";
