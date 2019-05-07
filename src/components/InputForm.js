@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {FormGroup, Input, Label, Card, CardHeader, CardBody, Row, Col} from 'reactstrap';
+import {Card, CardBody, CardHeader, FormGroup, Input, Label} from 'reactstrap';
 import DatePicker from '../components/DatePicker'
 
 export default class InputForm extends PureComponent {
