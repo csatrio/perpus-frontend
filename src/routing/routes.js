@@ -1,9 +1,9 @@
-import Sample from '../pages/sample/Sample';
 import Anggota from '../pages/Anggota'
 import Buku from '../pages/Buku'
 import Sewa from '../pages/sewa/Sewa'
 import SewaAddEdit from '../pages/sewa/SewaAddEdit'
 import Login from '../pages/Login'
+import Dashboard from '../pages/dashboard/Dashboard'
 import {Redirect} from 'react-router-dom'
 import React from "react";
 
@@ -13,9 +13,10 @@ const Logout = (props) => {
 }
 
 const routes = [
-    {path: '/', exact: true, name: 'Home', component: Sample},
+    {path: '/', exact: true, name: 'Home', component: Dashboard},
     {path: '/login', isProtected: false, name: 'Login', component: Login},
     {path: '/logout', name: 'Logout', component: Logout},
+    {path: '/dashboard', name: 'Dashboard', component: Dashboard},
     {path: '/anggota', name: 'Anggota', component: Anggota},
     {path: '/buku', name: 'Buku', component: Buku},
     {path: '/sewa', exact: true, name: 'Sewa', component: Sewa},
