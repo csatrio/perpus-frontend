@@ -1,11 +1,12 @@
 import React, {PureComponent} from 'react';
-import {Form, FormGroup, Input, Label} from 'reactstrap';
+import {FormGroup, Input, Label, Card, CardHeader, CardBody, Row, Col} from 'reactstrap';
 import DatePicker from '../components/DatePicker'
 
 export default class InputForm extends PureComponent {
     static defaultProps = {
         fields: [],
-        model: {}
+        model: {},
+        title: 'InputForm'
     };
 
     constructor(props) {
@@ -38,7 +39,9 @@ export default class InputForm extends PureComponent {
 
     render() {
         return (
-            <Form>
+            <Card>
+                <CardHeader>{this.props.title}</CardHeader>
+                <CardBody>
                 {this.props.fields.map((item, index) => {
                     this.elements[item.accessor] = React.createRef();
                     const elementReference = this.elements[item.accessor];
@@ -138,7 +141,8 @@ export default class InputForm extends PureComponent {
                         </div>
                     </FormGroup>
                 })}
-            </Form>
+                </CardBody>
+            </Card>
         );
     }
 

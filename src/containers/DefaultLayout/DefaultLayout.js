@@ -1,6 +1,6 @@
 import React, {Component, Suspense} from 'react';
 import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
-import {Container} from 'reactstrap';
+import {Alert, Container} from 'reactstrap';
 
 import {
     AppAside,
@@ -59,6 +59,13 @@ class DefaultLayout extends Component {
                     <main className="main">
                         {/*<AppBreadcrumb appRoutes={routes}/>*/}
                         <Container fluid>
+                            <Alert dismissible="true"
+                                   style={{marginBottom: '0px'}}
+                                   isOpen={this.props.store.isShowAlert} toggle={this.props.store.closeAlert}
+                                   color={this.props.store.isAlertError ? 'danger' : 'success'}>
+                                <h4 className='d-flex justify-content-center'>{this.props.store.alertTitle}</h4>
+                                <p className='d-flex justify-content-center'>{this.props.store.alertMessage}</p>
+                            </Alert>
                             <Suspense fallback={this.loading()}>
                                 <Switch>
                                     {routes.map((route, idx) => {

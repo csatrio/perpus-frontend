@@ -51,6 +51,8 @@ class RouterStore {
 
     @action
     loginAction = (token) => {
+        window.localStorage.setItem('token', token.access);
+        window.localStorage.setItem('refreshToken', token.refresh);
         const decoded = jwt_decode(token.access)
         this.username = decoded.user
         this.isLogin = true
