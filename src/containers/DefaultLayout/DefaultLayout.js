@@ -19,7 +19,6 @@ import routes from '../../routing/routes';
 
 import AppSidebarNav from './AppSidebarNav'
 import {inject, observer} from "mobx-react";
-import RouterStore from "../../store/RouterStore";
 import Login from "../../pages/Login";
 
 
@@ -47,15 +46,16 @@ class DefaultLayout extends Component {
                     </Suspense>
                 </AppHeader>
                 <div className="app-body">
-                    <AppSidebar fixed display="lg">
-                        <AppSidebarHeader/>
-                        <AppSidebarForm/>
-                        <Suspense>
-                            <AppSidebarNav navConfig={sidebar} {...this.props} />
-                        </Suspense>
-                        <AppSidebarFooter/>
-                        <AppSidebarMinimizer/>
-                    </AppSidebar>
+                    {this.props.store.hasValidToken ?
+                        <AppSidebar fixed display="lg">
+                            <AppSidebarHeader/>
+                            <AppSidebarForm/>
+                            <Suspense>
+                                <AppSidebarNav navConfig={sidebar} {...this.props} />
+                            </Suspense>
+                            <AppSidebarFooter/>
+                            <AppSidebarMinimizer/>
+                        </AppSidebar> : null}
                     <main className="main">
                         {/*<AppBreadcrumb appRoutes={routes}/>*/}
                         <Container fluid>
@@ -76,7 +76,7 @@ class DefaultLayout extends Component {
                                                 name={route.name}
                                                 render={props => {
                                                     if (!route.isProtected) {
-                                                        if (RouterStore.hasValidToken) {
+                                                        if (this.props.store.hasValidToken) {
                                                             return React.createElement(doInject(route.component), {...route, ...props}, null);
                                                         }
                                                         return React.createElement(doInject(Login), props, null);

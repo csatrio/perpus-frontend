@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { mapToCssModules } from 'reactstrap/lib/utils';
+import {mapToCssModules} from 'reactstrap/lib/utils';
 
 const propTypes = {
   children: PropTypes.node,

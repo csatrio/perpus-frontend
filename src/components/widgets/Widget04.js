@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBody, Progress } from 'reactstrap';
+import {Card, CardBody, Progress} from 'reactstrap';
 import classNames from 'classnames';
-import { mapToCssModules } from 'reactstrap/lib/utils';
+import {mapToCssModules} from 'reactstrap/lib/utils';
 
 const propTypes = {
   header: PropTypes.string,
