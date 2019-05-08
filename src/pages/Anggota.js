@@ -77,6 +77,7 @@ export default class Anggota extends Component {
                 <h3 style={{textAlign: 'center'}}>Anggota List</h3>
                 <InputForm model={this.state.model} ref='input'
                            fields={this.state.inputFields}
+                           title='Input Anggota'
                 />
 
                 <div className='buttonToolbar'>

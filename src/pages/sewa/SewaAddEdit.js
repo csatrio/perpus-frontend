@@ -58,26 +58,26 @@ export default class SewaAddEdit extends Component {
                 <FormGroup className='row'>
                     <Label className='col-sm-2'>Peminjam</Label>
                     <Input type='text' className='col-sm-6'
-                                  style={{marginRight: '10px'}}
-                                  readOnly={true}
-                                  onClick={() => this.store.showAddAnggota = true}
-                                  value={this.store.anggota.nama}/>
+                           style={{marginRight: '10px'}}
+                           readOnly={true}
+                           onClick={() => this.store.showAddAnggota = true}
+                           value={this.store.anggota.nama}/>
                 </FormGroup>
 
                 <FormGroup className='row'>
                     <Label className='col-sm-2'>Buku</Label>
                     <Input type='text' className='col-sm-3'
-                                  style={{marginRight: '10px'}}
-                                  readOnly={true}
-                                  onClick={() => this.store.showAddBuku = true}
-                                  value={this.store.buku.judul}/>
+                           style={{marginRight: '10px'}}
+                           readOnly={true}
+                           onClick={() => this.store.showAddBuku = true}
+                           value={this.store.buku.judul}/>
                     <Label className='col-sm-1'>Jumlah Pinjam</Label>
                     <Input type='text' className='col-sm-1'
-                                  style={{marginRight: '10px'}}
-                                  value={this.store.buku.jumlahPinjam}
-                                  onChange={(e) => this.store.buku.jumlahPinjam = e.target.value}
+                           style={{marginRight: '10px'}}
+                           value={this.store.buku.jumlahPinjam}
+                           onChange={(e) => this.store.buku.jumlahPinjam = e.target.value}
                     />
-                    <Button variant="secondary" onClick={() => this.store.showAddAnggota = true}
+                    <Button variant="secondary"
                             className='col-sm-1'
                             onClick={() => this.store.addBuku()}
                             style={{marginBottom: '20px'}}>Add</Button>
@@ -119,7 +119,13 @@ export default class SewaAddEdit extends Component {
                              closeButton={true}
                              onHide={() => this.store.showEditBuku = false}
                              component={<InputForm model={this.store.editBuku} ref='inputModal'
-                                                   fields={[{label: 'Judul', accessor: 'judul', placeholder: 'judul'},
+                                                   fields={[
+                                                       {
+                                                           label: 'Judul',
+                                                           accessor: 'judul',
+                                                           placeholder: 'judul',
+                                                           readonly: true
+                                                       },
                                                        {
                                                            label: 'Jumlah Pinjam',
                                                            accessor: 'jumlahPinjam',

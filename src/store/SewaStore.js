@@ -25,7 +25,6 @@ export default class SewaStore {
     @observable showEditBuku = false;
     @observable showAddBuku = false;
     @observable showAddAnggota = false;
-    @observable isShowAlert = false;
     @observable showDetail = false;
     @observable alertTitle = 'Notification';
     @observable alertMsg = '';
@@ -33,20 +32,10 @@ export default class SewaStore {
     @observable tanggalKembali = formatDate(new Date());
     @observable idSewa = null;
 
-    constructor() {
+    constructor(rootStore) {
         CreateSnapshot(this)
+        this.rootStore = rootStore
     }
-
-    @action
-    showAlert = (msg) => {
-        this.isShowAlert = true;
-        this.alertMsg = msg
-    };
-
-    @action
-    closeAlert = () => {
-        this.isShow = false
-    };
 
     @action
     hideDetail = () => {
@@ -97,9 +86,8 @@ export default class SewaStore {
             this.buku.judul = '';
             this.buku.jumlahPinjam = 0;
             this.buku.data = {};
-            this.closeAlert()
         } else {
-            this.showAlert('Jumlah pinjam harus berupa bilangan bulat > 0')
+            this.rootStore.showError('Error', 'Jumlah pinjam harus berupa bilangan bulat > 0')
         }
     };
 

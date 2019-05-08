@@ -130,6 +130,7 @@ export default class InputForm extends PureComponent {
                                               this.props.model[item.accessor] = e.target.value
                                           }
                                       }
+                                      readOnly={!!item.readonly}
                                       placeholder={typeof(item.placeholder) !== 'undefined' ? item.placeholder : ''}
                                       ref={elementReference}
                         />

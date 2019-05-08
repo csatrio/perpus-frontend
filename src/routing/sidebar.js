@@ -12,30 +12,26 @@ export default {
         {
             name: 'Anggota',
             url: '/anggota',
-            icon: 'icon-pencil',
+            icon: 'icon-user-follow',
         },
         {
             name: 'Buku',
             url: '/buku',
-            icon: 'icon-pencil',
+            icon: 'icon-note',
         },
         {
             name: 'Sewa',
-            icon: 'icon-pencil',
+            url: '/sewa',
+            icon: 'icon-chart',
             children: [
                 {
                     name: 'View',
                     url: '/sewa',
-                    icon: 'icon-pencil',
+                    icon: 'icon-star',
                 },
                 {
                     name: 'Add',
                     url: '/sewa/add',
-                    icon: 'icon-pencil',
-                },
-                {
-                    name: 'Edit',
-                    url: '/sewa/edit',
                     icon: 'icon-pencil',
                 },
             ]

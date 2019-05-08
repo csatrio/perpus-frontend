@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import logo from '../../logo.svg';
+import logo from '../../assets/logo.svg';
 import './Sample.css';
 
 class Sample extends Component {

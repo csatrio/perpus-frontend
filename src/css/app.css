@@ -27,3 +27,12 @@
     display: flex !important;
     justify-content: center !important;
 }
+
+.mainAlert {
+    left: 0;
+    right: 0;
+    marginBottom: '0px' !important;
+    position: fixed !important;
+    z-index: 9999 !important;
+    border-radius: 0px !important;
+}

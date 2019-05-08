@@ -18,7 +18,7 @@ export default class Anggota extends Component {
             },
             editModel: {row: {}},
             inputFields: [
-                {label: 'Nama', accessor: 'nama', placeholder: 'nama'},
+                {label: 'Judul', accessor: 'nama', placeholder: 'nama'},
                 {label: 'Penerbit', accessor: 'penerbit', placeholder: 'penerbit'},
                 {
                     label: 'Tanggal Terbit',
@@ -84,6 +84,7 @@ export default class Anggota extends Component {
                 <h3 style={{textAlign: 'center'}}>Buku List</h3>
                 <InputForm model={this.state.model} ref='input'
                            fields={this.state.inputFields}
+                           title='Input Buku'
                 />
                 <div className='buttonToolbar'>
                     <Button onClick={this.addEntry} className='btn-grp'>Add</Button>

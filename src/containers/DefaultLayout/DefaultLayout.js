@@ -59,11 +59,10 @@ class DefaultLayout extends Component {
                     <main className="main">
                         {/*<AppBreadcrumb appRoutes={routes}/>*/}
                         <Container fluid>
-                            <Alert dismissible="true"
-                                   style={{marginBottom: '0px'}}
+                            <Alert dismissible="true" className='mainAlert'
                                    isOpen={this.props.store.isShowAlert} toggle={this.props.store.closeAlert}
                                    color={this.props.store.isAlertError ? 'danger' : 'success'}>
-                                <h4 className='d-flex justify-content-center'>{this.props.store.alertTitle}</h4>
+                                <h5 className='d-flex justify-content-center'>{this.props.store.alertTitle}</h5>
                                 <p className='d-flex justify-content-center'>{this.props.store.alertMessage}</p>
                             </Alert>
                             <Suspense fallback={this.loading()}>

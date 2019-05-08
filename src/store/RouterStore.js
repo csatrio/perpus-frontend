@@ -6,7 +6,7 @@ import jwt_decode from 'jsonwebtoken/decode'
 class RouterStore {
     constructor() {
         this.isLogin = !!this.hasValidToken
-        this.sewaStore = this.sewaStore || new SewaStore()
+        this.sewaStore = this.sewaStore || new SewaStore(this)
         if (settings.DEBUG) window.store = this
     }
 
@@ -30,7 +30,7 @@ class RouterStore {
     }
 
     @action
-    showError = (title = 'Message', message, hideAfter = 0) => {
+    showError = (title, message, hideAfter = 0) => {
         this.alertTitle = title
         this.alertMessage = message
         this.isAlertError = true
@@ -40,7 +40,7 @@ class RouterStore {
     }
 
     @action
-    showSuccess = (title = 'Message', message, hideAfter = 0) => {
+    showSuccess = (title, message, hideAfter = 0) => {
         this.alertTitle = title
         this.alertMessage = message
         this.isAlertError = false
