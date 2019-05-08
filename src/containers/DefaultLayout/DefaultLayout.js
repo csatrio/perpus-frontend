@@ -85,6 +85,7 @@ class DefaultLayout extends Component {
                                                         if (this.props.store.hasValidToken) {
                                                             return React.createElement(doInject(route.component), {...route, ...props}, null);
                                                         }
+                                                        this.props.store.isLogin = false
                                                         return React.createElement(doInject(Login), props, null);
                                                     }
                                                     return React.createElement(doInject(route.component), props, null)
