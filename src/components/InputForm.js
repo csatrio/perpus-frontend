@@ -39,9 +39,7 @@ export default class InputForm extends PureComponent {
 
     render() {
         return (
-            <Card>
-                <CardHeader>{this.props.title}</CardHeader>
-                <CardBody>
+            <React.Fragment>
                 {this.props.fields.map((item, index) => {
                     this.elements[item.accessor] = React.createRef();
                     const elementReference = this.elements[item.accessor];
@@ -52,13 +50,13 @@ export default class InputForm extends PureComponent {
                         return <FormGroup className='row' key={index}>
                             <Label className='col-sm-2'>{item.label}</Label>
                             <Input className='col-sm-10' type={fieldType}
-                                          defaultValue={this.props.model[item.accessor]}
-                                          onChange={
-                                              (e) => {
-                                                  this.props.model[item.accessor] = e.target.value
-                                              }
-                                          }
-                                          ref={elementReference}
+                                   defaultValue={this.props.model[item.accessor]}
+                                   onChange={
+                                       (e) => {
+                                           this.props.model[item.accessor] = e.target.value
+                                       }
+                                   }
+                                   ref={elementReference}
                             >
                                 {item.options.map((option, i) => {
                                     if (typeof(option) === 'object') {
@@ -78,10 +76,10 @@ export default class InputForm extends PureComponent {
                             <FormGroup className='col' ref={elementReference}>
                                 <div className='row'>{item.options.map((chk, i) => {
                                     return <Input className='col-sm-4' type='checkbox' key={i + index}
-                                                       name={item.label}
-                                                       defaultValue={chk.value}
-                                                       onChange={() => this.props.model[chk.accessor] = chk.value}
-                                                       label={chk.label}
+                                                  name={item.label}
+                                                  defaultValue={chk.value}
+                                                  onChange={() => this.props.model[chk.accessor] = chk.value}
+                                                  label={chk.label}
                                     />
                                 })}</div>
                             </FormGroup>
@@ -95,10 +93,10 @@ export default class InputForm extends PureComponent {
                             <FormGroup className='col' ref={elementReference}>
                                 <div className='row'>{item.options.map((chk, i) => {
                                     return <Input className='col-sm-4' type='radio' key={i + index}
-                                                       name={item.label}
-                                                       defaultValue={chk.value}
-                                                       onChange={() => this.props.model[item.accessor] = chk.value}
-                                                       label={chk.label}
+                                                  name={item.label}
+                                                  defaultValue={chk.value}
+                                                  onChange={() => this.props.model[item.accessor] = chk.value}
+                                                  label={chk.label}
                                     />
                                 })}</div>
                             </FormGroup>
@@ -110,7 +108,7 @@ export default class InputForm extends PureComponent {
                         return <FormGroup className='row' key={index}>
                             <Label className='col-sm-2'>{item.label}</Label>
                             <DatePicker className='col-sm-10'
-                                        onChangeFormatted={(e)=>{
+                                        onChangeFormatted={(e) => {
                                             this.props.model[item.accessor] = e
                                         }}
                                         ref={elementReference}
@@ -124,15 +122,15 @@ export default class InputForm extends PureComponent {
 
                         <Label className='col-sm-2'>{item.label}</Label>
                         <Input className='col-sm-10' type={fieldType}
-                                      defaultValue={this.props.model[item.accessor]}
-                                      onChange={
-                                          (e) => {
-                                              this.props.model[item.accessor] = e.target.value
-                                          }
-                                      }
-                                      readOnly={!!item.readonly}
-                                      placeholder={typeof(item.placeholder) !== 'undefined' ? item.placeholder : ''}
-                                      ref={elementReference}
+                               defaultValue={this.props.model[item.accessor]}
+                               onChange={
+                                   (e) => {
+                                       this.props.model[item.accessor] = e.target.value
+                                   }
+                               }
+                               readOnly={!!item.readonly}
+                               placeholder={typeof(item.placeholder) !== 'undefined' ? item.placeholder : ''}
+                               ref={elementReference}
                         />
                         <div id={'valid-' + item.accessor}
                              className='col valid-feedback'>Validation OK
@@ -142,8 +140,7 @@ export default class InputForm extends PureComponent {
                         </div>
                     </FormGroup>
                 })}
-                </CardBody>
-            </Card>
+            </React.Fragment>
         );
     }
 
