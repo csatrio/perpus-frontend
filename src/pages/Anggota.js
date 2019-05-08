@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Axios from 'axios'
-import {Button} from 'reactstrap';
+import {Button, Card, CardHeader, CardBody} from 'reactstrap';
 import InputForm from '../components/InputForm'
 import ServerDataTable from '../components/ServerDataTable'
 import ModalDialog from '../components/ModalDialog'
@@ -29,7 +29,6 @@ export default class Anggota extends Component {
         this.refs.input.clearValues();
         Axios.post(this.apiUrl, this.state.model)
             .then(response => {
-                console.log('Add entry response : ' + JSON.stringify(response.data));
                 this.refs.table.addRow(response.data);
                 this.refs.input.clearValues()
             })
@@ -42,7 +41,6 @@ export default class Anggota extends Component {
         const patchUrl = `${this.apiUrl}${editModel.id}/`;
         Axios.patch(patchUrl, editModel)
             .then(response => {
-                console.log('save edit response : ' + JSON.stringify(response.data));
                 this.refs.table.refreshRow();
                 this.setState({showEdit: false})
             })
@@ -63,7 +61,7 @@ export default class Anggota extends Component {
                     this.setState({showEdit: true, editModel: row})
                 }} className='btn-grp' size='sm'>Edit</Button>
                 <Button onClick={() => {
-                    Axios.delete(`${this.apiUrl}${row.original.id}/`).catch(err=>console.log(err));
+                    Axios.delete(`${this.apiUrl}${row.original.id}/`).catch(err => console.log(err));
                     this.refs.table.deleteRow(row)
                 }} className='btn-grp' size='sm'>Delete</Button>
             </div>
@@ -74,17 +72,21 @@ export default class Anggota extends Component {
     render() {
         return (
             <React.Fragment>
-                <h3 style={{textAlign: 'center'}}>Anggota List</h3>
-                <InputForm model={this.state.model} ref='input'
-                           fields={this.state.inputFields}
-                           title='Input Anggota'
-                />
+                <Card>
+                    <CardHeader>Search Anggota</CardHeader>
+                    <CardBody>
+                        <InputForm model={this.state.model} ref='input'
+                                   fields={this.state.inputFields}
+                                   title='Input Anggota'
+                        />
 
-                <div className='buttonToolbar'>
-                    <Button onClick={this.addEntry} className='btn-grp'>Add</Button>
-                    <Button onClick={this.search} className='btn-grp'>Search</Button>
-                    <Button onClick={() => this.refs.input.clearValues()} className='btn-grp'>Clear</Button>
-                </div>
+                        <div className='buttonToolbar'>
+                            <Button onClick={this.addEntry} className='btn-grp'>Add</Button>
+                            <Button onClick={this.search} className='btn-grp'>Search</Button>
+                            <Button onClick={() => this.refs.input.clearValues()} className='btn-grp'>Clear</Button>
+                        </div>
+                    </CardBody>
+                </Card>
 
                 <ModalDialog show={this.state.showEdit} title='Edit Anggota' size='lg'
                              closeButton={true}
@@ -103,6 +105,7 @@ export default class Anggota extends Component {
                                      {Header: 'Umur', accessor: 'umur'},
                                      {Header: 'Actions', Cell: this.rowActions}
                                  ]}
+                                 title='Anggota List'
                                  ref='table'
                 />
             </React.Fragment>

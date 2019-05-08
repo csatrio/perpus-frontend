@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import {Button, FormGroup, Input, Label} from 'reactstrap';
+import {Button, FormGroup, Input, Label, Card, CardBody, CardHeader} from 'reactstrap';
 import SelectorTable from '../../components/SelectorTable'
 import ModalDialog from '../../components/ModalDialog'
 import DatePicker from "../../components/DatePicker";
@@ -34,54 +34,57 @@ export default class SewaAddEdit extends Component {
     render() {
         return (
             <React.Fragment>
-                <h3 style={{textAlign: 'center'}}>{this.props.title}</h3>
+                <Card>
+                    <CardHeader>{this.props.title}</CardHeader>
+                    <CardBody>
+                        <FormGroup className='row'>
+                            <Label className='col-sm-2'>Tanggal Pinjam</Label>
+                            <DatePicker className='col-sm-10'
+                                        onChangeFormatted={
+                                            (e) => {
+                                                this.store.tanggalPinjam = e
+                                            }
+                                        }
+                            />
+                            <Label className='col-sm-2'>Tanggal Kembali</Label>
+                            <DatePicker className='col-sm-10'
+                                        onChangeFormatted={
+                                            (e) => {
+                                                this.store.tanggalKembali = e
+                                            }
+                                        }
+                            />
+                        </FormGroup>
 
-                <FormGroup className='row'>
-                    <Label className='col-sm-2'>Tanggal Pinjam</Label>
-                    <DatePicker className='col-sm-10'
-                                onChangeFormatted={
-                                    (e) => {
-                                        this.store.tanggalPinjam = e
-                                    }
-                                }
-                    />
-                    <Label className='col-sm-2'>Tanggal Kembali</Label>
-                    <DatePicker className='col-sm-10'
-                                onChangeFormatted={
-                                    (e) => {
-                                        this.store.tanggalKembali = e
-                                    }
-                                }
-                    />
-                </FormGroup>
+                        <FormGroup className='row'>
+                            <Label className='col-sm-2'>Peminjam</Label>
+                            <Input type='text' className='col-sm-6'
+                                   style={{marginRight: '10px'}}
+                                   readOnly={true}
+                                   onClick={() => this.store.showAddAnggota = true}
+                                   value={this.store.anggota.nama}/>
+                        </FormGroup>
 
-                <FormGroup className='row'>
-                    <Label className='col-sm-2'>Peminjam</Label>
-                    <Input type='text' className='col-sm-6'
-                           style={{marginRight: '10px'}}
-                           readOnly={true}
-                           onClick={() => this.store.showAddAnggota = true}
-                           value={this.store.anggota.nama}/>
-                </FormGroup>
-
-                <FormGroup className='row'>
-                    <Label className='col-sm-2'>Buku</Label>
-                    <Input type='text' className='col-sm-3'
-                           style={{marginRight: '10px'}}
-                           readOnly={true}
-                           onClick={() => this.store.showAddBuku = true}
-                           value={this.store.buku.judul}/>
-                    <Label className='col-sm-1'>Jumlah Pinjam</Label>
-                    <Input type='text' className='col-sm-1'
-                           style={{marginRight: '10px'}}
-                           value={this.store.buku.jumlahPinjam}
-                           onChange={(e) => this.store.buku.jumlahPinjam = e.target.value}
-                    />
-                    <Button variant="secondary"
-                            className='col-sm-1'
-                            onClick={() => this.store.addBuku()}
-                            style={{marginBottom: '20px'}}>Add</Button>
-                </FormGroup>
+                        <FormGroup className='row'>
+                            <Label className='col-sm-2'>Buku</Label>
+                            <Input type='text' className='col-sm-3'
+                                   style={{marginRight: '10px'}}
+                                   readOnly={true}
+                                   onClick={() => this.store.showAddBuku = true}
+                                   value={this.store.buku.judul}/>
+                            <Label className='col-sm-1'>Jumlah Pinjam</Label>
+                            <Input type='text' className='col-sm-1'
+                                   style={{marginRight: '10px'}}
+                                   value={this.store.buku.jumlahPinjam}
+                                   onChange={(e) => this.store.buku.jumlahPinjam = e.target.value}
+                            />
+                            <Button variant="secondary"
+                                    className='col-sm-1'
+                                    onClick={() => this.store.addBuku()}
+                                    style={{marginBottom: '20px'}}>Add</Button>
+                        </FormGroup>
+                    </CardBody>
+                </Card>
 
                 <ModalDialog size='lg' title='Choose Buku'
                              show={this.store.showAddBuku}
@@ -134,23 +137,26 @@ export default class SewaAddEdit extends Component {
                              />}
                              footer={<Button onClick={() => this.store.saveEditBuku()}>Save</Button>}
                 />
-
-                <ReactTable data={this.store.bukuList}
-                            className='col'
-                            loading={false}
-                            defaultPageSize={this.props.settings.itemPerPage}
-                            columns={[
-                                {Header: 'Judul', accessor: 'judul'},
-                                {Header: 'Penerbit', accessor: 'penerbit'},
-                                {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
-                                {Header: 'Jumlah Pinjam', accessor: 'jumlahPinjam'},
-                                {
-                                    Header: 'Action',
-                                    Cell: this.rowActions
-                                },
-                            ]}
-                />
-
+                <Card>
+                    <CardHeader>Detail Sewa</CardHeader>
+                    <CardBody>
+                        <ReactTable data={this.store.bukuList}
+                                    className='col'
+                                    loading={false}
+                                    defaultPageSize={this.props.settings.itemPerPage}
+                                    columns={[
+                                        {Header: 'Judul', accessor: 'judul'},
+                                        {Header: 'Penerbit', accessor: 'penerbit'},
+                                        {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
+                                        {Header: 'Jumlah Pinjam', accessor: 'jumlahPinjam'},
+                                        {
+                                            Header: 'Action',
+                                            Cell: this.rowActions
+                                        },
+                                    ]}
+                        />
+                    </CardBody>
+                </Card>
                 <div className='buttonToolbar'>
                     <Button onClick={() => {
                         this.store.saveSewa();

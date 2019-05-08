@@ -44,8 +44,6 @@ export default class Sewa extends Component {
     render() {
         return (
             <React.Fragment>
-                <h3 style={{textAlign: 'center'}}>Sewa List</h3>
-
                 <Link to='/sewa/add' className='buttonToolbar'><Button>Add</Button></Link>
 
                 <ModalDialog show={this.store.showDetail} title='DetailSewa' size='lg'
@@ -70,6 +68,7 @@ export default class Sewa extends Component {
                                      {Header: 'Tanggal Kembali', accessor: 'tanggal_kembali'},
                                      {Header: 'Action', Cell: this.rowActions}
                                  ]}
+                                 title='Sewa List'
                                  ref='table'
                 />
             </React.Fragment>
