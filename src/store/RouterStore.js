@@ -71,6 +71,7 @@ class RouterStore {
         const token = window.localStorage.getItem('token')
         if (token === null) {
             this.username = ''
+            this.isLogin = false
             return false
         }
         const decoded = jwt_decode(token)

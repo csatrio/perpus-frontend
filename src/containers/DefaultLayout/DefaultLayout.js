@@ -1,7 +1,6 @@
 import React, {Component, Suspense} from 'react';
 import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import {Alert, Container} from 'reactstrap';
-
 import {
     AppAside,
     AppFooter,
@@ -16,17 +15,29 @@ import {
 import sidebar from '../../routing/sidebar'
 // routes config
 import routes from '../../routing/routes';
-
 import AppSidebarNav from './AppSidebarNav'
 import {inject, observer} from "mobx-react";
 import Login from "../../pages/Login";
 
 
 const doInject = (component) => withRouter(inject('store', 'settings')(observer(component)));
-
 const DefaultAside = doInject(React.lazy(() => import('./DefaultAside')));
 const DefaultFooter = doInject(React.lazy(() => import('./DefaultFooter')));
 const DefaultHeader = doInject(React.lazy(() => import('./DefaultHeader')));
+
+@inject('store', 'settings') @observer
+class AlertSystem extends Component {
+    render() {
+        return (
+            <Alert dismissible="true" className='mainAlert'
+                   isOpen={this.props.store.isShowAlert} toggle={this.props.store.closeAlert}
+                   color={this.props.store.isAlertError ? 'danger' : 'success'}>
+                <h5 className='d-flex justify-content-center'>{this.props.store.alertTitle}</h5>
+                <p className='d-flex justify-content-center'>{this.props.store.alertMessage}</p>
+            </Alert>
+        );
+    }
+}
 
 class DefaultLayout extends Component {
 
@@ -59,12 +70,7 @@ class DefaultLayout extends Component {
                     <main className="main">
                         {/*<AppBreadcrumb appRoutes={routes}/>*/}
                         <Container fluid>
-                            <Alert dismissible="true" className='mainAlert'
-                                   isOpen={this.props.store.isShowAlert} toggle={this.props.store.closeAlert}
-                                   color={this.props.store.isAlertError ? 'danger' : 'success'}>
-                                <h5 className='d-flex justify-content-center'>{this.props.store.alertTitle}</h5>
-                                <p className='d-flex justify-content-center'>{this.props.store.alertMessage}</p>
-                            </Alert>
+                            <AlertSystem/>
                             <Suspense fallback={this.loading()}>
                                 <Switch>
                                     {routes.map((route, idx) => {
