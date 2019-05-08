@@ -86,6 +86,7 @@ export default class SewaStore {
             this.buku.judul = '';
             this.buku.jumlahPinjam = 0;
             this.buku.data = {};
+            this.rootStore.closeAlert();
         } else {
             this.rootStore.showError('Error', 'Jumlah pinjam harus berupa bilangan bulat > 0')
         }
