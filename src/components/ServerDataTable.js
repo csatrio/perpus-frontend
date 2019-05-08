@@ -3,13 +3,15 @@ import Axios from 'axios'
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import settings from '../configurations'
+import {Card, CardBody, CardHeader} from "reactstrap";
 
 export default class ServerDataTable extends PureComponent {
     static defaultProps = {
         className: 'col',
         queryParam: {},
         columns: [],
-        url: ''
+        url: '',
+        title: undefined
     };
 
     constructor(props) {
@@ -55,21 +57,38 @@ export default class ServerDataTable extends PureComponent {
         this.setState({data: this.state.data.slice()})
     };
 
-    refreshRow = ()=>{
+    refreshRow = () => {
         this.setState({data: this.state.data.slice()})
     };
 
     render() {
-        return (
-            <ReactTable manual data={this.state.data}
-                        className={this.props.className}
-                        loading={this.state.loading}
-                        pages={this.state.pages}
-                        pageSizeOptions={settings.itemPerPageOptions}
-                        defaultPageSize={settings.itemPerPage}
-                        columns={this.props.columns}
-                        onFetchData={this.fetchData}
-            />
-        );
+        return this.props.title === undefined ?
+            (
+                <ReactTable manual data={this.state.data}
+                            className={this.props.className}
+                            loading={this.state.loading}
+                            pages={this.state.pages}
+                            pageSizeOptions={settings.itemPerPageOptions}
+                            defaultPageSize={settings.itemPerPage}
+                            columns={this.props.columns}
+                            onFetchData={this.fetchData}
+                />
+            )
+            : (
+                <Card>
+                    <CardHeader>{this.props.title}</CardHeader>
+                    <CardBody>
+                        <ReactTable manual data={this.state.data}
+                                    className={this.props.className}
+                                    loading={this.state.loading}
+                                    pages={this.state.pages}
+                                    pageSizeOptions={settings.itemPerPageOptions}
+                                    defaultPageSize={settings.itemPerPage}
+                                    columns={this.props.columns}
+                                    onFetchData={this.fetchData}
+                        />
+                    </CardBody>
+                </Card>
+            );
     }
 }
