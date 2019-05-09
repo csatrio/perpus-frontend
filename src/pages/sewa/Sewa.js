@@ -16,7 +16,8 @@ export default class Sewa extends Component {
         this.store = this.props.store.sewaStore;
         this.apiUrl = 'http://localhost:8008/api/test_perpus/sewa/'
         this.state = {
-            queryParam: {}
+            queryParam: {},
+            peminjam: ''
         }
         this.model = {}
         this.inputFields = [
@@ -82,7 +83,7 @@ export default class Sewa extends Component {
                                    style={{marginRight: '10px'}}
                                    readOnly={true}
                                    onClick={() => this.store.showAddAnggota = true}
-                                   value={this.store.anggota.nama}/>
+                                   value={this.state.peminjam}/>
                         </FormGroup>
                         <InputForm model={this.model} ref='input'
                                    fields={this.inputFields}
@@ -120,8 +121,9 @@ export default class Sewa extends Component {
                                                            {Header: 'Umur', accessor: 'umur'},
                                                        ]}
                                                        itemCallback={(anggota) => {
-                                                           this.store.addAnggota(anggota)
                                                            this.model.anggota_id = anggota.id
+                                                           this.setState({peminjam: anggota.nama})
+                                                           this.store.hideAddAnggota()
                                                        }}
                              />}
                 />
