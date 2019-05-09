@@ -4,17 +4,18 @@ import {Button, Card, CardHeader, CardBody} from 'reactstrap';
 import InputForm from '../components/InputForm'
 import ServerDataTable from '../components/ServerDataTable'
 import ModalDialog from '../components/ModalDialog'
-import {formatModelDates} from "../helpers/util";
+import {formatModelDates, formatDate} from "../helpers/util";
 import {BuildQueryParam} from '../helpers/network'
 
-export default class Anggota extends Component {
+export default class Buku extends Component {
     constructor(props) {
         super(props);
         this.state = {
             queryParam: {},
             showEdit: false,
             model: {
-                tanggal_terbit: new Date()
+                tanggal_terbit__gte: formatDate(new Date()),
+                tanggal_terbit__lte: formatDate(new Date())
             },
             editModel: {row: {}},
             inputFields: [
@@ -24,7 +25,8 @@ export default class Anggota extends Component {
                     label: 'Tanggal Terbit',
                     accessor: 'tanggal_terbit',
                     placeholder: 'tanggal terbit',
-                    type: 'datepicker'
+                    type: 'datepicker',
+                    mode: 'range'
                 },
             ]
         };
@@ -55,6 +57,7 @@ export default class Anggota extends Component {
 
     search = () => {
         this.setState({queryParam: BuildQueryParam(this.state.model)}, () => {
+            console.log(this.state.model)
             this.refs.table.fetchData()
         })
     };
