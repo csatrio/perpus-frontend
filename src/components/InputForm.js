@@ -105,33 +105,67 @@ export default class InputForm extends PureComponent {
 
                     // render datepicker
                     else if (fieldType === 'datepicker') {
-                        return <FormGroup className='row' key={index}>
-                            <Label className='col-sm-2'>{item.label}</Label>
-                            <DatePicker className='col-sm-10'
-                                        onChangeFormatted={(e) => {
-                                            this.props.model[item.accessor] = e
-                                        }}
-                                        ref={elementReference}
-                                        placeholderText='click to select date'
-                            />
-                        </FormGroup>
+                        if (item.mode === 'range') {
+                            this.elements[item.accessor + '__gte'] = React.createRef()
+                            const dateMinRange = this.elements[item.accessor + '__gte'];
+
+                            this.elements[item.accessor + '__lte'] = React.createRef()
+                            const dateMaxRange = this.elements[item.accessor + '__lte'];
+
+                            return <FormGroup className='row' key={index}>
+                                <Label className='col-sm-2'>{item.label}</Label>
+                                <DatePicker className='col-sm-4'
+                                            onChangeFormatted={(e) => {
+                                                this.props.model[item.accessor + '__gte'] = e
+                                            }}
+                                            ref={dateMinRange}
+                                            placeholderText='click to select date'
+                                />
+                                <Label className='col-sm-2 d-flex justify-content-center'>-</Label>
+                                <DatePicker className='col-sm-4'
+                                            onChangeFormatted={(e) => {
+                                                this.props.model[item.accessor + '__lte'] = e
+                                            }}
+                                            ref={dateMaxRange}
+                                            placeholderText='click to select date'
+                                />
+                            </FormGroup>
+                        }
+
+                        else {
+                            return <FormGroup className='row' key={index}>
+                                <Label className='col-sm-2'>{item.label}</Label>
+                                <DatePicker className='col-sm-10'
+                                            onChangeFormatted={(e) => {
+                                                this.props.model[item.accessor] = e
+                                            }}
+                                            ref={elementReference}
+                                            placeholderText='click to select date'
+                                />
+                            </FormGroup>
+                        }
                     }
 
                     // render regular input
+                    const inputProps = {
+                        type: fieldType,
+                        readOnly: !!item.readonly,
+                        placeholder: item.placeholder !== undefined ? item.placeholder : '',
+                        onClick: item.onclick !== undefined ? item.onclick : () => {},
+                        onChange: !!item.readonly ? ()=>{} :
+                            (e) => {
+                                this.props.model[item.accessor] = e.target.value
+                            },
+                        ref: elementReference,
+                    }
+                    if (item.value !== undefined) {
+                        inputProps.value = item.value
+                    } else {
+                        inputProps.defaultValue = this.props.model[item.accessor]
+                    }
                     return <FormGroup className='row' key={index}>
-
                         <Label className='col-sm-2'>{item.label}</Label>
-                        <Input className='col-sm-10' type={fieldType}
-                               defaultValue={this.props.model[item.accessor]}
-                               onChange={
-                                   (e) => {
-                                       this.props.model[item.accessor] = e.target.value
-                                   }
-                               }
-                               readOnly={!!item.readonly}
-                               placeholder={typeof(item.placeholder) !== 'undefined' ? item.placeholder : ''}
-                               ref={elementReference}
-                        />
+                        <Input className='col-sm-10' {...inputProps}/>
                         <div id={'valid-' + item.accessor}
                              className='col valid-feedback'>Validation OK
                         </div>
