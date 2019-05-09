@@ -70,7 +70,7 @@ class DefaultHeader extends Component {
                                     color="primary">42</Badge></DropdownItem>
                                 <DropdownItem divider/>
                                 <DropdownItem><i className="fa fa-shield"></i> Lock Account</DropdownItem>
-                                <DropdownItem onClick={() => this.props.store.logoutAction()}><i
+                                <DropdownItem onClick={()=>this.props.history.push('/logout')}><i
                                     className="fa fa-lock"></i> Logout</DropdownItem>
                             </DropdownMenu>
                         </AppHeaderDropdown>
