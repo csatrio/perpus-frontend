@@ -65,7 +65,10 @@ export default class Login extends Component {
                             <CardGroup>
                                 <Card className="p-4">
                                     <CardBody>
-                                        <Form>
+                                        <Form onSubmit={(e) => {
+                                            e.preventDefault();
+                                            this.doLogin()
+                                        }}>
                                             <h1>Login</h1>
                                             <p className="text-muted">Sign In to your account</p>
                                             <InputGroup className="mb-3">
@@ -89,7 +92,8 @@ export default class Login extends Component {
                                             </InputGroup>
                                             <Row>
                                                 <Col xs="6">
-                                                    <Button color="primary" className="px-4" onClick={this.doLogin}>Login</Button>
+                                                    <Button color="primary" className="px-4"
+                                                            onClick={this.doLogin}>Login</Button>
                                                 </Col>
                                                 <Col xs="6" className="text-right">
                                                     <Button color="link" className="px-0">Forgot password?</Button>
