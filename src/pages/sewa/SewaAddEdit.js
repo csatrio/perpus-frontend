@@ -5,7 +5,7 @@ import {Button, FormGroup, Input, Label, Card, CardBody, CardHeader} from 'react
 import SelectorTable from '../../components/SelectorTable'
 import ModalDialog from '../../components/ModalDialog'
 import DatePicker from "../../components/DatePicker";
-import InputForm from "../../components/InputForm";
+import InputForm from "../../components/InputForm/InputForm";
 
 export default class SewaAddEdit extends Component {
     static defaultProps = {

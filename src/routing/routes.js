@@ -6,6 +6,7 @@ import Login from '../pages/Login'
 import Dashboard from '../pages/dashboard/Dashboard'
 import {Redirect} from 'react-router-dom'
 import React from "react";
+import InputFormSample from '../pages/sample/InputFormSample'
 
 const Logout = (props) => {
     props.store.logoutAction()
@@ -22,6 +23,7 @@ const routes = [
     {path: '/sewa', exact: true, name: 'Sewa', component: Sewa},
     {path: '/sewa/add', title: 'Add Sewa', name: 'SewaAddEdit', component: SewaAddEdit},
     {path: '/sewa/edit', title: 'Edit Sewa', name: 'SewaAddEdit', component: SewaAddEdit},
+    {path: '/input', isProtected: false, name: 'Input Form Sample', component: InputFormSample},
 ];
 
 export default routes;

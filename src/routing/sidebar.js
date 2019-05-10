@@ -15,6 +15,11 @@ export default {
             icon: 'icon-user-follow',
         },
         {
+            name: 'Input Form Sample',
+            url: '/input',
+            icon: 'icon-user-follow',
+        },
+        {
             name: 'Buku',
             url: '/buku',
             icon: 'icon-note',

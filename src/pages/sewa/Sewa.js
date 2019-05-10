@@ -6,7 +6,7 @@ import ServerDataTable from '../../components/ServerDataTable'
 import ReactTable from "react-table";
 import settings from "../../configurations";
 import ModalDialog from "../../components/ModalDialog";
-import InputForm from "../../components/InputForm";
+import InputForm from "../../components/InputForm/InputForm";
 import {BuildQueryParam} from "../../helpers/network";
 import SelectorTable from "../../components/SelectorTable";
 
@@ -91,7 +91,7 @@ export default class Sewa extends Component {
                         />
                         <div className='buttonToolbar'>
                             <Button onClick={this.search} className='btn-grp'>Search</Button>
-                            <Button className='btn-grp'>Clear</Button>
+                            <Button className='btn-grp' onClick={()=>this.refs.input.clearValues()}>Clear</Button>
                         </div>
                     </CardBody>
                 </Card>
