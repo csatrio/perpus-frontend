@@ -26,7 +26,6 @@ export default class Anggota extends Component {
 
 
     addEntry = () => {
-        this.refs.input.clearValues();
         Axios.post(this.apiUrl, this.state.model)
             .then(response => {
                 this.refs.table.addRow(response.data);
