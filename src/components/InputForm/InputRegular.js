@@ -47,12 +47,6 @@ export default class InputRegular extends PureComponent {
         return <FormGroup className='row'>
             <Label className='col-sm-2'>{item.label}</Label>
             <Input className='col-sm-10' {...inputProps}/>
-            <div id={'valid-' + item.accessor}
-                 className='col valid-feedback'>Validation OK
-            </div>
-            <div id={'invalid-' + item.accessor}
-                 className='col invalid-feedback'>Validation Error
-            </div>
             {!this.state.isShowMessage && this.state.message == '' ? null :
                 this.state.isError ? <FormFeedback className='col'>{this.state.message}</FormFeedback>
                     : <FormFeedback className='col' valid>{this.state.message}</FormFeedback>
