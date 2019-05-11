@@ -9,6 +9,10 @@ export default class InputRegular extends PureComponent {
         message: ''
     }
 
+    componentWillMount(){
+        this.input = React.createRef()
+    }
+
     showError = (msg = '') => {
         this.setState({message: msg, isError: true, isShowMessage: true})
     }
@@ -19,6 +23,12 @@ export default class InputRegular extends PureComponent {
 
     clearMsg = () => {
         this.setState({message: '', isError: false, isShowMessage: false})
+    }
+
+    clear = () => {
+        const {item, model} = this.props
+        this.input.current.value = ''
+        model[item.accessor] = ''
     }
 
     render() {
@@ -37,6 +47,7 @@ export default class InputRegular extends PureComponent {
                 (e) => {
                     model[item.accessor] = e.target.value
                 },
+            innerRef: this.input,
             ...extraProps
         }
         if (item.value !== undefined) {

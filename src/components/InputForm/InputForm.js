@@ -21,8 +21,7 @@ export default class InputForm extends PureComponent {
         Object.keys(this.elements).forEach((key) => {
             const element = this.elements[key]
             if (typeof(element) !== 'undefined' && element.current !== null) {
-                element.current.value = '';
-                this.props.model[key] = ''
+                element.current.clear();
             }
         })
     }

@@ -21,6 +21,9 @@ export default class InputCheckbox extends PureComponent {
         this.setState({message: '', isError: false, isShowMessage: false})
     }
 
+    clear = () => {
+    }
+
     render() {
         const {item, model} = this.props
         const extraProps = this.state.isShowMessage ?
