@@ -56,7 +56,7 @@ class InputFormSample extends Component {
                 <div className='buttonGroup'>
                     <Button className='btn-grp' onClick={() => {
                         const elements = this.refs.input.elements
-                        console.log(JSON.stringify(this.state.model));
+                        console.log('STATE MODEL: ' + JSON.stringify(this.state.model));
                         elements.nama.current.showSuccess('sudah betul');
                         elements.umur.current.showSuccess('sudah betul');
                         elements.alamat.current.showSuccess('sudah betul');
@@ -70,7 +70,9 @@ class InputFormSample extends Component {
                     <Button className='btn-grp' onClick={() => {
                         Object.keys(this.refs.input.elements).forEach(k=>{
                             this.refs.input.elements[k].current.clearMsg()
+                            this.refs.input.elements[k].current.clear()
                         })
+                        console.log('After clear form: ' + JSON.stringify(this.state.model));
                     }}>ClearError</Button>
                 </div>
             </div>

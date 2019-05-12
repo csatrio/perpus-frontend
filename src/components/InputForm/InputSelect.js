@@ -22,6 +22,8 @@ export default class InputSelect extends PureComponent {
     }
 
     clear = () => {
+        const {item, model} = this.props
+        model[item.accessor] = ''
     }
 
     render() {

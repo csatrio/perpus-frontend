@@ -10,6 +10,16 @@ export default class InputDatepicker extends PureComponent {
         message: ''
     }
 
+    constructor(props) {
+        super(props);
+        {
+            item
+        }
+        = props
+        this.rangeMode = item.mode === 'range'
+    }
+
+
     showError = (msg = '') => {
         this.setState({message: msg, isError: true, isShowMessage: true})
     }
@@ -23,6 +33,13 @@ export default class InputDatepicker extends PureComponent {
     }
 
     clear = () => {
+        const {item, model} = this.props
+        if (this.rangeMode) {
+            model[item.accessor + '__lte'] = ''
+            model[item.accessor + '__gte'] = ''
+        } else {
+            model[item.accessor] = ''
+        }
     }
 
     render() {
@@ -48,7 +65,7 @@ export default class InputDatepicker extends PureComponent {
                 />
                 {!this.state.isShowMessage && this.state.message == '' ? null :
                     <div className={this.state.isError ? 'col invalid-feedback' : 'col valid-feedback'}
-                         style={{display:'block'}}>{this.state.message}</div>
+                         style={{display: 'block'}}>{this.state.message}</div>
                 }
             </FormGroup>
         }
@@ -63,7 +80,7 @@ export default class InputDatepicker extends PureComponent {
                 />
                 {!this.state.isShowMessage && this.state.message == '' ? null :
                     <div className={this.state.isError ? 'col invalid-feedback' : 'col valid-feedback'}
-                         style={{display:'block'}}>{this.state.message}</div>
+                         style={{display: 'block'}}>{this.state.message}</div>
                 }
             </FormGroup>
         }

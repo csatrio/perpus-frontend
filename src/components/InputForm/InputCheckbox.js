@@ -9,6 +9,8 @@ export default class InputCheckbox extends PureComponent {
         message: ''
     }
 
+    elements = {}
+
     showError = (msg = '') => {
         this.setState({message: msg, isError: true, isShowMessage: true})
     }
@@ -22,17 +24,20 @@ export default class InputCheckbox extends PureComponent {
     }
 
     clear = () => {
+        const {item, model} = this.props
+        item.options.forEach((chk) => {
+            model[chk.accessor] = ''
+            this.elements[chk.accessor].current.checked = false
+        })
     }
 
     render() {
         const {item, model} = this.props
-        const extraProps = this.state.isShowMessage ?
-            (this.state.isError ? {invalid: true} : {valid: true})
-            : {}
         return <React.Fragment>
             <Label>{item.label}</Label>
             <FormGroup>
                 {item.options.map((chk, i) => {
+                    this.elements[chk.accessor] = React.createRef()
                     return <div className='form-check form-check-inline' key={i}>
                         <Label check>{chk.label}&nbsp;</Label>
                         <Input type='checkbox'
@@ -40,6 +45,7 @@ export default class InputCheckbox extends PureComponent {
                                defaultValue={chk.value}
                                onChange={() => model[chk.accessor] = chk.value}
                                label={chk.label}
+                               innerRef={this.elements[chk.accessor]}
                         /></div>
                 })}
                 {!this.state.isShowMessage && this.state.message == '' ? null :
