@@ -12,11 +12,7 @@ export default class InputDatepicker extends PureComponent {
 
     constructor(props) {
         super(props);
-        {
-            item
-        }
-        = props
-        this.rangeMode = item.mode === 'range'
+        this.rangeMode = props.item.mode === 'range'
     }
 
 
