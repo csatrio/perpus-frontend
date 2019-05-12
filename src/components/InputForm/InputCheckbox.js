@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {FormGroup, FormFeedback, Input, Label} from 'reactstrap';
+import {FormGroup, Input, Label} from 'reactstrap';
 
 export default class InputCheckbox extends PureComponent {
 

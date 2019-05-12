@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {FormGroup, FormFeedback, Input, Label} from 'reactstrap';
+import {FormGroup, Label} from 'reactstrap';
 import DatePicker from "../DatePicker";
 
 export default class InputDatepicker extends PureComponent {

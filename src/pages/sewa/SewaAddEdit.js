@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import {Button, FormGroup, Input, Label, Card, CardBody, CardHeader} from 'reactstrap';
+import {Button, Card, CardBody, CardHeader, FormGroup, Input, Label} from 'reactstrap';
 import SelectorTable from '../../components/SelectorTable'
 import ModalDialog from '../../components/ModalDialog'
 import DatePicker from "../../components/DatePicker";

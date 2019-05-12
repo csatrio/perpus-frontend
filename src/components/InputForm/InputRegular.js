@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {FormGroup, FormFeedback, Input, Label} from 'reactstrap';
+import {FormFeedback, FormGroup, Input, Label} from 'reactstrap';
 
 export default class InputRegular extends PureComponent {
 

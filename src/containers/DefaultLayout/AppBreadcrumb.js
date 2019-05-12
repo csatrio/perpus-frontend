@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import {Route, Link, matchPath} from 'react-router-dom';
-import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import React, {Component} from 'react';
+import {Link, matchPath, Route} from 'react-router-dom';
+import {Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
