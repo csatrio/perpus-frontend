@@ -4,34 +4,20 @@ import {Button, Card, CardBody, CardHeader} from 'reactstrap';
 import InputForm from '../components/InputForm/InputForm'
 import ServerDataTable from '../components/ServerDataTable'
 import ModalDialog from '../components/ModalDialog'
-import {formatDate, formatModelDates} from "../helpers/util";
+import {formatModelDates} from "../helpers/util";
 import {BuildQueryParam} from '../helpers/network'
+import BukuModel from '../model/BukuModel'
+import {toInputFields} from "../helpers/formdecorator";
 
 export default class Buku extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            queryParam: {},
-            showEdit: false,
-            model: {
-                tanggal_terbit__gte: formatDate(new Date()),
-                tanggal_terbit__lte: formatDate(new Date())
-            },
-            editModel: {row: {}},
-            inputFields: [
-                {label: 'Judul', accessor: 'nama', placeholder: 'nama'},
-                {label: 'Penerbit', accessor: 'penerbit', placeholder: 'penerbit'},
-                {
-                    label: 'Tanggal Terbit',
-                    accessor: 'tanggal_terbit',
-                    placeholder: 'tanggal terbit',
-                    type: 'datepicker',
-                    mode: 'range'
-                },
-            ]
-        };
-        this.apiUrl = 'http://localhost:8008/api/test_perpus/buku/'
-    }
+    state = {
+        queryParam: {},
+        showEdit: false,
+        model: new BukuModel(),
+        editModel: new BukuModel(),
+    };
+    apiUrl = 'http://localhost:8008/api/test_perpus/buku/'
+    editModelFields = toInputFields(this.state.editModel)
 
 
     addEntry = () => {
@@ -44,11 +30,11 @@ export default class Buku extends Component {
 
 
     saveEdit = () => {
-        const editModel = this.state.editModel.row._original;
-        this.refs.table.getData()[this.state.editModel.index] = editModel;
-        const patchUrl = `${this.apiUrl}${editModel.id}/`;
-        Axios.patch(patchUrl, formatModelDates(editModel))
-            .then(response => {
+        const row = this.refs.table.getData()[this.state.editModel.index]
+        this.state.editModel.copyToRow(row)
+        const patchUrl = `${this.apiUrl}${this.state.editModel.id}/`;
+        Axios.patch(patchUrl, formatModelDates(this.state.editModel))
+            .then(() => {
                 this.refs.table.refreshRow();
                 this.setState({showEdit: false})
             })
@@ -57,7 +43,6 @@ export default class Buku extends Component {
 
     search = () => {
         this.setState({queryParam: BuildQueryParam(this.state.model)}, () => {
-            console.log(this.state.model)
             this.refs.table.fetchData()
         })
     };
@@ -67,7 +52,7 @@ export default class Buku extends Component {
         return (
             <div className='buttonGroup'>
                 <Button onClick={() => {
-                    this.setState({editModel: row, showEdit: true})
+                    this.setState({editModel: this.state.editModel.copyFromRow(row), showEdit: true})
                 }} className='btn-grp' size='sm'>Edit</Button>
                 <Button onClick={() => {
                     Axios.delete(`${this.apiUrl}${row.original.id}/`).catch(err => console.log(err));
@@ -85,7 +70,6 @@ export default class Buku extends Component {
                     <CardHeader>Search Buku</CardHeader>
                     <CardBody>
                         <InputForm model={this.state.model} ref='input'
-                                   fields={this.state.inputFields}
                                    title='Input Buku'
                         />
                         <div className='buttonToolbar'>
@@ -99,8 +83,8 @@ export default class Buku extends Component {
                 <ModalDialog show={this.state.showEdit} title='Edit Buku' size='lg'
                              closeButton={true}
                              onHide={() => this.setState({showEdit: false})}
-                             component={<InputForm model={this.state.editModel.row._original} ref='inputModal'
-                                                   fields={this.state.inputFields}
+                             component={<InputForm model={this.state.editModel} ref='inputModal'
+                                                   fields={this.editModelFields}
                              />}
                              footer={<Button onClick={this.saveEdit}>Save</Button>}
                 />

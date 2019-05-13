@@ -4,17 +4,29 @@ import InputCheckbox from './InputCheckbox'
 import InputRadio from './InputRadio'
 import InputRegular from './InputRegular'
 import InputDatepicker from './InputDatepicker'
+import {toSearchFields} from '../../helpers/formdecorator';
 
 export default class InputForm extends PureComponent {
     static defaultProps = {
-        fields: [],
-        model: {},
+        fields: undefined,
+        model: undefined,
         title: 'InputForm'
     };
 
+    elements = {}
+
     constructor(props) {
         super(props);
-        this.elements = {}
+        if (typeof(props.fields) !== 'undefined') {
+            this.fields = props.fields
+            return
+        }
+        else if (typeof(props.model.constructor.annotatedFields) !== 'undefined') {
+            this.fields = toSearchFields(props.model)
+            return
+        } else {
+            throw new Error('Must have at least either annotated model or fields property')
+        }
     }
 
     clearValues() {
@@ -30,7 +42,7 @@ export default class InputForm extends PureComponent {
         const model = this.props.model
         return (
             <React.Fragment>
-                {this.props.fields.map((item, index) => {
+                {this.fields.map((item, index) => {
                     const fieldType = typeof(item.type) !== 'undefined' ? item.type : 'input';
                     this.elements[item.accessor] = React.createRef();
                     const elementReference = this.elements[item.accessor];
