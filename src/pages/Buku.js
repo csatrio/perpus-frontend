@@ -4,7 +4,6 @@ import {Button, Card, CardBody, CardHeader} from 'reactstrap';
 import InputForm from '../components/InputForm/InputForm'
 import ServerDataTable from '../components/ServerDataTable'
 import ModalDialog from '../components/ModalDialog'
-import {formatModelDates} from "../helpers/util";
 import {BuildQueryParam} from '../helpers/network'
 import BukuModel from '../model/BukuModel'
 import {toInputFields} from "../helpers/formdecorator";
@@ -21,11 +20,11 @@ export default class Buku extends Component {
 
 
     addEntry = () => {
-        Axios.post(this.apiUrl, formatModelDates(this.state.model))
+        Axios.post(this.apiUrl, this.state.model)
             .then(response => {
                 this.refs.table.addRow(response.data);
                 this.refs.input.clearValues()
-            })
+            })``
     };
 
 
@@ -33,7 +32,7 @@ export default class Buku extends Component {
         const row = this.refs.table.getData()[this.state.editModel.index]
         this.state.editModel.copyToRow(row)
         const patchUrl = `${this.apiUrl}${this.state.editModel.id}/`;
-        Axios.patch(patchUrl, formatModelDates(this.state.editModel))
+        Axios.patch(patchUrl, this.state.editModel)
             .then(() => {
                 this.refs.table.refreshRow();
                 this.setState({showEdit: false})
