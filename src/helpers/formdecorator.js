@@ -41,89 +41,98 @@ export function mode(value) {
     }
 }
 
+export function model(value) {
+    return function (target, key, descriptor) {
+        return annotationHelper('model', value, target, key, descriptor)
+    }
+}
+
 export function options(value) {
     return function (target, key, descriptor) {
         return annotationHelper('options', value, target, key, descriptor)
     }
 }
 
-export function toSearchFields(model) {
-    const inputFields = []
+export function toSearchFields(formModel) {
+    const searchFields = []
 
-    model.constructor.annotatedFields.forEach(key => {
-        const {label, type, placeholder, mode, options} = model.constructor[key]
+    formModel.constructor.annotatedFields.forEach(key => {
+        const {label, type, placeholder, mode, model, options} = formModel.constructor[key]
         const isOptionString = typeof(options) === 'string'
-        if (isOptionString && typeof(model[options]) === 'undefined')
+        if (isOptionString && typeof(formModel[options]) === 'undefined')
             throw new Error('either you are referring to static field or you mention the wrong property !')
 
         // for ranged date picker add these properties into model
         if (type === 'datepicker' && mode === 'range') {
-            model[key + '__gte'] = ''
-            model[key + '__lte'] = ''
-            model[key] = () => [model[key + '__gte'], model[key + '__lte']]
+            formModel[key + '__gte'] = ''
+            formModel[key + '__lte'] = ''
+            formModel[key] = () => [formModel[key + '__gte'], formModel[key + '__lte']]
         }
 
-        inputFields.push({
+        searchFields.push({
             'accessor': key,
             'label': typeof(label) === 'undefined' ? key : label,
             'type': type,
             'placeholder': typeof(placeholder) === 'undefined' ? key : placeholder,
             'mode': mode,
-            'options': isOptionString ? model[options] : options
+            'model': model,
+            'options': isOptionString ? formModel[options] : options
         })
     })
-    return inputFields
+    return searchFields
 }
 
-export function toInputFields(model) {
+export function toInputFields(formModel) {
     const inputFields = []
 
-    model.constructor.annotatedFields.forEach(key => {
-        const {label, type, placeholder, options} = model.constructor[key]
+    formModel.constructor.annotatedFields.forEach(key => {
+        const {label, type, placeholder, options, model} = formModel.constructor[key]
         const isOptionString = typeof(options) === 'string'
-        if (isOptionString && typeof(model[options]) === 'undefined')
+        if (isOptionString && typeof(formModel[options]) === 'undefined')
             throw new Error('either you are referring to static field or you mention the wrong property !')
-        inputFields.push({
-            'accessor': key,
-            'label': typeof(label) === 'undefined' ? key : label,
-            'type': type,
-            'placeholder': typeof(placeholder) === 'undefined' ? key : placeholder,
-            'options': isOptionString ? model[options] : options
-        })
+        if(typeof(model) === 'undefined') {
+            inputFields.push({
+                'accessor': key,
+                'label': typeof(label) === 'undefined' ? key : label,
+                'type': type,
+                'placeholder': typeof(placeholder) === 'undefined' ? key : placeholder,
+                'options': isOptionString ? formModel[options] : options
+            })
+        }
     })
 
-    model.copyFromRow = (row) => {
-        model.index = row.index
+    formModel.copyFromRow = (row) => {
+        formModel.index = row.index
         Object.keys(row.row._original).forEach(key => {
             const data = row.row._original[key]
             if (typeof(data) !== 'undefined') {
-                model[key] = data
+                formModel[key] = data
             }
         })
-        return model
+        return formModel
     }
 
-    model.copyToRow = (row) => {
-        model.constructor.annotatedFields.forEach(key => {
-            const data = model[key]
+    formModel.copyToRow = (row) => {
+        formModel.constructor.annotatedFields.forEach(key => {
+            const data = formModel[key]
             if (typeof(data) !== 'undefined') {
                 row[key] = data
             }
         })
-        return model
+        return formModel
     }
     return inputFields
 }
 
 
-export function toTableFields(model) {
+export function toTableFields(formModel) {
     const tableFields = []
-    model.constructor.annotatedFields.forEach(key => {
-        const {label} = model.constructor[key]
+    formModel.constructor.annotatedFields.forEach(key => {
+        const {label, model} = formModel.constructor[key]
 
         tableFields.push({
             'Header': typeof(label) === 'undefined' ? key : label,
-            'accessor': key,
+            'accessor': typeof(model) !== 'undefined' ? key + '.' + model.display : key,
         })
     })
     return tableFields

@@ -8,7 +8,8 @@ export default class SelectorTable extends React.PureComponent {
         queryParam: {},
         btnClass: 'btn btn-sm btn-success',
         btnLabel: 'Select',
-        itemCallback: (e) => {}
+        itemCallback: (e) => {
+        }
     };
 
     constructor(props) {
@@ -27,6 +28,14 @@ export default class SelectorTable extends React.PureComponent {
             </button>
         );
     };
+
+    refreshRow = () => {
+        this.refs.table.refreshRow()
+    }
+
+    fetchData = () => {
+        this.refs.table.fetchData()
+    }
 
     render() {
         return <ServerDataTable url={this.props.url}

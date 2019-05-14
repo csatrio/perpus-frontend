@@ -72,7 +72,6 @@ export default class Buku extends Component {
 
 
     render() {
-        console.log(this.tableFields)
         return (
             <React.Fragment>
                 <Card>

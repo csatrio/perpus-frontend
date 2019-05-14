@@ -1,4 +1,5 @@
-import {label, placeholder, type, mode} from '../helpers/formdecorator'
+import {label, placeholder, type, mode, model} from '../helpers/formdecorator'
+import KategoriModel from './KategoriModel'
 
 export default class BukuModel {
     @label('Nama')
@@ -16,4 +17,8 @@ export default class BukuModel {
     @type('datepicker')
     @mode('range')
     tanggal_terbit = ''
+
+    @label('Kategori')
+    @model({display: 'nama_kategori'})
+    kategori = new KategoriModel()
 }

@@ -4,6 +4,7 @@ import InputCheckbox from './InputCheckbox'
 import InputRadio from './InputRadio'
 import InputRegular from './InputRegular'
 import InputDatepicker from './InputDatepicker'
+import InputModel from './InputModel'
 import {toSearchFields} from '../../helpers/formdecorator';
 
 export default class InputForm extends PureComponent {
@@ -14,14 +15,16 @@ export default class InputForm extends PureComponent {
     };
 
     elements = {}
+    hasAnnotatedModel = false
 
     constructor(props) {
         super(props);
+        this.hasAnnotatedModel = typeof(props.model.constructor.annotatedFields) !== 'undefined'
         if (typeof(props.fields) !== 'undefined') {
             this.fields = props.fields
             return
         }
-        else if (typeof(props.model.constructor.annotatedFields) !== 'undefined') {
+        else if (this.hasAnnotatedModel) {
             this.fields = toSearchFields(props.model)
             return
         } else {
@@ -44,13 +47,13 @@ export default class InputForm extends PureComponent {
             <React.Fragment>
                 {this.fields.map((item, index) => {
                     const fieldType = typeof(item.type) !== 'undefined' ? item.type : 'input';
+                    const isModel = typeof(item.model) !== 'undefined'
                     this.elements[item.accessor] = React.createRef();
                     const elementReference = this.elements[item.accessor];
 
                     // render select box
                     if (fieldType === 'select') {
                         return <InputSelect item={item} model={model} ref={elementReference} key={index}/>
-
                     }
 
                     // render checkbox
@@ -66,6 +69,11 @@ export default class InputForm extends PureComponent {
                     // render datepicker
                     else if (fieldType === 'datepicker') {
                         return <InputDatepicker item={item} model={model} ref={elementReference} key={index}/>
+                    }
+
+                    // render model
+                    else if (isModel) {
+                        return <InputModel item={item} model={model} ref={elementReference} key={index}/>
                     }
 
                     // render regular input
