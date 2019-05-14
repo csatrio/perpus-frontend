@@ -6,7 +6,7 @@ import ServerDataTable from '../components/ServerDataTable'
 import ModalDialog from '../components/ModalDialog'
 import {BuildQueryParam} from '../helpers/network'
 import BukuModel from '../model/BukuModel'
-import {toInputFields} from "../helpers/formdecorator";
+import {toInputFields, toTableFields} from "../helpers/formdecorator";
 
 export default class Buku extends Component {
     state = {
@@ -17,6 +17,15 @@ export default class Buku extends Component {
     };
     apiUrl = 'http://localhost:8008/api/test_perpus/buku/'
     editModelFields = toInputFields(this.state.editModel)
+
+
+    constructor(props){
+        super(props)
+        this.tableFields = [
+            ...toTableFields(this.state.model),
+            {Header: 'Actions', Cell: this.rowActions}
+        ]
+    }
 
 
     addEntry = () => {
@@ -63,6 +72,7 @@ export default class Buku extends Component {
 
 
     render() {
+        console.log(this.tableFields)
         return (
             <React.Fragment>
                 <Card>
@@ -89,12 +99,7 @@ export default class Buku extends Component {
                 />
                 <ServerDataTable url={this.apiUrl}
                                  queryParam={this.state.queryParam}
-                                 columns={[
-                                     {Header: 'Nama', accessor: 'nama'},
-                                     {Header: 'Penerbit', accessor: 'penerbit'},
-                                     {Header: 'Tanggal Terbit', accessor: 'tanggal_terbit'},
-                                     {Header: 'Actions', Cell: this.rowActions}
-                                 ]}
+                                 columns={this.tableFields}
                                  title='Buku List'
                                  ref='table'
                 />

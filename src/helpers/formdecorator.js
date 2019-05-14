@@ -107,3 +107,17 @@ export function toInputFields(model) {
     }
     return inputFields
 }
+
+
+export function toTableFields(model) {
+    const tableFields = []
+    model.constructor.annotatedFields.forEach(key => {
+        const {label} = model.constructor[key]
+
+        tableFields.push({
+            'Header': typeof(label) === 'undefined' ? key : label,
+            'accessor': key,
+        })
+    })
+    return tableFields
+}

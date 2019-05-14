@@ -6,7 +6,7 @@ import ServerDataTable from '../components/ServerDataTable'
 import ModalDialog from '../components/ModalDialog'
 import {BuildQueryParam} from '../helpers/network'
 import AnggotaModel from '../model/AnggotaModel'
-import {toInputFields} from "../helpers/formdecorator";
+import {toInputFields, toTableFields} from "../helpers/formdecorator";
 
 export default class Anggota extends Component {
     state = {
@@ -17,6 +17,15 @@ export default class Anggota extends Component {
     };
     apiUrl = 'http://localhost:8008/api/test_perpus/anggota/'
     editModelFields = toInputFields(this.state.editModel)
+
+
+    constructor(props) {
+        super(props);
+        this.tableFields = [
+            ...toTableFields(this.state.model),
+            {Header: 'Actions', Cell: this.rowActions}
+        ]
+    }
 
 
     addEntry = () => {
@@ -92,12 +101,7 @@ export default class Anggota extends Component {
 
                 <ServerDataTable url={this.apiUrl}
                                  queryParam={this.state.queryParam}
-                                 columns={[
-                                     {Header: 'Nama', accessor: 'nama'},
-                                     {Header: 'Alamat', accessor: 'alamat'},
-                                     {Header: 'Umur', accessor: 'umur'},
-                                     {Header: 'Actions', Cell: this.rowActions}
-                                 ]}
+                                 columns={this.tableFields}
                                  title='Anggota List'
                                  ref='table'
                 />
