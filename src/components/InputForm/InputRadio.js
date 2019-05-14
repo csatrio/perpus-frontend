@@ -27,7 +27,7 @@ export default class InputRadio extends PureComponent {
         const {item, model} = this.props
         model[item.accessor] = ''
         this.elements.forEach(e => {
-            if(e.current !== null && typeof(e.current) !== 'undefined') e.current.checked = false
+            if (e.current !== null && typeof(e.current) !== 'undefined') e.current.checked = false
         })
     }
 
@@ -43,7 +43,17 @@ export default class InputRadio extends PureComponent {
                         <Input className='col-sm-4' type='radio'
                                name={chk.label}
                                defaultValue={chk.value}
-                               onChange={() => model[item.accessor] = chk.value}
+                               onChange={
+                                   () => {
+                                       // clear checked status of any other radio button in this group
+                                       for (let x = 0; x < this.elements.length; x++) {
+                                           const element = this.elements[x].current
+                                           if (x !== i && element !== null)
+                                               element.checked = false
+                                       }
+                                       model[item.accessor] = chk.value
+                                   }
+                               }
                                label={chk.label}
                                innerRef={this.elements[i]}
                         />

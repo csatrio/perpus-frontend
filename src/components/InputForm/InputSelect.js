@@ -31,6 +31,8 @@ export default class InputSelect extends PureComponent {
         const extraProps = this.state.isShowMessage ?
             (this.state.isError ? {invalid: true} : {valid: true})
             : {}
+        const options = typeof(item.options) === 'function' ? item.options() :
+            typeof(item.options) === 'undefined' ? [] : item.options
         return <FormGroup className='row'>
             <Label className='col-sm-2'>{item.label}</Label>
             <Input className='col-sm-10' type='select' {...extraProps}
@@ -41,7 +43,7 @@ export default class InputSelect extends PureComponent {
                        }
                    }
             >
-                {item.options.map((option, i) => {
+                {options.map((option, i) => {
                     if (typeof(option) === 'object') {
                         const property = Object.keys(option)[0];
                         return <option label={property} key={i}>{option[property]}</option>

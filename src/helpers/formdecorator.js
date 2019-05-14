@@ -1,5 +1,4 @@
 function annotationHelper(annotationField, annotationValue, target, key, descriptor) {
-
     // Set value to constructor metadata as per annotation
     if (typeof(target.constructor[key]) !== 'undefined') {
         target.constructor[key][annotationField] = annotationValue
@@ -50,8 +49,12 @@ export function options(value) {
 
 export function toSearchFields(model) {
     const inputFields = []
+
     model.constructor.annotatedFields.forEach(key => {
         const {label, type, placeholder, mode, options} = model.constructor[key]
+        const isOptionString = typeof(options) === 'string'
+        if (isOptionString && typeof(model[options]) === 'undefined')
+            throw new Error('either you are referring to static field or you mention the wrong property !')
 
         // for ranged date picker add these properties into model
         if (type === 'datepicker' && mode === 'range') {
@@ -66,7 +69,7 @@ export function toSearchFields(model) {
             'type': type,
             'placeholder': typeof(placeholder) === 'undefined' ? key : placeholder,
             'mode': mode,
-            'options': options
+            'options': isOptionString ? model[options] : options
         })
     })
     return inputFields
@@ -74,14 +77,18 @@ export function toSearchFields(model) {
 
 export function toInputFields(model) {
     const inputFields = []
+
     model.constructor.annotatedFields.forEach(key => {
         const {label, type, placeholder, options} = model.constructor[key]
+        const isOptionString = typeof(options) === 'string'
+        if (isOptionString && typeof(model[options]) === 'undefined')
+            throw new Error('either you are referring to static field or you mention the wrong property !')
         inputFields.push({
             'accessor': key,
             'label': typeof(label) === 'undefined' ? key : label,
             'type': type,
             'placeholder': typeof(placeholder) === 'undefined' ? key : placeholder,
-            'options': options
+            'options': isOptionString ? model[options] : options
         })
     })
 
