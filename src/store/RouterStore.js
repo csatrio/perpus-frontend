@@ -26,6 +26,7 @@ class RouterStore {
     @action
     forceLogout = (msg = 'authentication error!!') => {
         window.localStorage.removeItem('token');
+        window.localStorage.removeItem('refreshToken');
         this.username = ''
         this.isLogin = false;
         this.showError('Forced Logout', 'You have been forced to log out due to ' + msg,
@@ -81,6 +82,7 @@ class RouterStore {
     @action
     logoutAction = () => {
         window.localStorage.removeItem('token');
+        window.localStorage.removeItem('refreshToken');
         this.username = ''
         this.isLogin = false;
         this.showSuccess('Logout Successful', 'You have logged out successfully!!', settings.AlertDismissTimeout)
@@ -95,8 +97,18 @@ class RouterStore {
         }
         this.decoded_jwt = this.decoded_jwt || jwt_decode(token)
         this.username = this.decoded_jwt.user
-        const isValid = Date.now() < (this.decoded_jwt.exp * 1000)
-        if (!isValid) this.forceLogout('token expiration !!')
+        let isValid = Date.now() < (this.decoded_jwt.exp * 1000)
+
+        // retry decoding if somebody just re-login
+        if (!isValid){
+            this.decoded_jwt = jwt_decode(token)
+            isValid = Date.now() < (this.decoded_jwt.exp * 1000)
+        }
+
+        // if truly invalid then log them out
+        if (!isValid)
+            this.forceLogout('token expiration !!')
+
         return isValid
     }
 }

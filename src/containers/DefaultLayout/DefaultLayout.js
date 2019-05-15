@@ -45,7 +45,7 @@ class DefaultLayout extends Component {
 
     signOut(e) {
         e.preventDefault()
-        this.props.history.push('/login')
+        this.props.store.logoutAction()
     }
 
     render() {
