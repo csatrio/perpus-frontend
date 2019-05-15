@@ -22,6 +22,18 @@ class RouterStore {
     @observable isAlertError = false
 
     @action
+    setStatus = (status) => {
+        this.status = status
+        if (status === 401) {
+            window.localStorage.removeItem('token');
+            this.username = ''
+            this.isLogin = false;
+            this.showError('Forced Logout', 'You have been forced to log out due to authentication error!!',
+                settings.AlertDismissTimeout)
+        }
+    }
+
+    @action
     closeAlert = () => {
         this.isShowAlert = false
         this.alertMessage = ''

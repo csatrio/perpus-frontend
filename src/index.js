@@ -26,7 +26,7 @@ axios.interceptors.request.use((config) => {
 // Add a response interceptor
 axios.interceptors.response.use((response) => {
     // Do something with response data
-    RouterStore.status = response.status;
+    RouterStore.setStatus(response.status)
     RouterStore.isLogin = true;
     return response;
 }, function (error) {
