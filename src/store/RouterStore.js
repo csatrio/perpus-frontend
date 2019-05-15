@@ -21,15 +21,22 @@ class RouterStore {
     @observable alertTitle = ''
     @observable isAlertError = false
 
+    decoded_jwt = null
+
+    @action
+    forceLogout = (msg = 'authentication error!!') => {
+        window.localStorage.removeItem('token');
+        this.username = ''
+        this.isLogin = false;
+        this.showError('Forced Logout', 'You have been forced to log out due to ' + msg,
+            settings.AlertDismissTimeout)
+    }
+
     @action
     setStatus = (status) => {
         this.status = status
         if (status === 401) {
-            window.localStorage.removeItem('token');
-            this.username = ''
-            this.isLogin = false;
-            this.showError('Forced Logout', 'You have been forced to log out due to authentication error!!',
-                settings.AlertDismissTimeout)
+            this.forceLogout()
         }
     }
 
@@ -86,10 +93,10 @@ class RouterStore {
             this.isLogin = false
             return false
         }
-        const decoded = jwt_decode(token)
-        this.username = decoded.user
-        const isValid = Date.now() < (decoded.exp * 1000)
-        if (!isValid) this.username = ''
+        this.decoded_jwt = this.decoded_jwt || jwt_decode(token)
+        this.username = this.decoded_jwt.user
+        const isValid = Date.now() < (this.decoded_jwt.exp * 1000)
+        if (!isValid) this.forceLogout('token expiration !!')
         return isValid
     }
 }
