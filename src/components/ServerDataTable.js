@@ -24,7 +24,7 @@ export default class ServerDataTable extends PureComponent {
         }
     }
 
-    fetchData = (state = null, instance = null) => {
+    fetchData = (state = null) => {
         this.setState({loading: true});
         const _params = {
             page: state !== null ? Math.min(state.page + 1, this.state.pages) : 1,
